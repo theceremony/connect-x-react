@@ -5,18 +5,25 @@ import {
   setSlotByColumnDrop,
   sideEffectGetLongestConnection,
 } from "./logic";
-import type { Board } from "./logic/types";
+import { type Piece, type Board } from "./logic/types";
 
-const _PLAY_BOARD_1 = [7, 6];
-const _PLAY_BOARD_2 = [30, 30];
+// const _PLAY_BOARD = [7, 6];
+const _PLAY_BOARD = [20, 19];
 
 function App() {
   const [boardState, setBoardState] = useState<Board>(
-    createPlayBoardGrid(_PLAY_BOARD_2[0])(_PLAY_BOARD_2[1]),
+    createPlayBoardGrid(_PLAY_BOARD[0])(_PLAY_BOARD[1]),
   );
+  const [currentPiece, setCurrentPiece] = useState<Piece>("blue");
 
-  const onSubmit = () => {
-    const action = setSlotByColumnDrop(boardState)(2)("red");
+  const onColumnClick = (x: number) => {
+    const action = setSlotByColumnDrop(boardState)(x)(currentPiece);
+    if (currentPiece === "blue") {
+      setCurrentPiece("red");
+    } else {
+      setCurrentPiece("blue");
+    }
+
     console.table(action?.updatedBoard);
 
     const connection =
@@ -26,8 +33,8 @@ function App() {
   };
 
   return (
-    <>
-      <div>
+    <div className="app">
+      {/* <div>
         <div>
           <label>Column</label>
           <input name="x" type="number" value="0" />
@@ -42,17 +49,21 @@ function App() {
         <div>
           <button onClick={onSubmit}>Go!</button>
         </div>
+      </div> */}
+      <div className="current-display">
+        <h1>current player: {currentPiece}</h1>
+        <div className={`current-player slot ${currentPiece}`}></div>
       </div>
       <div className="board">
-        {boardState.map((v) => (
-          <div className="column">
+        {boardState.map((v, i) => (
+          <div className="column" onClick={() => onColumnClick(i)}>
             {v.map((c) => (
               <div className={`slot ${c}`}> </div>
             ))}
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
