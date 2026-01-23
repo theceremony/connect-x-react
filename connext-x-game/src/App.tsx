@@ -8,12 +8,14 @@ import {
 } from "./logic";
 import { type Piece, type Board } from "./logic/types";
 
-// const _PLAY_BOARD = [7, 6];
-// const _PLAY_BOARD = [7, 6];
-// const _WINNING_CONNECTION_LENGTH = 6;
+// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
+//TODO:   explore socket / net code for 'Battle Mode', will probably need to
+//        switch to a game engine and remove react
+// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 
 function App() {
-  const winningConnectionLength = 5;
+  const [winningConnectionLength] = useState<number>(4);
+
   const boardSize = deriveGameBoardByConnectionParam(winningConnectionLength);
   const [boardState, setBoardState] = useState<Board>(
     createPlayBoardGrid(boardSize[0])(boardSize[1]),
@@ -42,25 +44,32 @@ function App() {
 
   return (
     <div className="app">
-      {winner && <h1>winner: {winner}</h1>}
-      {!winner && (
-        <>
-          <div className="current-display">
-            <h1>current player</h1>
-            <div className={`current-player slot ${currentPiece}`}></div>
-          </div>
-          <h3>connect {winningConnectionLength} to win</h3>
-          <div className="board">
-            {boardState.map((v, i) => (
-              <div className="column" onClick={() => onColumnClick(i)}>
-                {v.map((c) => (
-                  <div className={`slot ${c}`}> </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </>
+      {winner && (
+        <div className="message">
+          <h1 className="winner">Winner!</h1>
+          <h1>{winner}</h1>
+        </div>
       )}
+
+      <>
+        <div className="current-display">
+          <h1>current player</h1>
+          <div className={`current-player slot ${currentPiece}`}></div>
+          <h2>connect {winningConnectionLength} to win</h2>
+        </div>
+
+        <div className="board">
+          {boardState.map((v, i) => (
+            <div key={i} className="column" onClick={() => onColumnClick(i)}>
+              {v.map((c, a) => (
+                <div key={`key-${a}`} className={`slot ${c}`}>
+                  {" "}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </>
     </div>
   );
 }

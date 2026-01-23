@@ -3,14 +3,14 @@
 }
 .app{
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   padding:30px;
   width:100vw;
   height: 100vh;
   border: 10px solid grey;
-  gap:20px;
+  gap:5px;
 }
 
 .board{
@@ -18,7 +18,7 @@
   width:60%;
   border:5px solid grey;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 40px;
   padding:15px;
   /* gap:5px; */
 }
@@ -55,13 +55,38 @@
 }
 .current-display{
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
-  gap:20px;
+  gap:10px;
+  width:30%;
 }
 .current-player{
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 80px;
+  max-height: 80px;
 
+}
+.message{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  top:0;
+  left: 0;
+  width:100%;
+  height:100%;
+  background-color: rgba(20,20, 20, .9);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  
+}
+.winner{
+  font-size: 10rem;
+  text-transform: uppercase;
+}
+h1,h2,h3,h4{
+  padding: unset;
+  margin: unset;
 }

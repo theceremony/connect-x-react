@@ -117,7 +117,7 @@ export const sideEffectGetLongestConnectionForPosition = ({
   connections.push(getHorizontalConnection(updatedBoard)(x)(y)(val));
   connections.push(getDiagonalConnection(1)(updatedBoard)(x)(y)(val));
   connections.push(getDiagonalConnection(-1)(updatedBoard)(x)(y)(val));
-  console.log(connections);
+
   let connection = connections[0];
   connections.forEach((v: Connection) => {
     if (v.length > connection.length) {
