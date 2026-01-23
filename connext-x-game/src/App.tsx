@@ -7,10 +7,12 @@ import { createPlayBoardGrid, setSlotByColumnDrop } from "./logic";
 function App() {
   const [count, setCount] = useState(0);
 
-  const gameBoard = createPlayBoardGrid(10)(10);
+  const gameBoard = createPlayBoardGrid(7)(6);
+  const updatedBoard1 = setSlotByColumnDrop(gameBoard)(2)("red");
+  const updatedBoard2 =
+    updatedBoard1 && setSlotByColumnDrop(updatedBoard1)(2)("blue");
 
-  console.table(setSlotByColumnDrop(gameBoard)(2)("red"));
-  console.table(setSlotByColumnDrop(gameBoard)(2)("blue"));
+  console.table(updatedBoard2);
 
   return (
     <>

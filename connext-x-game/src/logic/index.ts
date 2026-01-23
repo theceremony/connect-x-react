@@ -11,17 +11,17 @@ export const createPlayBoardGrid =
       .fill(undefined)
       .map(() => new Array(y).fill("empty" as Slot)) as Board;
   };
-
+// -----------------------------------------------------------------------------
+export const doesSlotExist = (playBoard: Board) => (x: number) => (y: number) =>
+  !!playBoard[x][y];
 // -----------------------------------------------------------------------------
 export const setSlot =
   (playBoard: Board) =>
   (x: number) =>
   (y: number) =>
   (value: Piece): Board => {
-    const board = [...playBoard];
-
+    const board = structuredClone(playBoard);
     board[x][y] = value;
-    console.log(board[x][y]);
     return board;
   };
 // -----------------------------------------------------------------------------
@@ -35,9 +35,12 @@ export const getHighestEmptySlotInColumn = (column: Column) => {
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
-    console.log(getHighestEmptySlotInColumn(playBoard[x]));
-    return setSlot(playBoard)(x)(getHighestEmptySlotInColumn(playBoard[x]))(
-      value,
-    );
+    const slot = getHighestEmptySlotInColumn(playBoard[x]);
+
+    if (doesSlotExist(playBoard)(x)(slot)) {
+      return setSlot(playBoard)(x)(slot)(value);
+    } else {
+      return undefined;
+    }
   };
 // -----------------------------------------------------------------------------
