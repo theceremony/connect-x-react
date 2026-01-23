@@ -13,7 +13,7 @@ import { type Piece, type Board } from "./logic/types";
 // const _WINNING_CONNECTION_LENGTH = 6;
 
 function App() {
-  const winningConnectionLength = 10;
+  const winningConnectionLength = 5;
   const boardSize = deriveGameBoardByConnectionParam(winningConnectionLength);
   const [boardState, setBoardState] = useState<Board>(
     createPlayBoardGrid(boardSize[0])(boardSize[1]),

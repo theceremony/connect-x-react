@@ -4,7 +4,7 @@ import {
   setSlot,
 } from "./playSpaceControl";
 import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
-
+// todo: doesn't seem to catch both ways
 export const getDiagonalConnection =
   (way: number) =>
   (playBoard: Board) =>
@@ -14,8 +14,8 @@ export const getDiagonalConnection =
     const con = [];
 
     let upX = x;
-    for (let f = y; f < playBoard[x].length - y; ++f) {
-      if (!!playBoard[upX][f] && value === playBoard[upX][f]) {
+    for (let f = y; f < playBoard[x].length; ++f) {
+      if (playBoard[upX] && playBoard[upX][f] && value === playBoard[upX][f]) {
         con.push({
           x: upX,
           y: f,
@@ -27,7 +27,11 @@ export const getDiagonalConnection =
     }
     let downX = x - 1;
     for (let b = y - 1; b > -1; --b) {
-      if (!!playBoard[downX][b] && value === playBoard[downX][b]) {
+      if (
+        playBoard[downX] &&
+        playBoard[downX][b] &&
+        value === playBoard[downX][b]
+      ) {
         con.push({
           x: downX,
           y: b,
