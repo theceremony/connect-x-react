@@ -4,8 +4,37 @@ import {
   setSlot,
 } from "./playSpaceControl";
 import type { Action, Board, Piece, Position, Slot } from "./types";
+// -----------------------------------------------------------------------------
+export const getHorizontalConnection =
+  (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
+    const con = [];
 
-export const getVerticalConnectLength =
+    for (let f = x; f < playBoard.length; ++f) {
+      if (value === playBoard[f][y]) {
+        con.push({
+          x: f,
+          y,
+        } as Position);
+      } else {
+        break;
+      }
+    }
+
+    for (let b = x - 1; b > -1; --b) {
+      if (value === playBoard[b][y]) {
+        con.push({
+          x: b,
+          y,
+        } as Position);
+      } else {
+        break;
+      }
+    }
+
+    return con;
+  };
+// -----------------------------------------------------------------------------
+export const getVerticalConnection =
   (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
     const con = [];
 
@@ -35,13 +64,16 @@ export const getVerticalConnectLength =
 
     return con;
   };
-
-export const sideEffectGetLongestConnection = ({
+// -----------------------------------------------------------------------------
+export const sideEffectGetLongestConnectionForPosition = ({
   updatedBoard,
   position: { x, y },
 }: Action) => {
   //temp
-  return getVerticalConnectLength(updatedBoard)(x)(y)(updatedBoard[x][y]);
+  const val = updatedBoard[x][y];
+  const vertCon = getVerticalConnection(updatedBoard)(x)(y)(val);
+  const horzCon = getHorizontalConnection(updatedBoard)(x)(y)(val);
+  return vertCon.length > horzCon.length ? vertCon : horzCon;
 };
 
 // -----------------------------------------------------------------------------

@@ -3,7 +3,7 @@ import "./App.css";
 import {
   createPlayBoardGrid,
   setSlotByColumnDrop,
-  sideEffectGetLongestConnection,
+  sideEffectGetLongestConnectionForPosition,
 } from "./logic";
 import { type Piece, type Board } from "./logic/types";
 
@@ -27,7 +27,9 @@ function App() {
     console.table(action?.updatedBoard);
 
     const connection =
-      action === undefined ? 0 : sideEffectGetLongestConnection(action);
+      action === undefined
+        ? 0
+        : sideEffectGetLongestConnectionForPosition(action);
     console.table(connection);
     if (action?.updatedBoard) setBoardState(action?.updatedBoard);
   };
@@ -51,7 +53,7 @@ function App() {
         </div>
       </div> */}
       <div className="current-display">
-        <h1>current player: {currentPiece}</h1>
+        <h1>current player</h1>
         <div className={`current-player slot ${currentPiece}`}></div>
       </div>
       <div className="board">
