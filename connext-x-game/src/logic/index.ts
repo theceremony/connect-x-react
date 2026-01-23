@@ -6,8 +6,12 @@ export type Board = Column[];
 // -----------------------------------------------------------------------------
 export const createPlayBoardGrid =
   (x: number) =>
-  (y: number): Board =>
-    new Array(x).fill(new Array(y).fill("empty" as Slot)) as Board;
+  (y: number): Board => {
+    return new Array(x)
+      .fill(undefined)
+      .map(() => new Array(y).fill("empty" as Slot)) as Board;
+  };
+
 // -----------------------------------------------------------------------------
 export const setSlot =
   (playBoard: Board) =>
@@ -15,17 +19,25 @@ export const setSlot =
   (y: number) =>
   (value: Piece): Board => {
     const board = [...playBoard];
+
     board[x][y] = value;
+    console.log(board[x][y]);
     return board;
   };
 // -----------------------------------------------------------------------------
-export const getHighestEmptySlotInColumn = (column: Column) =>
-  column.findIndex(
-    (slot, i, arr) =>
-      slot === "empty" && arr[i] !== "empty" && arr[i] !== undefined,
-  );
+export const getHighestEmptySlotInColumn = (column: Column) => {
+  let val = -1;
+  column.forEach((v, i) => {
+    if (v === "empty") val = i;
+  });
+  return val;
+};
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
-  (playBoard: Board) => (x: number) => (value: Piece) =>
-    setSlot(playBoard)(x)(getHighestEmptySlotInColumn(playBoard[x]))(value);
+  (playBoard: Board) => (x: number) => (value: Piece) => {
+    console.log(getHighestEmptySlotInColumn(playBoard[x]));
+    return setSlot(playBoard)(x)(getHighestEmptySlotInColumn(playBoard[x]))(
+      value,
+    );
+  };
 // -----------------------------------------------------------------------------

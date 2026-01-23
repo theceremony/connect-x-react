@@ -2,14 +2,15 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { createPlayBoardGrid } from "./logic";
+import { createPlayBoardGrid, setSlotByColumnDrop } from "./logic";
 
 function App() {
   const [count, setCount] = useState(0);
 
   const gameBoard = createPlayBoardGrid(10)(10);
 
-  console.table(gameBoard);
+  console.table(setSlotByColumnDrop(gameBoard)(2)("red"));
+  console.table(setSlotByColumnDrop(gameBoard)(2)("blue"));
 
   return (
     <>
