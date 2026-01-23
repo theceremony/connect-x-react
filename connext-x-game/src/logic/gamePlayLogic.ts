@@ -3,7 +3,45 @@ import {
   doesSlotExist,
   setSlot,
 } from "./playSpaceControl";
-import type { Action, Board, Piece, Position, Slot } from "./types";
+import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
+
+export const getDiagonalConnection =
+  (way: number) =>
+  (playBoard: Board) =>
+  (x: number) =>
+  (y: number) =>
+  (value: Slot) => {
+    const con = [];
+
+    const columnLength = playBoard[x].length;
+    let upX = x;
+    for (let f = y; f < columnLength; ++f) {
+      if (value === playBoard[upX][f]) {
+        con.push({
+          x: upX,
+          y: f,
+        } as Position);
+        upX += way;
+      } else {
+        break;
+      }
+    }
+    let downX = x - 1;
+    for (let b = y - 1; b > -1; --b) {
+      if (value === playBoard[downX][b]) {
+        con.push({
+          x: downX,
+          y: b,
+        } as Position);
+        downX -= way;
+      } else {
+        break;
+      }
+    }
+
+    return con;
+  };
+
 // -----------------------------------------------------------------------------
 export const getHorizontalConnection =
   (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
@@ -71,9 +109,19 @@ export const sideEffectGetLongestConnectionForPosition = ({
 }: Action) => {
   //temp
   const val = updatedBoard[x][y];
-  const vertCon = getVerticalConnection(updatedBoard)(x)(y)(val);
-  const horzCon = getHorizontalConnection(updatedBoard)(x)(y)(val);
-  return vertCon.length > horzCon.length ? vertCon : horzCon;
+  const connections: Connection[] = [];
+  connections.push(getVerticalConnection(updatedBoard)(x)(y)(val));
+  connections.push(getHorizontalConnection(updatedBoard)(x)(y)(val));
+  connections.push(getDiagonalConnection(1)(updatedBoard)(x)(y)(val));
+  connections.push(getDiagonalConnection(-1)(updatedBoard)(x)(y)(val));
+  console.log(connections);
+  let connection = connections[0];
+  connections.forEach((v: Connection) => {
+    if (v.length > connection.length) {
+      connection = v;
+    }
+  });
+  return connection;
 };
 
 // -----------------------------------------------------------------------------

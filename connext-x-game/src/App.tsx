@@ -8,13 +8,15 @@ import {
 import { type Piece, type Board } from "./logic/types";
 
 // const _PLAY_BOARD = [7, 6];
-const _PLAY_BOARD = [20, 19];
+const _PLAY_BOARD = [7, 6];
+const _WINNING_CONNECTION_LENGTH = 4;
 
 function App() {
   const [boardState, setBoardState] = useState<Board>(
     createPlayBoardGrid(_PLAY_BOARD[0])(_PLAY_BOARD[1]),
   );
   const [currentPiece, setCurrentPiece] = useState<Piece>("blue");
+  const [winner, setWinner] = useState<undefined | Piece>(undefined);
 
   const onColumnClick = (x: number) => {
     const action = setSlotByColumnDrop(boardState)(x)(currentPiece);
@@ -28,43 +30,35 @@ function App() {
 
     const connection =
       action === undefined
-        ? 0
+        ? []
         : sideEffectGetLongestConnectionForPosition(action);
     console.table(connection);
     if (action?.updatedBoard) setBoardState(action?.updatedBoard);
+    if (connection.length === _WINNING_CONNECTION_LENGTH)
+      setWinner(currentPiece);
   };
 
   return (
     <div className="app">
-      {/* <div>
-        <div>
-          <label>Column</label>
-          <input name="x" type="number" value="0" />
-        </div>
-        <div>
-          <label>Color</label>
-          <select name="color">
-            <option value="red">red</option>
-            <option value="blue">blue</option>
-          </select>
-        </div>
-        <div>
-          <button onClick={onSubmit}>Go!</button>
-        </div>
-      </div> */}
-      <div className="current-display">
-        <h1>current player</h1>
-        <div className={`current-player slot ${currentPiece}`}></div>
-      </div>
-      <div className="board">
-        {boardState.map((v, i) => (
-          <div className="column" onClick={() => onColumnClick(i)}>
-            {v.map((c) => (
-              <div className={`slot ${c}`}> </div>
+      {winner && <h1>winner: {winner}</h1>}
+      {!winner && (
+        <>
+          <div className="current-display">
+            <h1>current player</h1>
+            <div className={`current-player slot ${currentPiece}`}></div>
+          </div>
+
+          <div className="board">
+            {boardState.map((v, i) => (
+              <div className="column" onClick={() => onColumnClick(i)}>
+                {v.map((c) => (
+                  <div className={`slot ${c}`}> </div>
+                ))}
+              </div>
             ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }

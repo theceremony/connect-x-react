@@ -31,3 +31,5 @@ export const getHighestEmptySlotInColumn = (column: Column) => {
   });
   return val;
 };
+// -----------------------------------------------------------------------------
+export const getMaxDiagonalLength = (playBoard: Board) => playBoard[0].length;
