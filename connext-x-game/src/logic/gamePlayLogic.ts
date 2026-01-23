@@ -4,7 +4,7 @@ import {
   setSlot,
 } from "./playSpaceControl";
 import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
-// todo: doesn't seem to catch both ways
+
 export const getDiagonalConnection =
   (way: number) =>
   (playBoard: Board) =>
