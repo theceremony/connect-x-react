@@ -13,10 +13,9 @@ export const getDiagonalConnection =
   (value: Slot) => {
     const con = [];
 
-    const columnLength = playBoard[x].length;
     let upX = x;
-    for (let f = y; f < columnLength; ++f) {
-      if (value === playBoard[upX][f]) {
+    for (let f = y; f < playBoard[x].length - y; ++f) {
+      if (!!playBoard[upX][f] && value === playBoard[upX][f]) {
         con.push({
           x: upX,
           y: f,
@@ -28,7 +27,7 @@ export const getDiagonalConnection =
     }
     let downX = x - 1;
     for (let b = y - 1; b > -1; --b) {
-      if (value === playBoard[downX][b]) {
+      if (!!playBoard[downX][b] && value === playBoard[downX][b]) {
         con.push({
           x: downX,
           y: b,
