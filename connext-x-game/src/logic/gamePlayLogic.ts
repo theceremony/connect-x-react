@@ -36,7 +36,7 @@ export const getVerticalConnectLength =
     return con;
   };
 
-export const sideEffectGetLongestConnectLength = ({
+export const sideEffectGetLongestConnection = ({
   updatedBoard,
   position: { x, y },
 }: Action) => {

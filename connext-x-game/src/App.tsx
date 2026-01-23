@@ -1,28 +1,57 @@
+import { useState } from "react";
 import "./App.css";
 import {
   createPlayBoardGrid,
   setSlotByColumnDrop,
-  sideEffectGetLongestConnectLength,
+  sideEffectGetLongestConnection,
 } from "./logic";
+import type { Board } from "./logic/types";
+
+const _PLAY_BOARD_1 = [7, 6];
+const _PLAY_BOARD_2 = [30, 30];
 
 function App() {
-  const gameBoard = createPlayBoardGrid(7)(6);
-  const updateAction = setSlotByColumnDrop(gameBoard)(2)("red");
-  const updateAction2 =
-    updateAction && setSlotByColumnDrop(updateAction.updatedBoard)(2)("blue");
-  const updateAction3 =
-    updateAction2 && setSlotByColumnDrop(updateAction2.updatedBoard)(2)("red");
-  console.table(updateAction3?.updatedBoard);
+  const [boardState, setBoardState] = useState<Board>(
+    createPlayBoardGrid(_PLAY_BOARD_2[0])(_PLAY_BOARD_2[1]),
+  );
 
-  const connection =
-    updateAction3 === undefined
-      ? 0
-      : sideEffectGetLongestConnectLength(updateAction3);
-  console.log(connection);
+  const onSubmit = () => {
+    const action = setSlotByColumnDrop(boardState)(2)("red");
+    console.table(action?.updatedBoard);
+
+    const connection =
+      action === undefined ? 0 : sideEffectGetLongestConnection(action);
+    console.table(connection);
+    if (action?.updatedBoard) setBoardState(action?.updatedBoard);
+  };
 
   return (
     <>
-      <div>connect X</div>
+      <div>
+        <div>
+          <label>Column</label>
+          <input name="x" type="number" value="0" />
+        </div>
+        <div>
+          <label>Color</label>
+          <select name="color">
+            <option value="red">red</option>
+            <option value="blue">blue</option>
+          </select>
+        </div>
+        <div>
+          <button onClick={onSubmit}>Go!</button>
+        </div>
+      </div>
+      <div className="board">
+        {boardState.map((v) => (
+          <div className="column">
+            {v.map((c) => (
+              <div className={`slot ${c}`}> </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </>
   );
 }
