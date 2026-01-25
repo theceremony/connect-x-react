@@ -5,11 +5,20 @@ import {
   createPlayBoardGrid,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
-import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
-type GetConnFunc = (
-  p: Board,
-) => (x: number) => (y: number) => (v: Slot) => Connection;
+import type {
+  Action,
+  Board,
+  Connection,
+  GetConnFunc,
+  Piece,
+  Position,
+  Slot,
+} from "./types";
+
 // -----------------------------------------------------------------------------
+
+// export const getLine =
+//   (playBoard: Board) => (vector: Vector) => (x: number) => (y: number) => [];
 
 export const getDiagConn =
   (way: number) =>

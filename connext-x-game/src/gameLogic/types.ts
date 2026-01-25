@@ -23,3 +23,7 @@ export type Game = {
   board: Board;
   players: Player[];
 };
+export type GetConnFunc = (
+  p: Board,
+) => (x: number) => (y: number) => (v: Slot) => Connection;
+export type Vector = [number, number];
