@@ -10,6 +10,7 @@ type GetConnFunc = (
   p: Board,
 ) => (x: number) => (y: number) => (v: Slot) => Connection;
 // -----------------------------------------------------------------------------
+
 export const getDiagConn =
   (way: number) =>
   (playBoard: Board) =>
@@ -19,10 +20,12 @@ export const getDiagConn =
     const con = [];
 
     let upX = x;
-    // these for loops are awful, we gotta fix this... ugh... how could I
+    // -------------------------------------------------------------------------
+    // these for loops are awful, we gotta fix this... ugh... how could I..
     // maybe a generalized stepAndReport function or something?
     // maybe provide a vector and the func lerps through the grid?...
-    // or I could be over enginearing the hell out of it there haha
+    // or I could be over engineering the hell out of it there haha
+    // -------------------------------------------------------------------------
     for (let f = y; f < playBoard[x].length; ++f) {
       if (playBoard[upX] && playBoard[upX][f] && value === playBoard[upX][f]) {
         con.push({
@@ -136,14 +139,14 @@ export const effectGetLongestConnByPos = ({
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
-    const slotY = getHighestEmptySlotInColumn(playBoard[x]);
+    const y = getHighestEmptySlotInColumn(playBoard[x]);
 
-    if (doesSlotExist(playBoard)(x)(slotY)) {
+    if (doesSlotExist(playBoard)(x)(y)) {
       return {
-        updatedBoard: setSlot(playBoard)(x)(slotY)(value),
+        updatedBoard: setSlot(playBoard)(x)(y)(value),
         position: {
           x,
-          y: slotY,
+          y,
         },
       } as Action;
     }
