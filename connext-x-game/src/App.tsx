@@ -5,8 +5,15 @@ import {
   deriveGameBoardByConnectionParam,
   setSlotByColumnDrop,
   sideEffectGetLongestConnectionForPosition,
-} from "./logic";
-import { type Piece, type Board } from "./logic/types";
+} from "./gameLogic";
+import { type Piece, type Board } from "./gameLogic/types";
+import {
+  StyledApp,
+  StyledBoard,
+  StyledColumn,
+  StyledGameInterface,
+  StyledSlot,
+} from "./App.styled";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 //TODO  [ ] explore socket / net code for 'Battle Mode', will probably need to
@@ -20,13 +27,16 @@ import { type Piece, type Board } from "./logic/types";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 //NOTES:
+// _____________________________________________________________________________
+//
 // I want to allow players to attach with phones via QR, if over 2 players the game board will have to expand I think, will have to figure out the multiplier
 //
 // Battlemode would remove turn based and just let people bang it out, would probably require a cool down between turns, should think of some other funny boon / penalties
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+const DEFAULT_CONNECTION_LENGTH = 4;
 function App() {
-  const [winningConnectionLength] = useState<number>(4);
+  const [winningConnectionLength] = useState<number>(DEFAULT_CONNECTION_LENGTH);
 
   const boardSize = deriveGameBoardByConnectionParam(winningConnectionLength);
   const [boardState, setBoardState] = useState<Board>(
@@ -55,7 +65,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <StyledApp>
       {winner && (
         <div className="message">
           <h1 className="winner">Winner!</h1>
@@ -64,25 +74,28 @@ function App() {
       )}
 
       <>
-        <div className="current-display">
+        <StyledGameInterface>
           <h1>current player</h1>
-          <div className={`current-player slot ${currentPiece}`}></div>
+          <StyledSlot
+            data-slot-color={currentPiece}
+            className={`current-player slot ${currentPiece}`}
+          ></StyledSlot>
           <h2>connect {winningConnectionLength} to win</h2>
-        </div>
+        </StyledGameInterface>
 
-        <div className="board">
+        <StyledBoard>
           {boardState.map((v, i) => (
-            <div key={i} className="column" onClick={() => onColumnClick(i)}>
+            <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
               {v.map((c, a) => (
-                <div key={`key-${a}`} className={`slot ${c}`}>
+                <StyledSlot key={`slot-${a}`} data-slot-color={c}>
                   {" "}
-                </div>
+                </StyledSlot>
               ))}
-            </div>
+            </StyledColumn>
           ))}
-        </div>
+        </StyledBoard>
       </>
-    </div>
+    </StyledApp>
   );
 }
 
