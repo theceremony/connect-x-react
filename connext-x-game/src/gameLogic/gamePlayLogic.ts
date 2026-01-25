@@ -19,6 +19,7 @@ export const getDiagConn =
     const con = [];
 
     let upX = x;
+    // these for loops are awful, we gotta fix this... ugh... how could I
     for (let f = y; f < playBoard[x].length; ++f) {
       if (playBoard[upX] && playBoard[upX][f] && value === playBoard[upX][f]) {
         con.push({
