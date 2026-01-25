@@ -10,6 +10,13 @@ export const StyledApp = styled.div`
   height: 100vh;
   border: 10px solid grey;
   gap: 5px;
+  h1,
+  h2,
+  h3,
+  h4 {
+    padding: unset;
+    margin: unset;
+  }
 `;
 
 export const StyledBoard = styled.div`
@@ -65,21 +72,22 @@ export const StyledGameInterface = styled.div`
     max-width: 80px;
     max-height: 80px;
   }
-  .message {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(20, 20, 20, 0.9);
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(3px);
-  }
-  .winner {
+`;
+
+export const StyleMessage = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 20, 0.9);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  .large-message-headline {
     font-size: 10rem;
     text-transform: uppercase;
   }

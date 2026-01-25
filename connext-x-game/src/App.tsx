@@ -13,6 +13,7 @@ import {
   StyledColumn,
   StyledGameInterface,
   StyledSlot,
+  StyleMessage,
 } from "./App.styled";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
@@ -67,10 +68,10 @@ function App() {
   return (
     <StyledApp>
       {winner && (
-        <div className="message">
-          <h1 className="winner">Winner!</h1>
+        <StyleMessage>
+          <h1 className="large-message-headline">Winner!</h1>
           <h1>{winner}</h1>
-        </div>
+        </StyleMessage>
       )}
 
       <>
