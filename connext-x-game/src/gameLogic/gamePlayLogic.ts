@@ -107,7 +107,7 @@ export const getVerConn =
     return con;
   };
 // -----------------------------------------------------------------------------
-export const getConnection =
+export const getConn =
   (p: Board) =>
   (x: number) =>
   (y: number) =>
@@ -119,7 +119,7 @@ export const sideEffectGetLongestConnectionForPosition = ({
   updatedBoard,
   position: { x, y },
 }: Action) => {
-  const fn = getConnection(updatedBoard)(x)(y)(updatedBoard[x][y]);
+  const fn = getConn(updatedBoard)(x)(y)(updatedBoard[x][y]);
   return [
     fn(getVerConn),
     fn(getHorizConn),
