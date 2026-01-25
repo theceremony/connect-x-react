@@ -4,15 +4,8 @@ import {
   setSlot,
   createPlayBoardGrid,
 } from "./playSpaceControl";
-import type {
-  Action,
-  Board,
-  Column,
-  Connection,
-  Piece,
-  Position,
-  Slot,
-} from "./types";
+// -----------------------------------------------------------------------------
+import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
 // -----------------------------------------------------------------------------
 export const getDiagConn =
   (way: number) =>
@@ -53,7 +46,6 @@ export const getDiagConn =
 
     return con;
   };
-
 // -----------------------------------------------------------------------------
 export const getHorizConn =
   (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
@@ -138,7 +130,6 @@ export const sideEffectGetLongestConnectionForPosition = ({
     [] as Connection,
   );
 };
-
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
@@ -160,7 +151,4 @@ export const generateGame = (boardSize: number[]) =>
   createPlayBoardGrid(boardSize[0])(boardSize[1]);
 // -----------------------------------------------------------------------------
 export const getNumberOfEmptySlots = (playBoard: Board) =>
-  playBoard.reduce(
-    (acc, c: Column) => acc + c.filter((s) => s === "empty").length,
-    0,
-  );
+  playBoard.reduce((acc, c) => acc + c.filter((s) => s === "empty").length, 0);

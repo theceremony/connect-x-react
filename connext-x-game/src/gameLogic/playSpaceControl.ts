@@ -36,6 +36,5 @@ export const getMaxDiagonalLength = (playBoard: Board) => playBoard[0].length;
 // -----------------------------------------------------------------------------
 export const deriveGameBoardByConnectionParam = (connectionParam: number) => {
   const w = connectionParam * 2 - 1;
-  console.log(w);
   return [w, w - 1];
 };
