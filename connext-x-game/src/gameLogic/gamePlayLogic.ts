@@ -6,6 +6,9 @@ import {
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
+type GetConnFunc = (
+  p: Board,
+) => (x: number) => (y: number) => (v: Slot) => Connection;
 // -----------------------------------------------------------------------------
 export const getDiagConn =
   (way: number) =>
@@ -108,14 +111,10 @@ export const getVerConn =
   };
 // -----------------------------------------------------------------------------
 export const getConn =
-  (p: Board) =>
-  (x: number) =>
-  (y: number) =>
-  (v: Slot) =>
-  (fn: (p: Board) => (x: number) => (y: number) => (v: Slot) => Connection) =>
+  (p: Board) => (x: number) => (y: number) => (v: Slot) => (fn: GetConnFunc) =>
     fn(p)(x)(y)(v);
 // -----------------------------------------------------------------------------
-export const sideEffectGetLongestConnectionForPosition = ({
+export const effectGetLongestConnByPos = ({
   updatedBoard,
   position: { x, y },
 }: Action) => {

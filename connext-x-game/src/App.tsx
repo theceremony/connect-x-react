@@ -4,7 +4,7 @@ import {
   deriveGameBoardByConnectionParam,
   generateGame,
   setSlotByColumnDrop,
-  sideEffectGetLongestConnectionForPosition,
+  effectGetLongestConnByPos,
 } from "./gameLogic";
 import { type Piece, type Board } from "./gameLogic/types";
 import {
@@ -55,9 +55,7 @@ function App() {
     console.table(action?.updatedBoard);
 
     const connection =
-      action === undefined
-        ? []
-        : sideEffectGetLongestConnectionForPosition(action);
+      action === undefined ? [] : effectGetLongestConnByPos(action);
     console.table(connection);
     if (action?.updatedBoard) setGameState(action?.updatedBoard);
     if (connection.length === winningConnectionLength) setWinner(currentPiece);
