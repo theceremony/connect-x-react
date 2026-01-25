@@ -4,9 +4,17 @@ import {
   setSlot,
   createPlayBoardGrid,
 } from "./playSpaceControl";
-import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
-
-export const getDiagonalConnection =
+import type {
+  Action,
+  Board,
+  Column,
+  Connection,
+  Piece,
+  Position,
+  Slot,
+} from "./types";
+// -----------------------------------------------------------------------------
+export const getDiagConn =
   (way: number) =>
   (playBoard: Board) =>
   (x: number) =>
@@ -47,7 +55,7 @@ export const getDiagonalConnection =
   };
 
 // -----------------------------------------------------------------------------
-export const getHorizontalConnection =
+export const getHorizConn =
   (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
     const con = [];
 
@@ -76,7 +84,7 @@ export const getHorizontalConnection =
     return con;
   };
 // -----------------------------------------------------------------------------
-export const getVerticalConnection =
+export const getVerConn =
   (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
     const con = [];
 
@@ -107,25 +115,28 @@ export const getVerticalConnection =
     return con;
   };
 // -----------------------------------------------------------------------------
+export const getConnection =
+  (p: Board) =>
+  (x: number) =>
+  (y: number) =>
+  (v: Slot) =>
+  (fn: (p: Board) => (x: number) => (y: number) => (v: Slot) => Connection) =>
+    fn(p)(x)(y)(v);
+// -----------------------------------------------------------------------------
 export const sideEffectGetLongestConnectionForPosition = ({
   updatedBoard,
   position: { x, y },
 }: Action) => {
-  //temp
-  const val = updatedBoard[x][y];
-  const connections: Connection[] = [];
-  connections.push(getVerticalConnection(updatedBoard)(x)(y)(val));
-  connections.push(getHorizontalConnection(updatedBoard)(x)(y)(val));
-  connections.push(getDiagonalConnection(1)(updatedBoard)(x)(y)(val));
-  connections.push(getDiagonalConnection(-1)(updatedBoard)(x)(y)(val));
-
-  let connection = connections[0];
-  connections.forEach((v: Connection) => {
-    if (v.length > connection.length) {
-      connection = v;
-    }
-  });
-  return connection;
+  const fn = getConnection(updatedBoard)(x)(y)(updatedBoard[x][y]);
+  return [
+    fn(getVerConn),
+    fn(getHorizConn),
+    fn(getDiagConn(1)),
+    fn(getDiagConn(-1)),
+  ].reduce(
+    (acc, connection) => (acc.length > connection.length ? acc : connection),
+    [] as Connection,
+  );
 };
 
 // -----------------------------------------------------------------------------
@@ -141,10 +152,15 @@ export const setSlotByColumnDrop =
           y: slotY,
         },
       } as Action;
-    } else {
-      return undefined;
     }
+    return undefined;
   };
 // -----------------------------------------------------------------------------
 export const generateGame = (boardSize: number[]) =>
   createPlayBoardGrid(boardSize[0])(boardSize[1]);
+// -----------------------------------------------------------------------------
+export const getNumberOfEmptySlots = (playBoard: Board) =>
+  playBoard.reduce(
+    (acc, c: Column) => acc + c.filter((s) => s === "empty").length,
+    0,
+  );
