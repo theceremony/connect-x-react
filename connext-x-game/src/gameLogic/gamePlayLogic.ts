@@ -20,6 +20,9 @@ export const getDiagConn =
 
     let upX = x;
     // these for loops are awful, we gotta fix this... ugh... how could I
+    // maybe a generalized stepAndReport function or something?
+    // maybe provide a vector and the func lerps through the grid?...
+    // or I could be over enginearing the hell out of it there haha
     for (let f = y; f < playBoard[x].length; ++f) {
       if (playBoard[upX] && playBoard[upX][f] && value === playBoard[upX][f]) {
         con.push({
