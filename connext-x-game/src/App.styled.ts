@@ -14,8 +14,9 @@ export const StyledApp = styled.div`
   h2,
   h3,
   h4 {
-    padding: unset;
-    margin: unset;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
   }
 `;
 
@@ -87,6 +88,7 @@ export const StyleMessage = styled.div`
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(3px);
+  gap: 20px;
   .large-message-headline {
     font-size: 10rem;
     text-transform: uppercase;

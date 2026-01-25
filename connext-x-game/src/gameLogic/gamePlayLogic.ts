@@ -2,6 +2,7 @@ import {
   getHighestEmptySlotInColumn,
   doesSlotExist,
   setSlot,
+  createPlayBoardGrid,
 } from "./playSpaceControl";
 import type { Action, Board, Connection, Piece, Position, Slot } from "./types";
 
@@ -145,3 +146,5 @@ export const setSlotByColumnDrop =
     }
   };
 // -----------------------------------------------------------------------------
+export const generateGame = (boardSize: number[]) =>
+  createPlayBoardGrid(boardSize[0])(boardSize[1]);

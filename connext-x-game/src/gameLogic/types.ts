@@ -19,3 +19,7 @@ export type Move = {
   action: Action;
   player: Player;
 };
+export type Game = {
+  board: Board;
+  players: Player[];
+};

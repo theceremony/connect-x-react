@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./App.css";
+
 import {
-  createPlayBoardGrid,
   deriveGameBoardByConnectionParam,
+  generateGame,
   setSlotByColumnDrop,
   sideEffectGetLongestConnectionForPosition,
 } from "./gameLogic";
@@ -40,14 +40,12 @@ function App() {
   const [winningConnectionLength] = useState<number>(DEFAULT_CONNECTION_LENGTH);
 
   const boardSize = deriveGameBoardByConnectionParam(winningConnectionLength);
-  const [boardState, setBoardState] = useState<Board>(
-    createPlayBoardGrid(boardSize[0])(boardSize[1]),
-  );
+  const [gameState, setGameState] = useState<Board>(generateGame(boardSize));
   const [currentPiece, setCurrentPiece] = useState<Piece>("blue");
   const [winner, setWinner] = useState<undefined | Piece>(undefined);
 
   const onColumnClick = (x: number) => {
-    const action = setSlotByColumnDrop(boardState)(x)(currentPiece);
+    const action = setSlotByColumnDrop(gameState)(x)(currentPiece);
     if (currentPiece === "blue") {
       setCurrentPiece("red");
     } else {
@@ -61,7 +59,7 @@ function App() {
         ? []
         : sideEffectGetLongestConnectionForPosition(action);
     console.table(connection);
-    if (action?.updatedBoard) setBoardState(action?.updatedBoard);
+    if (action?.updatedBoard) setGameState(action?.updatedBoard);
     if (connection.length === winningConnectionLength) setWinner(currentPiece);
   };
 
@@ -71,6 +69,7 @@ function App() {
         <StyleMessage>
           <h1 className="large-message-headline">Winner!</h1>
           <h1>{winner}</h1>
+          <button>New Game</button>
         </StyleMessage>
       )}
 
@@ -85,7 +84,7 @@ function App() {
         </StyledGameInterface>
 
         <StyledBoard>
-          {boardState.map((v, i) => (
+          {gameState.map((v, i) => (
             <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
               {v.map((c, a) => (
                 <StyledSlot key={`slot-${a}`} data-slot-color={c}>
