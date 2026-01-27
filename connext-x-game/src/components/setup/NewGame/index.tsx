@@ -13,17 +13,13 @@ const NewGame: FC = () => {
   const numPlayersInput = useRef<HTMLInputElement>(null);
   const numConnectInput = useRef<HTMLInputElement>(null);
   const onStart = () => {
-    if (dispatch) {
-      const connectLength =
-        Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
-      const numberOfPlayers =
-        Number(numPlayersInput.current?.value) || DEFAULT_NUMBER_OF_PLAYERS;
+    const conLen =
+      Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
+    const numPlayer =
+      Number(numPlayersInput.current?.value) || DEFAULT_NUMBER_OF_PLAYERS;
 
-      dispatch([
-        "currentGame",
-        generateGame(connectLength)(numberOfPlayers) as Game,
-      ]);
-    }
+    if (dispatch)
+      dispatch(["currentGame", generateGame(conLen)(numPlayer) as Game]);
   };
   return (
     <StyledNewGame>
