@@ -66,8 +66,6 @@ const GameBoard: FC = () => {
           {v.map((c, y) => (
             <StyledSlot
               key={`slot-${y}`}
-              data-slot-x={x}
-              data-slot-y={y}
               data-slot-winner={isSlotWinner([x, y])}
               data-slot-color={c}
             >
