@@ -28,3 +28,5 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
   });
 });
+
+io.listen(3000);
