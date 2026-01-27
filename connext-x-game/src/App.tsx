@@ -5,6 +5,7 @@ import {
   generateGame,
   getActionByColumnDrop,
   effectGetLongestConnByPos,
+  DEFAULT_CONNECTION_LENGTH,
 } from "./gameLogic";
 import { type Piece, type Board } from "./gameLogic/types";
 import {
@@ -35,7 +36,7 @@ import {
 // Battlemode would remove turn based and just let people bang it out, would probably require a cool down between turns, should think of some other funny boon / penalties
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-const DEFAULT_CONNECTION_LENGTH = 4;
+
 function App() {
   const [winningConnectionLength] = useState<number>(DEFAULT_CONNECTION_LENGTH);
 

@@ -1,3 +1,4 @@
+import { CONNECTION_VECTORS } from "./config";
 import {
   getHighestEmptySlotInColumn,
   doesSlotExist,
@@ -18,12 +19,7 @@ import type {
   Vector,
 } from "./types";
 // -----------------------------------------------------------------------------
-const CONNECTION_VECTORS: Vector[] = [
-  [1, 0],
-  [0, 1],
-  [1, 1],
-  [-1, 1],
-];
+
 // -----------------------------------------------------------------------------
 export const getLine =
   (playBoard: Board) => (vec: Vector) => (pos: Position) => (val: Slot) => {
@@ -37,11 +33,12 @@ export const getLine =
   };
 // -----------------------------------------------------------------------------
 export const getByDirectionalLine =
-  (playBoard: Board) => (pos: Position) => (value: Slot) => (vec: Vector) =>
-    [
+  (playBoard: Board) => (pos: Position) => (value: Slot) => (vec: Vector) => [
+    ...new Set([
       ...getLine(playBoard)(vec)(pos)(value),
       ...getLine(playBoard)(getInvVect(vec))(pos)(value),
-    ].filter((p: Position, i: number, arr: Position[]) => arr.indexOf(p) === i);
+    ]),
+  ];
 // -----------------------------------------------------------------------------
 export const effectGetLongestConnByPos = ({
   updatedBoard: playBoard,
