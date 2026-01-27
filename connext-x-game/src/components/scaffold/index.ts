@@ -28,7 +28,7 @@ export const StyledSlot = styled.div`
   aspect-ratio: 1/1;
   box-shadow:
     inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
-    inset -15px -5px 0px 0px rgb(200, 200, 200);
+    inset -15px -5px 0px 0px white;
   border-radius: 100%;
   /* border: 6px solid black; */
   background-color: rgb(50, 50, 50);

@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const StyledGameBoard = styled.div`
   display: flex;
   width: 60%;
-  border: 5px solid grey;
-  background-color: whitesmoke;
+  /* border: 5px solid grey; */
+  background-color: rgb(220, 220, 220);
   border-radius: 40px;
   padding: 15px;
   /* gap:5px; */
+  box-shadow: -15px -5px 0px 0px white;
 `;
 
 export const StyledColumn = styled.div`
