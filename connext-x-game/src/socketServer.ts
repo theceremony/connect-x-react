@@ -20,9 +20,14 @@ async function getSocketIds() {
 }
 io.on("connection", async (socket) => {
   if (socket.handshake.query.path === "/game") {
-    console.log("game connected");
     const sockets = await getSocketIds();
     io.emit("game:connected", { id: socket.id, clients: sockets });
+    socket.on("game:player-joined-lobby", (val) => {
+      io.emit("game:player-joined-lobby", val);
+    });
+    socket.on("game:player-left-lobby", (val) => {
+      io.emit("game:player-left-lobby", val);
+    });
     socket.on("disconnect", () => {
       console.log("A game disconnected");
       io.emit("game:disconnect", { id: socket.id });
@@ -35,8 +40,6 @@ io.on("connection", async (socket) => {
       io.emit("player:disconnect", { id: socket.id });
     });
   }
-
-  socket.on("game:player-joined-lobby", (val) => console.log(val));
 });
 
 httpServer.listen(3000, "0.0.0.0");

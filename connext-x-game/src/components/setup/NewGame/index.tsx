@@ -41,6 +41,7 @@ const NewGame: FC = () => {
           id: val.id,
           piece: PLAYER_COLORS[state.lobby.length],
         } as Player;
+
         if (dispatch)
           dispatch([
             "lobby",
@@ -51,19 +52,18 @@ const NewGame: FC = () => {
               } as Player,
             ],
           ]);
+        console.log({ newPlayer });
         socket.emit("game:player-joined-lobby", newPlayer);
       };
       const onPlayerDisconnect = (val: PlayerSocketEvent) => {
         console.log("player disconnect", val);
-        if (dispatch)
-          dispatch([
-            "lobby",
-            [...state.lobby]
-              .filter((v) => {
-                return val.id !== v.id;
-              })
-              .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] })),
-          ]);
+        const newLobby = [...state.lobby]
+          .filter((v) => {
+            return val.id !== v.id;
+          })
+          .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] }));
+        if (dispatch) dispatch(["lobby", newLobby]);
+        socket.emit("game:player-left-lobby", newLobby);
       };
       socket.on(
         "game:connected",
@@ -86,10 +86,6 @@ const NewGame: FC = () => {
       };
     }
   }, [dispatch, socket, state.lobby]);
-
-  console.log(
-    `http://${window.location.hostname}:${window.location.port}/player`,
-  );
 
   return (
     <StyledNewGame>
