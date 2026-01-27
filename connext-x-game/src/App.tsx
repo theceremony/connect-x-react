@@ -1,30 +1,10 @@
 import { useReducer } from "react";
 
-import { StyledApp, StyledGameInterface, StyleMessage } from "./App.styled";
+import { StyledApp, StyleMessage } from "./App.styled";
 import AppContext, { appReducer, initialState } from "./App.context";
 import GameBoard from "./components/game/GameBoard";
-import { StyledSlot } from "./components/scaffold";
 
-// - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-//TODO  [ ] explore socket / net code for 'Battle Mode', will probably need to
-//      switch to a game engine and remove react
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-//TODO  [ ] Need to switch to a better state management system, useState is
-//      trash
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-// - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-// - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-//NOTES:
-// _____________________________________________________________________________
-//
-// I want to allow players to attach with phones via QR, if over 2 players the game board will have to expand I think, will have to figure out the multiplier
-//
-// Battlemode would remove turn based and just let people bang it out, would probably require a cool down between turns, should think of some other funny boon / penalties
-// -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
-// - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+import GameStateDisplay from "./components/game/GameStateDisplay";
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -40,14 +20,7 @@ function App() {
           </StyleMessage>
         )}
         {/* <NewGame /> */}
-        <StyledGameInterface>
-          <h1>current player</h1>
-          <StyledSlot
-            data-slot-color={state.currentPiece}
-            className={`current-player slot ${state.currentPiece}`}
-          ></StyledSlot>
-          <h2>connect {state.winningConnectionLength} to win</h2>
-        </StyledGameInterface>
+        <GameStateDisplay />
         <GameBoard />
       </StyledApp>
     </AppContext.Provider>
