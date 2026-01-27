@@ -32,21 +32,21 @@ export const getLine =
 
 export const checkForDupes = (p: Position, i: number, arr: Position[]) =>
   arr.indexOf(p) === i;
-
+// -----------------------------------------------------------------------------
 export const getDiagConn =
   (way: number) => (playBoard: Board) => (pos: Position) => (value: Slot) =>
     [
       ...getLine(playBoard)([way, 1])(pos)(value),
       ...getLine(playBoard)([-way, -1])(pos)(value),
     ].filter(checkForDupes);
-
+// -----------------------------------------------------------------------------
 export const getHorizConn =
   (playBoard: Board) => (pos: Position) => (value: Slot) =>
     [
       ...getLine(playBoard)([1, 0])(pos)(value),
       ...getLine(playBoard)([-1, 0])(pos)(value),
     ].filter(checkForDupes);
-
+// -----------------------------------------------------------------------------
 export const getVertConn =
   (playBoard: Board) => (pos: Position) => (value: Slot) =>
     [
@@ -79,7 +79,6 @@ export const effectGetLongestConnByPos = ({
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
-    // const y = getHighestEmptySlotInColumn(playBoard[x]);
     const position: Position = [x, getHighestEmptySlotInColumn(playBoard[x])];
     if (doesSlotExist(playBoard)(position)) {
       return {
@@ -95,3 +94,4 @@ export const generateGame = (boardSize: number[]) =>
 // -----------------------------------------------------------------------------
 export const getNumberOfEmptySlots = (playBoard: Board) =>
   playBoard.reduce((acc, c) => acc + c.filter((s) => s === "empty").length, 0);
+// -----------------------------------------------------------------------------

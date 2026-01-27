@@ -1,14 +1,13 @@
 // -----------------------------------------------------------------------------
 
 import type { Board, Slot, Piece, Column, Position, Vector } from "./types";
-
+// -----------------------------------------------------------------------------
 export const addVectorToPos =
   (pos: Position) =>
   (vector: Vector): Position => [pos[0] + vector[0], pos[1] + vector[1]];
-
 // -----------------------------------------------------------------------------
 export const getBoardValByPos = (playBoard: Board) => (pos: Position) =>
-  playBoard[pos[0]][pos[1]];
+  playBoard && playBoard[pos[0]] && playBoard[pos[0]][pos[1]];
 
 // -----------------------------------------------------------------------------
 export const createPlayBoardGrid =
@@ -45,3 +44,4 @@ export const deriveGameBoardByConnectionParam = (connectionParam: number) => {
   const w = connectionParam * 2 - 1;
   return [w, w - 1];
 };
+// -----------------------------------------------------------------------------
