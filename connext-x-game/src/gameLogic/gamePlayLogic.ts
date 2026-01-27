@@ -67,3 +67,7 @@ export const generateGame = (boardSize: number[]) =>
 export const getNumberOfEmptySlots = (playBoard: Board) =>
   playBoard.reduce((acc, c) => acc + c.filter((s) => s === "empty").length, 0);
 // -----------------------------------------------------------------------------
+export const checkForWinnerByAction =
+  (winningConnectionLength: number) => (action: Action) =>
+    effectGetLongestConnByPos(action).length === winningConnectionLength;
+// -----------------------------------------------------------------------------

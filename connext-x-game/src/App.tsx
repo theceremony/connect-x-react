@@ -51,12 +51,8 @@ function App() {
     } else {
       setCurrentPiece("blue");
     }
-
-    console.table(action?.updatedBoard);
-
     const connection =
       action === undefined ? [] : effectGetLongestConnByPos(action);
-    console.table(connection);
     if (action?.updatedBoard) setGameState(action?.updatedBoard);
     if (connection.length === winningConnectionLength) setWinner(currentPiece);
   };
