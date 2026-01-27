@@ -4,7 +4,7 @@ export const StyledGameBoard = styled.div`
   display: flex;
   width: 60%;
   border: 5px solid grey;
-  background-color: white;
+  background-color: whitesmoke;
   border-radius: 40px;
   padding: 15px;
   /* gap:5px; */

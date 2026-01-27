@@ -26,23 +26,31 @@ export const StyledSlot = styled.div`
   width: 100%;
   height: auto;
   aspect-ratio: 1/1;
-  border: 6px solid black;
+  box-shadow:
+    inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
+    inset -15px -5px 0px 0px rgb(200, 200, 200);
   border-radius: 100%;
-  background-color: black;
+  /* border: 6px solid black; */
+  background-color: rgb(50, 50, 50);
   &[data-slot-color="blue"] {
     background-color: blue;
+    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
   }
   &[data-slot-color="red"] {
     background-color: red;
+    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
   }
   &[data-slot-color="yellow"] {
     background-color: yellow;
+    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
   }
   &[data-slot-color="green"] {
     background-color: green;
+    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
   }
 
   &[data-slot-winner="true"] {
-    box-shadow: 0px 0px 15px 11px goldenrod;
+    border: 6px solid black;
+    box-shadow: 0px 0px 20px 5px grey;
   }
 `;
