@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 import {
   deriveGameBoardByConnectionParam,
@@ -19,7 +19,7 @@ import {
   StyleMessage,
 } from "./App.styled";
 import NewGame from "./components/setup/NewGame";
-import appReducer from "./App.reducer";
+
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 //TODO  [ ] explore socket / net code for 'Battle Mode', will probably need to
@@ -46,57 +46,59 @@ function App() {
     DEFAULT_NUMBER_OF_PLAYERS,
   );
 
-  const [winningConnectionLength] = useState<number>(DEFAULT_CONNECTION_LENGTH);
-
-  const [gameState, setGameState] = useState<Board>(generateGame(boardSize));
-  const [currentPiece, setCurrentPiece] = useState<Piece>("blue");
-  const [winner, setWinner] = useState<undefined | Piece>(undefined);
-
   const initialState = {
     winningConnectionLength: DEFAULT_CONNECTION_LENGTH,
     numberOfPlayers: DEFAULT_NUMBER_OF_PLAYERS,
     boardSize,
-    gameState: generateGame(boardSize),
-    currentPiece: PLAYER_COLORS[0],
+    gameState: generateGame(boardSize) as Board,
+    currentPiece: PLAYER_COLORS[0] as Piece,
     winner: undefined,
+  };
+  type State = typeof initialState;
+  type Action = [keyof State, State[keyof State]];
+  const appReducer = (state: State, action: Action) => {
+    return { ...state, [action[0]]: action[1] };
   };
 
   const [appState, dispatch] = useReducer(appReducer, initialState);
 
   const onColumnClick = (x: number) => {
-    const action = getActionByColumnDrop(gameState)(x)(currentPiece);
-    if (currentPiece === "blue") {
-      setCurrentPiece("red");
+    const action = getActionByColumnDrop(appState.gameState)(x)(
+      appState.currentPiece,
+    );
+    if (appState.currentPiece === "blue") {
+      dispatch(["currentPiece", "red"]);
     } else {
-      setCurrentPiece("blue");
+      dispatch(["currentPiece", "blue"]);
     }
     const connection =
       action === undefined ? [] : effectGetLongestConnByPos(action);
-    if (action?.updatedBoard) setGameState(action?.updatedBoard);
-    if (connection.length === winningConnectionLength) setWinner(currentPiece);
+    if (action?.updatedBoard) dispatch(["gameState", action?.updatedBoard]);
+    if (connection.length === appState.winningConnectionLength)
+      dispatch(["winner", appState.currentPiece]);
   };
 
   return (
     <StyledApp>
-      {winner && (
+      {appState.winner && (
         <StyleMessage>
           <h1 className="large-message-headline">Winner!</h1>
-          <h1>{winner}</h1>
+          <h1>{appState.winner}</h1>
           <button>New Game</button>
         </StyleMessage>
       )}
-      <NewGame />
+      {/* <NewGame /> */}
       <StyledGameInterface>
         <h1>current player</h1>
         <StyledSlot
-          data-slot-color={currentPiece}
-          className={`current-player slot ${currentPiece}`}
+          data-slot-color={appState.currentPiece}
+          className={`current-player slot ${appState.currentPiece}`}
         ></StyledSlot>
-        <h2>connect {winningConnectionLength} to win</h2>
+        <h2>connect {appState.winningConnectionLength} to win</h2>
       </StyledGameInterface>
 
       <StyledBoard>
-        {gameState.map((v, i) => (
+        {appState.gameState.map((v, i) => (
           <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
             {v.map((c, a) => (
               <StyledSlot key={`slot-${a}`} data-slot-color={c}>
