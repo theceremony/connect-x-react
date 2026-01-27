@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledModal } from "../../scaffold";
+
 export const StyledGameBoard = styled.div`
   display: flex;
   width: 60%;
@@ -20,22 +20,5 @@ export const StyledColumn = styled.div`
   width: 100%;
   &:hover {
     background-color: yellowgreen;
-  }
-`;
-
-export const StyledSlot = styled.div`
-  display: flex;
-
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1/1;
-  border: 6px solid black;
-  border-radius: 100%;
-  background-color: black;
-  &[data-slot-color="blue"] {
-    background-color: blue;
-  }
-  &[data-slot-color="red"] {
-    background-color: red;
   }
 `;

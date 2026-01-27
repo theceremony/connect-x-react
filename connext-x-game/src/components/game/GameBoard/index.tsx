@@ -1,11 +1,12 @@
 import { useContext, type FC } from "react";
 
-import { StyledColumn, StyledGameBoard, StyledSlot } from "./styled";
+import { StyledColumn, StyledGameBoard } from "./styled";
 import AppContext from "../../../App.context";
 import {
   effectGetLongestConnByPos,
   getActionByColumnDrop,
 } from "../../../gameLogic";
+import { StyledSlot } from "../../scaffold";
 
 const GameBoard: FC = () => {
   const { state, dispatch } = useContext(AppContext);

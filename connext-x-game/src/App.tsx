@@ -1,30 +1,13 @@
 import { useReducer } from "react";
 
-import {
-  deriveGameBoardByConnectionParam,
-  generateGame,
-  getActionByColumnDrop,
-  effectGetLongestConnByPos,
-  DEFAULT_CONNECTION_LENGTH,
-  DEFAULT_NUMBER_OF_PLAYERS,
-  PLAYER_COLORS,
-} from "./gameLogic";
-import { type Piece, type Board } from "./gameLogic/types";
-import {
-  StyledApp,
-  StyledBoard,
-  StyledColumn,
-  StyledGameInterface,
-  StyledSlot,
-  StyleMessage,
-} from "./App.styled";
-import NewGame from "./components/setup/NewGame";
+import { StyledApp, StyledGameInterface, StyleMessage } from "./App.styled";
 import AppContext, {
   initialState,
   type Action,
   type State,
 } from "./App.context";
 import GameBoard from "./components/game/GameBoard";
+import { StyledSlot } from "./components/scaffold";
 
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-

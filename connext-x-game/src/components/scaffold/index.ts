@@ -19,3 +19,20 @@ export const StyledModal = styled.div`
     text-transform: uppercase;
   }
 `;
+
+export const StyledSlot = styled.div`
+  display: flex;
+
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  border: 6px solid black;
+  border-radius: 100%;
+  background-color: black;
+  &[data-slot-color="blue"] {
+    background-color: blue;
+  }
+  &[data-slot-color="red"] {
+    background-color: red;
+  }
+`;
