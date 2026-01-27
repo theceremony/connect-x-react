@@ -8,6 +8,7 @@ import { StyledSlot } from "../../scaffold";
 const Player: FC = () => {
   const { socket } = useContext(AppContext);
   const [player, setPlayer] = useState<Player | undefined>(undefined);
+  const [inGame, setInGame] = useState(false);
   useEffect(() => {
     if (socket) {
       socket.on("game:player-joined-lobby", (val: Player) => {
@@ -18,12 +19,15 @@ const Player: FC = () => {
           if (v.id === socket.id) setPlayer(v);
         });
       });
+      socket.on("game:gameStart", () => {
+        setInGame(true);
+      });
     }
-  }, []);
+  }, [socket]);
   return (
     <StyledPlayer>
       <h1>PLAYER</h1>
-      {player === undefined && <div>connecting...</div>}
+      {!inGame && <div>waiting for game to start</div>}
       {player && (
         <div>
           <StyledSlot data-slot-color={player.piece}></StyledSlot>
