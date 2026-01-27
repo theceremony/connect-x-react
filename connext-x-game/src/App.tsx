@@ -29,7 +29,9 @@ function App() {
           </StyleMessage>
         )}
 
-        {state.currentGame && <GameStateDisplay />}
+        {state.currentGame && !state.currentGame?.winner && (
+          <GameStateDisplay />
+        )}
         {state.currentGame && <GameBoard />}
       </StyledApp>
     </AppContext.Provider>

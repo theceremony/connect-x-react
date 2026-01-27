@@ -29,10 +29,10 @@ export const StyleMessage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(20, 20, 20, 0.9);
+  background-color: rgba(20, 20, 20, 0.7);
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(3px);
+  /* backdrop-filter: blur(3px); */
   gap: 20px;
   .large-message-headline {
     font-size: 10rem;

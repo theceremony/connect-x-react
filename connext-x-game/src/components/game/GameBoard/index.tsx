@@ -7,7 +7,7 @@ import {
   getActionByColumnDrop,
 } from "../../../gameLogic";
 import { PLAYER_COLORS } from "../../../gameLogic/config";
-import type { Piece } from "../../../gameLogic/types";
+import type { Connection, Piece, Position } from "../../../gameLogic/types";
 import { StyledSlot } from "../../scaffold";
 
 const GameBoard: FC = () => {
@@ -28,6 +28,8 @@ const GameBoard: FC = () => {
 
     return pieces[nextIndex] as Piece;
   };
+  const isWinner = (connection: Connection) =>
+    connection.length === state.currentGame?.connectLength;
   const onColumnClick = (x: number) => {
     if (dispatch && state.currentGame?.board) {
       const action = getActionByColumnDrop(state.currentGame?.board)(x)(
@@ -42,21 +44,36 @@ const GameBoard: FC = () => {
           {
             ...state.currentGame,
             board: action?.updatedBoard,
-            winner:
-              connection.length === state.currentGame.connectLength
-                ? state.currentPiece
-                : undefined,
+            winningConnection: isWinner(connection) ? connection : undefined,
+            winner: isWinner(connection) ? state.currentPiece : undefined,
           },
         ]);
     }
   };
-
+  const isSlotWinner = (pos: Position) => {
+    if (state.currentGame?.winningConnection) {
+      const winCon = state.currentGame?.winningConnection;
+      // const check = [...state.currentGame.winningConnection].indexOf(pos) > -1;
+      // console.log(check, pos, state.currentGame.winningConnection);
+      // return check;
+      for (let i = 0; i < winCon.length; ++i) {
+        if (winCon[i][0] === pos[0] && winCon[i][1] === pos[1]) return true;
+      }
+      return false;
+    }
+  };
   return (
     <StyledGameBoard>
-      {state.currentGame?.board.map((v, i) => (
-        <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
-          {v.map((c, a) => (
-            <StyledSlot key={`slot-${a}`} data-slot-color={c}>
+      {state.currentGame?.board.map((v, x) => (
+        <StyledColumn key={`column_${x}`} onClick={() => onColumnClick(x)}>
+          {v.map((c, y) => (
+            <StyledSlot
+              key={`slot-${y}`}
+              data-slot-x={x}
+              data-slot-y={y}
+              data-slot-winner={isSlotWinner([x, y])}
+              data-slot-color={c}
+            >
               {" "}
             </StyledSlot>
           ))}

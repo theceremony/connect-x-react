@@ -31,6 +31,7 @@ const NewGame: FC = () => {
           type="number"
           ref={numPlayersInput}
           min={DEFAULT_NUMBER_OF_PLAYERS}
+          max={4}
           defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
         />
       </div>
@@ -40,6 +41,7 @@ const NewGame: FC = () => {
           type="number"
           ref={numConnectInput}
           min={DEFAULT_CONNECTION_LENGTH}
+          max={10}
           defaultValue={DEFAULT_CONNECTION_LENGTH}
         />
       </div>

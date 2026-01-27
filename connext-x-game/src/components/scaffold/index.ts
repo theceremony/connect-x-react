@@ -41,4 +41,8 @@ export const StyledSlot = styled.div`
   &[data-slot-color="green"] {
     background-color: green;
   }
+
+  &[data-slot-winner="true"] {
+    box-shadow: 0px 0px 15px 11px goldenrod;
+  }
 `;
