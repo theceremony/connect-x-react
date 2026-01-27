@@ -34,19 +34,31 @@ export const StyledSlot = styled.div`
   background-color: rgb(50, 50, 50);
   &[data-slot-color="blue"] {
     background-color: blue;
-    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
+      inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+      inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
   }
   &[data-slot-color="red"] {
     background-color: red;
-    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
+      inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+      inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
   }
   &[data-slot-color="yellow"] {
     background-color: yellow;
-    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
+      inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+      inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
   }
   &[data-slot-color="green"] {
     background-color: green;
-    box-shadow: inset 5px 8px 4px 5px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
+      inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+      inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
   }
 
   &[data-slot-winner="true"] {
