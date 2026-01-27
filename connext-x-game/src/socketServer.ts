@@ -12,25 +12,23 @@ const io = new Server(httpServer, {
   },
 });
 
-const gameNamespace = io.of("/game").on("connection", (socket) => {
-  console.log("game connected");
-  socket.on("disconnect", () => {
-    console.log("A game disconnected");
-  });
-});
-
-io.of("/player").on("connection", (socket) => {
-  console.log("player connected");
-  gameNamespace.emit("player:connected", { id: socket.id });
-  socket.on("disconnect", () => {
-    console.log("A player disconnected");
-    gameNamespace.emit("player:disconnect", { id: socket.id });
-  });
-
-  socket.on("player:action", (value) => {
-    console.log(value);
-    io.emit("player:action", {});
-  });
+io.on("connection", (socket) => {
+  if (socket.handshake.query.path === "/game") {
+    console.log("game connected");
+    io.emit("game:connected", { id: socket.id });
+    socket.on("disconnect", () => {
+      console.log("A game disconnected");
+      io.emit("room:disconnect", { id: socket.id });
+    });
+    socket.on("game:player-joined-lobby", (val) => console.log(val));
+  } else if (socket.handshake.query.path === "/player") {
+    console.log("player connected");
+    io.emit("player:connected", { id: socket.id });
+    socket.on("disconnect", () => {
+      console.log("A player disconnected");
+      io.emit("player:disconnect", { id: socket.id });
+    });
+  }
 });
 
 httpServer.listen(3000, "0.0.0.0");

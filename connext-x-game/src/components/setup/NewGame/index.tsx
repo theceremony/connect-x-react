@@ -38,17 +38,21 @@ const NewGame: FC = () => {
     if (socket) {
       const onPlayerConnect = (val: PlayerSocketEvent) => {
         console.log("player connected", val);
+        const newPlayer = {
+          id: val.id,
+          piece: PLAYER_COLORS[state.lobby.length],
+        } as Player;
         if (dispatch)
           dispatch([
             "lobby",
             [
               ...state.lobby,
               {
-                id: val.id,
-                piece: PLAYER_COLORS[state.lobby.length],
+                ...newPlayer,
               } as Player,
             ],
           ]);
+        socket.emit("game:player-joined-lobby", newPlayer);
       };
       const onPlayerDisconnect = (val: PlayerSocketEvent) => {
         console.log("player disconnect", val);
