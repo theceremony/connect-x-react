@@ -21,7 +21,7 @@ export type Game = {
   connectLength: number;
   numberOfPlayers: number;
   players?: Player[];
-  winner?: Player;
+  winner?: Piece;
 };
 
 export type Vector = [number, number];

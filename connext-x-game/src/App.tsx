@@ -10,18 +10,24 @@ import NewGame from "./components/setup/NewGame";
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
+  const onNewGameClick = () => {
+    if (state.currentGame) {
+      dispatch(["previousGames", [...state.previousGames, state.currentGame]]);
+      dispatch(["currentGame", undefined]);
+    }
+  };
+
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <StyledApp>
         {state.currentGame === undefined && <NewGame />}
-        {state.winner && (
+        {state.currentGame?.winner && (
           <StyleMessage>
             <h1 className="large-message-headline">Winner!</h1>
-            <h1>{state.winner}</h1>
-            <button>New Game</button>
+            <h1>{state.currentGame?.winner}</h1>
+            <button onClick={onNewGameClick}>New Game</button>
           </StyleMessage>
         )}
-        {/* <NewGame /> */}
 
         {state.currentGame && <GameStateDisplay />}
         {state.currentGame && <GameBoard />}

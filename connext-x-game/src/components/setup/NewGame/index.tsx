@@ -19,10 +19,10 @@ const NewGame: FC = () => {
       const numberOfPlayers =
         Number(numPlayersInput.current?.value) || DEFAULT_NUMBER_OF_PLAYERS;
 
-      const game = generateGame(connectLength)(numberOfPlayers) as Game;
-
-      dispatch(["currentGame", game]);
-      dispatch(["winningConnectionLength", connectLength]);
+      dispatch([
+        "currentGame",
+        generateGame(connectLength)(numberOfPlayers) as Game,
+      ]);
     }
   };
   return (

@@ -30,8 +30,15 @@ const GameBoard: FC = () => {
             board: action?.updatedBoard,
           },
         ]);
-      if (connection.length === state.winningConnectionLength)
-        dispatch(["winner", state.currentPiece]);
+      if (connection.length === state.currentGame.connectLength) {
+        dispatch([
+          "currentGame",
+          {
+            ...state.currentGame,
+            winner: state.currentPiece,
+          },
+        ]);
+      }
     }
   };
   console.log(state.currentGame);
