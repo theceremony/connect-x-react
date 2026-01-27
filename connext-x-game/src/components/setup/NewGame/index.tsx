@@ -4,7 +4,13 @@ import {
   DEFAULT_NUMBER_OF_PLAYERS,
   generateGame,
 } from "../../../gameLogic";
-import { StyledNewGame } from "./styled";
+import {
+  StyledButton,
+  StyledFormRow,
+  StyledInput,
+  StyledLabel,
+  StyledNewGame,
+} from "./styled";
 import AppContext from "../../../App.context";
 import type { Game } from "../../../gameLogic/types";
 
@@ -25,28 +31,28 @@ const NewGame: FC = () => {
     <StyledNewGame>
       <h1>New game</h1>
 
-      <div>
-        <label>Number of players:</label>
-        <input
+      <StyledFormRow>
+        <StyledLabel>Players:</StyledLabel>
+        <StyledInput
           type="number"
           ref={numPlayersInput}
           min={DEFAULT_NUMBER_OF_PLAYERS}
           max={4}
           defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
         />
-      </div>
-      <div>
-        <label>Connect how many?:</label>
-        <input
+      </StyledFormRow>
+      <StyledFormRow>
+        <StyledLabel>Connect:</StyledLabel>
+        <StyledInput
           type="number"
           ref={numConnectInput}
           min={DEFAULT_CONNECTION_LENGTH}
           max={10}
           defaultValue={DEFAULT_CONNECTION_LENGTH}
         />
-      </div>
+      </StyledFormRow>
       <div>
-        <button onClick={onStart}>Start</button>
+        <StyledButton onClick={onStart}>Start</StyledButton>
       </div>
     </StyledNewGame>
   );
