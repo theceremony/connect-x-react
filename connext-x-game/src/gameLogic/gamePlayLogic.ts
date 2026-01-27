@@ -17,6 +17,7 @@ import type {
   Slot,
   Vector,
 } from "./types";
+// -----------------------------------------------------------------------------
 const CONNECTION_VECTORS: Vector[] = [
   [1, 0],
   [0, 1],
