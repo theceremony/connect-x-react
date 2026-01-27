@@ -5,14 +5,13 @@ import {
   createPlayBoardGrid,
   getBoardValByPos,
   addVectorToPos,
-  getVectInverse,
+  getInvVect,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
   Action,
   Board,
   Connection,
-  GetConnFunc,
   Piece,
   Position,
   Slot,
@@ -29,18 +28,13 @@ export const getLine =
     }
     return line;
   };
-export const checkForDupes = (p: Position, i: number, arr: Position[]) =>
-  arr.indexOf(p) === i;
+// -----------------------------------------------------------------------------
 export const getByDirectionalLine =
   (playBoard: Board) => (pos: Position) => (value: Slot) => (vec: Vector) =>
     [
       ...getLine(playBoard)(vec)(pos)(value),
-      ...getLine(playBoard)(getVectInverse(vec))(pos)(value),
-    ].filter(checkForDupes);
-// -----------------------------------------------------------------------------
-export const getConn =
-  (b: Board) => (p: Position) => (v: Slot) => (fn: GetConnFunc) =>
-    fn(b)(p)(v);
+      ...getLine(playBoard)(getInvVect(vec))(pos)(value),
+    ].filter((p: Position, i: number, arr: Position[]) => arr.indexOf(p) === i);
 // -----------------------------------------------------------------------------
 export const effectGetLongestConnByPos = ({
   updatedBoard,

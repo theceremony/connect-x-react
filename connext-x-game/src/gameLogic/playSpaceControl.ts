@@ -5,11 +5,10 @@ export const addVectorToPos =
   (pos: Position) =>
   (vector: Vector): Position => [pos[0] + vector[0], pos[1] + vector[1]];
 // -----------------------------------------------------------------------------
-export const getVectInverse = (v: Vector) => v.map((a) => -a) as Vector;
+export const getInvVect = (v: Vector) => v.map((a) => -a) as Vector;
 // -----------------------------------------------------------------------------
 export const getBoardValByPos = (playBoard: Board) => (pos: Position) =>
   playBoard && playBoard[pos[0]] && playBoard[pos[0]][pos[1]];
-
 // -----------------------------------------------------------------------------
 export const createPlayBoardGrid =
   (x: number) =>
