@@ -40,8 +40,9 @@ export const getHighestEmptySlotInColumn = (column: Column) => {
 // -----------------------------------------------------------------------------
 export const getMaxDiagonalLength = (playBoard: Board) => playBoard[0].length;
 // -----------------------------------------------------------------------------
-export const deriveGameBoardByConnectionParam = (connectionParam: number) => {
-  const w = connectionParam * 2 - 1;
-  return [w, w - 1];
-};
+export const deriveGameBoardByConnectionParam =
+  (connectionParam: number) => (numberOfPlayers: number) => {
+    const w = connectionParam * 2 * (numberOfPlayers - 1) - 1;
+    return [w, w - 1];
+  };
 // -----------------------------------------------------------------------------

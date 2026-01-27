@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import {
   deriveGameBoardByConnectionParam,
@@ -6,6 +6,8 @@ import {
   getActionByColumnDrop,
   effectGetLongestConnByPos,
   DEFAULT_CONNECTION_LENGTH,
+  DEFAULT_NUMBER_OF_PLAYERS,
+  PLAYER_COLORS,
 } from "./gameLogic";
 import { type Piece, type Board } from "./gameLogic/types";
 import {
@@ -16,6 +18,8 @@ import {
   StyledSlot,
   StyleMessage,
 } from "./App.styled";
+import NewGame from "./components/setup/NewGame";
+import appReducer from "./App.reducer";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
 //TODO  [ ] explore socket / net code for 'Battle Mode', will probably need to
@@ -38,12 +42,26 @@ import {
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
 function App() {
+  const boardSize = deriveGameBoardByConnectionParam(DEFAULT_CONNECTION_LENGTH)(
+    DEFAULT_NUMBER_OF_PLAYERS,
+  );
+
   const [winningConnectionLength] = useState<number>(DEFAULT_CONNECTION_LENGTH);
 
-  const boardSize = deriveGameBoardByConnectionParam(winningConnectionLength);
   const [gameState, setGameState] = useState<Board>(generateGame(boardSize));
   const [currentPiece, setCurrentPiece] = useState<Piece>("blue");
   const [winner, setWinner] = useState<undefined | Piece>(undefined);
+
+  const initialState = {
+    winningConnectionLength: DEFAULT_CONNECTION_LENGTH,
+    numberOfPlayers: DEFAULT_NUMBER_OF_PLAYERS,
+    boardSize,
+    gameState: generateGame(boardSize),
+    currentPiece: PLAYER_COLORS[0],
+    winner: undefined,
+  };
+
+  const [appState, dispatch] = useReducer(appReducer, initialState);
 
   const onColumnClick = (x: number) => {
     const action = getActionByColumnDrop(gameState)(x)(currentPiece);
@@ -67,29 +85,27 @@ function App() {
           <button>New Game</button>
         </StyleMessage>
       )}
+      <NewGame />
+      <StyledGameInterface>
+        <h1>current player</h1>
+        <StyledSlot
+          data-slot-color={currentPiece}
+          className={`current-player slot ${currentPiece}`}
+        ></StyledSlot>
+        <h2>connect {winningConnectionLength} to win</h2>
+      </StyledGameInterface>
 
-      <>
-        <StyledGameInterface>
-          <h1>current player</h1>
-          <StyledSlot
-            data-slot-color={currentPiece}
-            className={`current-player slot ${currentPiece}`}
-          ></StyledSlot>
-          <h2>connect {winningConnectionLength} to win</h2>
-        </StyledGameInterface>
-
-        <StyledBoard>
-          {gameState.map((v, i) => (
-            <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
-              {v.map((c, a) => (
-                <StyledSlot key={`slot-${a}`} data-slot-color={c}>
-                  {" "}
-                </StyledSlot>
-              ))}
-            </StyledColumn>
-          ))}
-        </StyledBoard>
-      </>
+      <StyledBoard>
+        {gameState.map((v, i) => (
+          <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
+            {v.map((c, a) => (
+              <StyledSlot key={`slot-${a}`} data-slot-color={c}>
+                {" "}
+              </StyledSlot>
+            ))}
+          </StyledColumn>
+        ))}
+      </StyledBoard>
     </StyledApp>
   );
 }
