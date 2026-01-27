@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useReducer } from "react";
 
 import { StyledApp } from "./App.styled";
 import AppContext, { appReducer, initialState } from "./App.context";

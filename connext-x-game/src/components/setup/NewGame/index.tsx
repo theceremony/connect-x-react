@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, type FC } from "react";
 import {
   DEFAULT_CONNECTION_LENGTH,
-  DEFAULT_NUMBER_OF_PLAYERS,
   generateGame,
   PLAYER_COLORS,
 } from "../../../gameLogic";
@@ -16,7 +15,7 @@ import {
   StyledQRContainer,
 } from "./styled";
 import AppContext from "../../../App.context";
-import type { Game, Piece, Player } from "../../../gameLogic/types";
+import type { Game, Lobby, Player } from "../../../gameLogic/types";
 import { QRCodeSVG } from "qrcode.react";
 import type { PlayerSocketEvent } from "../../../netCode/types";
 
@@ -66,7 +65,18 @@ const NewGame: FC = () => {
               .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] })),
           ]);
       };
-
+      socket.on(
+        "game:connected",
+        (val: { id: string; clients: { id: string; path: string }[] }) => {
+          const newLobby = val.clients
+            .filter((v) => v.path === "/player")
+            .map((v, i) => ({
+              id: v.id,
+              piece: PLAYER_COLORS[i],
+            })) as Lobby;
+          if (dispatch) dispatch(["lobby", newLobby]);
+        },
+      );
       socket.on("player:connected", onPlayerConnect);
       socket.on("player:disconnect", onPlayerDisconnect);
 

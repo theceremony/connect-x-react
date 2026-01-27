@@ -11,16 +11,22 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
   },
 });
-
-io.on("connection", (socket) => {
+async function getSocketIds() {
+  const sockets = await io.fetchSockets();
+  return sockets.map((v) => ({
+    id: v.id,
+    path: v.handshake.query.path,
+  }));
+}
+io.on("connection", async (socket) => {
   if (socket.handshake.query.path === "/game") {
     console.log("game connected");
-    io.emit("game:connected", { id: socket.id });
+    const sockets = await getSocketIds();
+    io.emit("game:connected", { id: socket.id, clients: sockets });
     socket.on("disconnect", () => {
       console.log("A game disconnected");
-      io.emit("room:disconnect", { id: socket.id });
+      io.emit("game:disconnect", { id: socket.id });
     });
-    socket.on("game:player-joined-lobby", (val) => console.log(val));
   } else if (socket.handshake.query.path === "/player") {
     console.log("player connected");
     io.emit("player:connected", { id: socket.id });
@@ -29,6 +35,8 @@ io.on("connection", (socket) => {
       io.emit("player:disconnect", { id: socket.id });
     });
   }
+
+  socket.on("game:player-joined-lobby", (val) => console.log(val));
 });
 
 httpServer.listen(3000, "0.0.0.0");
