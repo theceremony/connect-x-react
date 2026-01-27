@@ -1,11 +1,7 @@
 import { useReducer } from "react";
 
 import { StyledApp, StyledGameInterface, StyleMessage } from "./App.styled";
-import AppContext, {
-  initialState,
-  type Action,
-  type State,
-} from "./App.context";
+import AppContext, { appReducer, initialState } from "./App.context";
 import GameBoard from "./components/game/GameBoard";
 import { StyledSlot } from "./components/scaffold";
 
@@ -31,10 +27,6 @@ import { StyledSlot } from "./components/scaffold";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
 function App() {
-  const appReducer = (state: State, action: Action) => {
-    return { ...state, [action[0]]: action[1] };
-  };
-
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   return (
