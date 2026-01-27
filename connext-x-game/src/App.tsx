@@ -19,6 +19,7 @@ import {
   StyleMessage,
 } from "./App.styled";
 import NewGame from "./components/setup/NewGame";
+import AppContext from "./App.context";
 
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
@@ -79,36 +80,38 @@ function App() {
   };
 
   return (
-    <StyledApp>
-      {appState.winner && (
-        <StyleMessage>
-          <h1 className="large-message-headline">Winner!</h1>
-          <h1>{appState.winner}</h1>
-          <button>New Game</button>
-        </StyleMessage>
-      )}
-      {/* <NewGame /> */}
-      <StyledGameInterface>
-        <h1>current player</h1>
-        <StyledSlot
-          data-slot-color={appState.currentPiece}
-          className={`current-player slot ${appState.currentPiece}`}
-        ></StyledSlot>
-        <h2>connect {appState.winningConnectionLength} to win</h2>
-      </StyledGameInterface>
+    <AppContext.Provider value={{ appState, dispatch }}>
+      <StyledApp>
+        {appState.winner && (
+          <StyleMessage>
+            <h1 className="large-message-headline">Winner!</h1>
+            <h1>{appState.winner}</h1>
+            <button>New Game</button>
+          </StyleMessage>
+        )}
+        {/* <NewGame /> */}
+        <StyledGameInterface>
+          <h1>current player</h1>
+          <StyledSlot
+            data-slot-color={appState.currentPiece}
+            className={`current-player slot ${appState.currentPiece}`}
+          ></StyledSlot>
+          <h2>connect {appState.winningConnectionLength} to win</h2>
+        </StyledGameInterface>
 
-      <StyledBoard>
-        {appState.gameState.map((v, i) => (
-          <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
-            {v.map((c, a) => (
-              <StyledSlot key={`slot-${a}`} data-slot-color={c}>
-                {" "}
-              </StyledSlot>
-            ))}
-          </StyledColumn>
-        ))}
-      </StyledBoard>
-    </StyledApp>
+        <StyledBoard>
+          {appState.gameState.map((v, i) => (
+            <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
+              {v.map((c, a) => (
+                <StyledSlot key={`slot-${a}`} data-slot-color={c}>
+                  {" "}
+                </StyledSlot>
+              ))}
+            </StyledColumn>
+          ))}
+        </StyledBoard>
+      </StyledApp>
+    </AppContext.Provider>
   );
 }
 
