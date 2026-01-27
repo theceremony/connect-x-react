@@ -14,7 +14,7 @@ const GameStateDisplay: FC = () => {
         data-slot-color={state.currentPiece}
         className={`current-player slot ${state.currentPiece}`}
       ></StyledSlot>
-      <h2>connect {state.winningConnectionLength} to win</h2>
+      <h2>connect {state.currentGame?.connectLength} to win</h2>
     </StyledGameInterface>
   );
 };

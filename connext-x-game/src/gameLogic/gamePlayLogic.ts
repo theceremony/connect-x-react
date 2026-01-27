@@ -7,7 +7,7 @@ import {
   getBoardValByPos,
   addVectorToPos,
   getInvVect,
-  deriveGameBoardByConnectionParam,
+  genNewGameBoard,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
@@ -66,8 +66,7 @@ export const getActionByColumnDrop =
 // -----------------------------------------------------------------------------
 export const generateGame =
   (connectLength: number) => (numberOfPlayers: number) => {
-    const boardSize =
-      deriveGameBoardByConnectionParam(connectLength)(numberOfPlayers);
+    const boardSize = genNewGameBoard(connectLength)(numberOfPlayers);
     return {
       connectLength,
       numberOfPlayers,

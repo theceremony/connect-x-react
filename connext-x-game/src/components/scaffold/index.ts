@@ -35,4 +35,10 @@ export const StyledSlot = styled.div`
   &[data-slot-color="red"] {
     background-color: red;
   }
+  &[data-slot-color="yellow"] {
+    background-color: yellow;
+  }
+  &[data-slot-color="green"] {
+    background-color: green;
+  }
 `;
