@@ -11,8 +11,8 @@ import { StyledSlot } from "../../scaffold";
 const GameBoard: FC = () => {
   const { state, dispatch } = useContext(AppContext);
   const onColumnClick = (x: number) => {
-    if (dispatch) {
-      const action = getActionByColumnDrop(state.gameState)(x)(
+    if (dispatch && state.currentGame?.board) {
+      const action = getActionByColumnDrop(state.currentGame?.board)(x)(
         state.currentPiece,
       );
       if (state.currentPiece === "blue") {
@@ -22,15 +22,22 @@ const GameBoard: FC = () => {
       }
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
-      if (action?.updatedBoard) dispatch(["gameState", action?.updatedBoard]);
+      if (action?.updatedBoard)
+        dispatch([
+          "currentGame",
+          {
+            ...state.currentGame,
+            board: action?.updatedBoard,
+          },
+        ]);
       if (connection.length === state.winningConnectionLength)
         dispatch(["winner", state.currentPiece]);
     }
   };
-  console.log(state.gameState);
+  console.log(state.currentGame);
   return (
     <StyledGameBoard>
-      {state.gameState.map((v, i) => (
+      {state.currentGame?.board.map((v, i) => (
         <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
           {v.map((c, a) => (
             <StyledSlot key={`slot-${a}`} data-slot-color={c}>

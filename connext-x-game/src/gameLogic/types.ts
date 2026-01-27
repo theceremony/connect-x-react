@@ -18,9 +18,10 @@ export type Move = {
 };
 export type Game = {
   board: Board;
-  players: Player[];
+  connectLength: number;
+  numberOfPlayers: number;
+  players?: Player[];
+  winner?: Player;
 };
-export type GetConnFunc = (
-  b: Board,
-) => (p: Position) => (v: Slot) => Connection;
+
 export type Vector = [number, number];

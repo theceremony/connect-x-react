@@ -7,12 +7,14 @@ import {
   getBoardValByPos,
   addVectorToPos,
   getInvVect,
+  deriveGameBoardByConnectionParam,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
   Action,
   Board,
   Connection,
+  Game,
   Piece,
   Position,
   Slot,
@@ -62,8 +64,17 @@ export const getActionByColumnDrop =
     return undefined;
   };
 // -----------------------------------------------------------------------------
-export const generateGame = (boardSize: number[]) =>
-  createPlayBoardGrid(boardSize[0])(boardSize[1]);
+export const generateGame =
+  (connectLength: number) => (numberOfPlayers: number) => {
+    const boardSize =
+      deriveGameBoardByConnectionParam(connectLength)(numberOfPlayers);
+    return {
+      connectLength,
+      numberOfPlayers,
+      board: createPlayBoardGrid(boardSize[0])(boardSize[1]),
+    } as Game;
+  };
+
 // -----------------------------------------------------------------------------
 export const getNumberOfEmptySlots = (playBoard: Board) =>
   playBoard.reduce((acc, c) => acc + c.filter((s) => s === "empty").length, 0);

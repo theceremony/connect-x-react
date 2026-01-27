@@ -4,10 +4,9 @@ import {
   deriveGameBoardByConnectionParam,
   DEFAULT_CONNECTION_LENGTH,
   DEFAULT_NUMBER_OF_PLAYERS,
-  generateGame,
   PLAYER_COLORS,
 } from "./gameLogic";
-import type { Board, Piece } from "./gameLogic/types";
+import type { Game, Piece } from "./gameLogic/types";
 // -----------------------------------------------------------------------------
 const boardSize = deriveGameBoardByConnectionParam(DEFAULT_CONNECTION_LENGTH)(
   DEFAULT_NUMBER_OF_PLAYERS,
@@ -17,9 +16,10 @@ export const initialState = {
   winningConnectionLength: DEFAULT_CONNECTION_LENGTH,
   numberOfPlayers: DEFAULT_NUMBER_OF_PLAYERS,
   boardSize,
-  gameState: generateGame(boardSize) as Board,
+  currentGame: undefined as undefined | Game,
   currentPiece: PLAYER_COLORS[0] as Piece,
-  winner: undefined,
+  winner: undefined as undefined | Piece,
+  previousGames: [] as Game[],
 };
 // -----------------------------------------------------------------------------
 export type State = typeof initialState;
