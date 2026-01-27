@@ -1,6 +1,14 @@
 // -----------------------------------------------------------------------------
 
-import type { Board, Slot, Piece, Column } from "./types";
+import type { Board, Slot, Piece, Column, Position, Vector } from "./types";
+
+export const addVectorToPos =
+  (pos: Position) =>
+  (vector: Vector): Position => [pos[0] + vector[0], pos[1] + vector[1]];
+
+// -----------------------------------------------------------------------------
+export const getBoardValByPos = (playBoard: Board) => (pos: Position) =>
+  playBoard[pos[0]][pos[1]];
 
 // -----------------------------------------------------------------------------
 export const createPlayBoardGrid =
@@ -11,16 +19,15 @@ export const createPlayBoardGrid =
       .map(() => new Array(y).fill("empty" as Slot)) as Board;
   };
 // -----------------------------------------------------------------------------
-export const doesSlotExist = (playBoard: Board) => (x: number) => (y: number) =>
-  !!playBoard[x][y];
+export const doesSlotExist = (playBoard: Board) => (pos: Position) =>
+  !!getBoardValByPos(playBoard)(pos);
 // -----------------------------------------------------------------------------
 export const setSlot =
   (playBoard: Board) =>
-  (x: number) =>
-  (y: number) =>
+  (pos: Position) =>
   (value: Piece): Board => {
     const board = structuredClone(playBoard);
-    board[x][y] = value;
+    board[pos[0]][pos[1]] = value;
     return board;
   };
 // -----------------------------------------------------------------------------

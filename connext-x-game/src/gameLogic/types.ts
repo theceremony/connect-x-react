@@ -1,9 +1,7 @@
 export type Piece = "red" | "blue" | "yellow" | "green";
 export type Slot = "empty" | Piece;
-export type Position = {
-  x: number;
-  y: number;
-};
+
+export type Position = [number, number];
 export type Column = Slot[];
 export type Board = Column[];
 export type Player = {
@@ -24,6 +22,6 @@ export type Game = {
   players: Player[];
 };
 export type GetConnFunc = (
-  p: Board,
-) => (x: number) => (y: number) => (v: Slot) => Connection;
+  b: Board,
+) => (p: Position) => (v: Slot) => Connection;
 export type Vector = [number, number];

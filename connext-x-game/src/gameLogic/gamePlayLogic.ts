@@ -3,6 +3,8 @@ import {
   doesSlotExist,
   setSlot,
   createPlayBoardGrid,
+  getBoardValByPos,
+  addVectorToPos,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
@@ -13,130 +15,59 @@ import type {
   Piece,
   Position,
   Slot,
+  Vector,
 } from "./types";
-
+// -----------------------------------------------------------------------------
+export const getLine =
+  (playBoard: Board) => (vec: Vector) => (pos: Position) => (val: Slot) => {
+    let curPos = pos;
+    const line = [];
+    while (getBoardValByPos(playBoard)(curPos) === val) {
+      line.push(curPos);
+      curPos = addVectorToPos(curPos)(vec);
+    }
+    return line;
+  };
 // -----------------------------------------------------------------------------
 
-// export const getLine =
-//   (playBoard: Board) => (vector: Vector) => (x: number) => (y: number) => [];
+export const checkForDupes = (p: Position, i: number, arr: Position[]) =>
+  arr.indexOf(p) === i;
 
 export const getDiagConn =
-  (way: number) =>
-  (playBoard: Board) =>
-  (x: number) =>
-  (y: number) =>
-  (value: Slot) => {
-    const con = [];
+  (way: number) => (playBoard: Board) => (pos: Position) => (value: Slot) =>
+    [
+      ...getLine(playBoard)([way, 1])(pos)(value),
+      ...getLine(playBoard)([-way, -1])(pos)(value),
+    ].filter(checkForDupes);
 
-    let upX = x;
-    // -------------------------------------------------------------------------
-    // these for loops are awful, we gotta fix this... ugh... how could I..
-    // maybe a generalized stepAndReport function or something?
-    // maybe provide a vector and the func lerps through the grid?...
-    // or I could be over engineering the hell out of it there haha
-    // -------------------------------------------------------------------------
-    for (let f = y; f < playBoard[x].length; ++f) {
-      if (playBoard[upX] && playBoard[upX][f] && value === playBoard[upX][f]) {
-        con.push({
-          x: upX,
-          y: f,
-        } as Position);
-        upX += way;
-      } else {
-        break;
-      }
-    }
-    let downX = x - 1;
-    for (let b = y - 1; b > -1; --b) {
-      if (
-        playBoard[downX] &&
-        playBoard[downX][b] &&
-        value === playBoard[downX][b]
-      ) {
-        con.push({
-          x: downX,
-          y: b,
-        } as Position);
-        downX -= way;
-      } else {
-        break;
-      }
-    }
-
-    return con;
-  };
-// -----------------------------------------------------------------------------
 export const getHorizConn =
-  (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
-    const con = [];
+  (playBoard: Board) => (pos: Position) => (value: Slot) =>
+    [
+      ...getLine(playBoard)([1, 0])(pos)(value),
+      ...getLine(playBoard)([-1, 0])(pos)(value),
+    ].filter(checkForDupes);
 
-    for (let f = x; f < playBoard.length; ++f) {
-      if (value === playBoard[f][y]) {
-        con.push({
-          x: f,
-          y,
-        } as Position);
-      } else {
-        break;
-      }
-    }
+export const getVertConn =
+  (playBoard: Board) => (pos: Position) => (value: Slot) =>
+    [
+      ...getLine(playBoard)([0, 1])(pos)(value),
+      ...getLine(playBoard)([0, -1])(pos)(value),
+    ].filter(checkForDupes);
 
-    for (let b = x - 1; b > -1; --b) {
-      if (value === playBoard[b][y]) {
-        con.push({
-          x: b,
-          y,
-        } as Position);
-      } else {
-        break;
-      }
-    }
-
-    return con;
-  };
-// -----------------------------------------------------------------------------
-export const getVerConn =
-  (playBoard: Board) => (x: number) => (y: number) => (value: Slot) => {
-    const con = [];
-
-    const column = playBoard[x];
-
-    for (let f = y; f < column.length; ++f) {
-      if (value === column[f]) {
-        con.push({
-          x,
-          y: f,
-        } as Position);
-      } else {
-        break;
-      }
-    }
-
-    for (let b = y - 1; b > -1; --b) {
-      if (value === column[b]) {
-        con.push({
-          x,
-          y: b,
-        } as Position);
-      } else {
-        break;
-      }
-    }
-
-    return con;
-  };
 // -----------------------------------------------------------------------------
 export const getConn =
-  (p: Board) => (x: number) => (y: number) => (v: Slot) => (fn: GetConnFunc) =>
-    fn(p)(x)(y)(v);
+  (b: Board) => (p: Position) => (v: Slot) => (fn: GetConnFunc) =>
+    fn(b)(p)(v);
 // -----------------------------------------------------------------------------
 export const effectGetLongestConnByPos = ({
   updatedBoard,
-  position: { x, y },
+  position,
 }: Action) => {
-  const fn = getConn(updatedBoard)(x)(y)(updatedBoard[x][y]);
+  const fn = getConn(updatedBoard)(position)(
+    getBoardValByPos(updatedBoard)(position),
+  );
   return [
-    fn(getVerConn),
+    fn(getVertConn),
     fn(getHorizConn),
     fn(getDiagConn(1)),
     fn(getDiagConn(-1)),
@@ -148,15 +79,12 @@ export const effectGetLongestConnByPos = ({
 // -----------------------------------------------------------------------------
 export const setSlotByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
-    const y = getHighestEmptySlotInColumn(playBoard[x]);
-
-    if (doesSlotExist(playBoard)(x)(y)) {
+    // const y = getHighestEmptySlotInColumn(playBoard[x]);
+    const position: Position = [x, getHighestEmptySlotInColumn(playBoard[x])];
+    if (doesSlotExist(playBoard)(position)) {
       return {
-        updatedBoard: setSlot(playBoard)(x)(y)(value),
-        position: {
-          x,
-          y,
-        },
+        updatedBoard: setSlot(playBoard)(position)(value),
+        position,
       } as Action;
     }
     return undefined;
