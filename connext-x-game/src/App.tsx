@@ -19,7 +19,12 @@ import {
   StyleMessage,
 } from "./App.styled";
 import NewGame from "./components/setup/NewGame";
-import AppContext from "./App.context";
+import AppContext, {
+  initialState,
+  type Action,
+  type State,
+} from "./App.context";
+import GameBoard from "./components/game/GameBoard";
 
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 // -°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-°-
@@ -43,49 +48,19 @@ import AppContext from "./App.context";
 // - -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
 function App() {
-  const boardSize = deriveGameBoardByConnectionParam(DEFAULT_CONNECTION_LENGTH)(
-    DEFAULT_NUMBER_OF_PLAYERS,
-  );
-
-  const initialState = {
-    winningConnectionLength: DEFAULT_CONNECTION_LENGTH,
-    numberOfPlayers: DEFAULT_NUMBER_OF_PLAYERS,
-    boardSize,
-    gameState: generateGame(boardSize) as Board,
-    currentPiece: PLAYER_COLORS[0] as Piece,
-    winner: undefined,
-  };
-  type State = typeof initialState;
-  type Action = [keyof State, State[keyof State]];
   const appReducer = (state: State, action: Action) => {
     return { ...state, [action[0]]: action[1] };
   };
 
-  const [appState, dispatch] = useReducer(appReducer, initialState);
-
-  const onColumnClick = (x: number) => {
-    const action = getActionByColumnDrop(appState.gameState)(x)(
-      appState.currentPiece,
-    );
-    if (appState.currentPiece === "blue") {
-      dispatch(["currentPiece", "red"]);
-    } else {
-      dispatch(["currentPiece", "blue"]);
-    }
-    const connection =
-      action === undefined ? [] : effectGetLongestConnByPos(action);
-    if (action?.updatedBoard) dispatch(["gameState", action?.updatedBoard]);
-    if (connection.length === appState.winningConnectionLength)
-      dispatch(["winner", appState.currentPiece]);
-  };
+  const [state, dispatch] = useReducer(appReducer, initialState);
 
   return (
-    <AppContext.Provider value={{ appState, dispatch }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <StyledApp>
-        {appState.winner && (
+        {state.winner && (
           <StyleMessage>
             <h1 className="large-message-headline">Winner!</h1>
-            <h1>{appState.winner}</h1>
+            <h1>{state.winner}</h1>
             <button>New Game</button>
           </StyleMessage>
         )}
@@ -93,23 +68,12 @@ function App() {
         <StyledGameInterface>
           <h1>current player</h1>
           <StyledSlot
-            data-slot-color={appState.currentPiece}
-            className={`current-player slot ${appState.currentPiece}`}
+            data-slot-color={state.currentPiece}
+            className={`current-player slot ${state.currentPiece}`}
           ></StyledSlot>
-          <h2>connect {appState.winningConnectionLength} to win</h2>
+          <h2>connect {state.winningConnectionLength} to win</h2>
         </StyledGameInterface>
-
-        <StyledBoard>
-          {appState.gameState.map((v, i) => (
-            <StyledColumn key={`column_${i}`} onClick={() => onColumnClick(i)}>
-              {v.map((c, a) => (
-                <StyledSlot key={`slot-${a}`} data-slot-color={c}>
-                  {" "}
-                </StyledSlot>
-              ))}
-            </StyledColumn>
-          ))}
-        </StyledBoard>
+        <GameBoard />
       </StyledApp>
     </AppContext.Provider>
   );
