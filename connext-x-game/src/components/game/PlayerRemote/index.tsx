@@ -5,7 +5,7 @@ import AppContext from "../../../App.context";
 import { type Player } from "../../../gameLogic/types";
 import { StyledSlot } from "../../scaffold";
 
-const Player: FC = () => {
+const PlayerRemote: FC = () => {
   const { socket } = useContext(AppContext);
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [inGame, setInGame] = useState(false);
@@ -38,4 +38,4 @@ const Player: FC = () => {
   );
 };
 
-export default Player;
+export default PlayerRemote;

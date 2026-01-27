@@ -7,7 +7,7 @@ import { socket } from "./netCode/socket";
 import GameStateDisplay from "./components/game/GameStateDisplay";
 import NewGame from "./components/setup/NewGame";
 import Message from "./components/feedback/Message";
-import Player from "./components/game/Player";
+import PlayerRemote from "./components/game/PlayerRemote";
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -15,7 +15,7 @@ function App() {
   if (path === "/player")
     return (
       <AppContext.Provider value={{ state, dispatch, socket }}>
-        <Player />
+        <PlayerRemote />
       </AppContext.Provider>
     );
   return (
