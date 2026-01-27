@@ -5,7 +5,7 @@ export type Column = Slot[];
 export type Board = Column[];
 export type Player = {
   piece: Piece;
-  name: string;
+  id: string;
 };
 export type Action = {
   updatedBoard: Board;
@@ -16,6 +16,7 @@ export type Move = {
   action: Action;
   player: Player;
 };
+export type Lobby = Player[];
 export type Game = {
   board: Board;
   connectLength: number;

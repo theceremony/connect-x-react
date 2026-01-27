@@ -20,14 +20,14 @@ import { QRCodeSVG } from "qrcode.react";
 import type { PlayerSocketEvent } from "../../../netCode/types";
 
 const NewGame: FC = () => {
-  const { dispatch, socket } = useContext(AppContext);
-  const numPlayersInput = useRef<HTMLInputElement>(null);
+  const { state, dispatch, socket } = useContext(AppContext);
+
   const numConnectInput = useRef<HTMLInputElement>(null);
+
   const onStart = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
-    const numPlayer =
-      Number(numPlayersInput.current?.value) || DEFAULT_NUMBER_OF_PLAYERS;
+    const numPlayer = state.lobby.length;
 
     if (dispatch)
       dispatch(["currentGame", generateGame(conLen)(numPlayer) as Game]);
@@ -37,9 +37,17 @@ const NewGame: FC = () => {
     if (socket) {
       const onPlayerConnect = (val: PlayerSocketEvent) => {
         console.log("player connected", val);
+        if (dispatch) dispatch(["lobby", [...state.lobby, { id: val.id }]]);
       };
       const onPlayerDisconnect = (val: PlayerSocketEvent) => {
         console.log("player disconnect", val);
+        if (dispatch)
+          dispatch([
+            "lobby",
+            [...state.lobby].filter((v) => {
+              return val.id !== v.id;
+            }),
+          ]);
       };
 
       socket.on("player:connected", onPlayerConnect);
@@ -50,7 +58,7 @@ const NewGame: FC = () => {
         socket.off("player:disconnect", onPlayerDisconnect);
       };
     }
-  }, [socket]);
+  }, [dispatch, socket, state.lobby]);
 
   return (
     <StyledNewGame>
@@ -66,7 +74,8 @@ const NewGame: FC = () => {
           <h3>use your phone as a controller</h3>
         </StyledQRContainer>
         <StyledForm>
-          <StyledFormRow>
+          <div>socket players: {state.lobby.length}</div>
+          {/* <StyledFormRow>
             <StyledLabel>Players:</StyledLabel>
             <StyledInput
               type="number"
@@ -75,7 +84,7 @@ const NewGame: FC = () => {
               max={4}
               defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
             />
-          </StyledFormRow>
+          </StyledFormRow> */}
           <StyledFormRow>
             <StyledLabel>Connect:</StyledLabel>
             <StyledInput
