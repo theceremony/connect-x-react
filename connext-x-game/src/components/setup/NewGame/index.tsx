@@ -87,6 +87,10 @@ const NewGame: FC = () => {
     }
   }, [dispatch, socket, state.lobby]);
 
+  console.log(
+    `http://${window.location.hostname}:${window.location.port}/player`,
+  );
+
   return (
     <StyledNewGame>
       <h1 className="large-message-headline">New game</h1>
@@ -96,7 +100,7 @@ const NewGame: FC = () => {
             width={300}
             height={300}
             viewBox="0 0 25 25"
-            value={`${window.location.href}player`}
+            value={`http://${window.location.hostname}:${window.location.port}/player`}
           />
           <h3>use your phone as a controller</h3>
         </StyledQRContainer>
