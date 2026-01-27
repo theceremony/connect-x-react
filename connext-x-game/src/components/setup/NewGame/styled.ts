@@ -17,6 +17,7 @@ export const StyledQRContainer = styled.div`
   align-items: center;
   svg {
     border: 20px solid white;
+    border-radius: 10px;
   }
 `;
 export const StyledForm = styled.div`

@@ -12,21 +12,18 @@ const io = new Server(httpServer, {
   },
 });
 
-// Handle incoming connections
-io.on("connection", (socket) => {
-  console.log("A user connected");
-
-  // Listen for a custom event named 'message' from the client
-  socket.on("message", (msg: string) => {
-    console.log("message: " + msg);
-    // Broadcast the message to all connected clients
-    io.emit("message", msg);
-  });
-
-  // Handle disconnection
+io.of("/game").on("connection", (socket) => {
+  console.log("game connected");
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log("A game disconnected");
   });
 });
 
-io.listen(3000);
+io.of("/player").on("connection", (socket) => {
+  console.log("player connected");
+  socket.on("disconnect", () => {
+    console.log("A player disconnected");
+  });
+});
+
+httpServer.listen(3000, "0.0.0.0");

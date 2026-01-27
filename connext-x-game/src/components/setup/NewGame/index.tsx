@@ -31,6 +31,7 @@ const NewGame: FC = () => {
     if (dispatch)
       dispatch(["currentGame", generateGame(conLen)(numPlayer) as Game]);
   };
+
   return (
     <StyledNewGame>
       <h1 className="large-message-headline">New game</h1>
@@ -40,9 +41,9 @@ const NewGame: FC = () => {
             width={300}
             height={300}
             viewBox="0 0 25 25"
-            value="http://192.168.0.159:5173/player"
+            value={`${window.location.href}player`}
           />
-          <h2>use your phone as a controller</h2>
+          <h3>use your phone as a controller</h3>
         </StyledQRContainer>
         <StyledForm>
           <StyledFormRow>
