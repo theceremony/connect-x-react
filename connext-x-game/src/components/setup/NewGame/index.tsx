@@ -1,4 +1,4 @@
-import { useContext, useRef, type FC } from "react";
+import { useContext, useEffect, useRef, type FC } from "react";
 import {
   DEFAULT_CONNECTION_LENGTH,
   DEFAULT_NUMBER_OF_PLAYERS,
@@ -17,9 +17,10 @@ import {
 import AppContext from "../../../App.context";
 import type { Game } from "../../../gameLogic/types";
 import { QRCodeSVG } from "qrcode.react";
+import type { PlayerSocketEvent } from "../../../netCode/types";
 
 const NewGame: FC = () => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, socket } = useContext(AppContext);
   const numPlayersInput = useRef<HTMLInputElement>(null);
   const numConnectInput = useRef<HTMLInputElement>(null);
   const onStart = () => {
@@ -31,6 +32,25 @@ const NewGame: FC = () => {
     if (dispatch)
       dispatch(["currentGame", generateGame(conLen)(numPlayer) as Game]);
   };
+
+  useEffect(() => {
+    if (socket) {
+      const onPlayerConnect = (val: PlayerSocketEvent) => {
+        console.log("player connected", val);
+      };
+      const onPlayerDisconnect = (val: PlayerSocketEvent) => {
+        console.log("player disconnect", val);
+      };
+
+      socket.on("player:connected", onPlayerConnect);
+      socket.on("player:disconnect", onPlayerDisconnect);
+
+      return () => {
+        socket.off("player:connected", onPlayerConnect);
+        socket.off("player:disconnect", onPlayerDisconnect);
+      };
+    }
+  }, [socket]);
 
   return (
     <StyledNewGame>

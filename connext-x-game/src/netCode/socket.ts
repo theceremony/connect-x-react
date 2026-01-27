@@ -5,4 +5,5 @@ const URL =
   process.env.NODE_ENV === "production"
     ? undefined
     : `${window.location.hostname}:3000${window.location.pathname}`;
+
 export const socket = io(URL);

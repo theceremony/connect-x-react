@@ -10,28 +10,7 @@ import Message from "./components/feedback/Message";
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
-  const [isConnected, setIsConnected] = useState(socket.connected);
 
-  useEffect(() => {
-    function onConnect() {
-      console.log("connected");
-      setIsConnected(true);
-    }
-
-    function onDisconnect() {
-      console.log("disconnected");
-      setIsConnected(false);
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
-  console.log(isConnected);
   return (
     <AppContext.Provider value={{ state, dispatch, socket }}>
       <StyledApp>
