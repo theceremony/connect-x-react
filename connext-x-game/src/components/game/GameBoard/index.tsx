@@ -53,9 +53,6 @@ const GameBoard: FC = () => {
   const isSlotWinner = (pos: Position) => {
     if (state.currentGame?.winningConnection) {
       const winCon = state.currentGame?.winningConnection;
-      // const check = [...state.currentGame.winningConnection].indexOf(pos) > -1;
-      // console.log(check, pos, state.currentGame.winningConnection);
-      // return check;
       for (let i = 0; i < winCon.length; ++i) {
         if (winCon[i][0] === pos[0] && winCon[i][1] === pos[1]) return true;
       }
