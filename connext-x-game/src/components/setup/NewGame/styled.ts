@@ -2,6 +2,27 @@ import styled from "styled-components";
 import { StyledModal } from "../../scaffold";
 export const StyledNewGame = styled(StyledModal)`
   display: flex;
+  gap: 50px;
+`;
+export const StyledNewGameSection = styled.div`
+  display: flex;
+  gap: 50px;
+  align-items: center;
+`;
+export const StyledQRContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  svg {
+    border: 20px solid white;
+  }
+`;
+export const StyledForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 export const StyledFormRow = styled.div`
   display: grid;

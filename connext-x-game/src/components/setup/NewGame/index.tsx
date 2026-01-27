@@ -6,13 +6,17 @@ import {
 } from "../../../gameLogic";
 import {
   StyledButton,
+  StyledForm,
   StyledFormRow,
   StyledInput,
   StyledLabel,
   StyledNewGame,
+  StyledNewGameSection,
+  StyledQRContainer,
 } from "./styled";
 import AppContext from "../../../App.context";
 import type { Game } from "../../../gameLogic/types";
+import { QRCodeSVG } from "qrcode.react";
 
 const NewGame: FC = () => {
   const { dispatch } = useContext(AppContext);
@@ -29,31 +33,43 @@ const NewGame: FC = () => {
   };
   return (
     <StyledNewGame>
-      <h1>New game</h1>
-
-      <StyledFormRow>
-        <StyledLabel>Players:</StyledLabel>
-        <StyledInput
-          type="number"
-          ref={numPlayersInput}
-          min={DEFAULT_NUMBER_OF_PLAYERS}
-          max={4}
-          defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
-        />
-      </StyledFormRow>
-      <StyledFormRow>
-        <StyledLabel>Connect:</StyledLabel>
-        <StyledInput
-          type="number"
-          ref={numConnectInput}
-          min={DEFAULT_CONNECTION_LENGTH}
-          max={10}
-          defaultValue={DEFAULT_CONNECTION_LENGTH}
-        />
-      </StyledFormRow>
-      <div>
-        <StyledButton onClick={onStart}>Start</StyledButton>
-      </div>
+      <h1 className="large-message-headline">New game</h1>
+      <StyledNewGameSection>
+        <StyledQRContainer>
+          <QRCodeSVG
+            width={300}
+            height={300}
+            viewBox="0 0 25 25"
+            value="http://192.168.0.159:5173/player"
+          />
+          <h2>use your phone as a controller</h2>
+        </StyledQRContainer>
+        <StyledForm>
+          <StyledFormRow>
+            <StyledLabel>Players:</StyledLabel>
+            <StyledInput
+              type="number"
+              ref={numPlayersInput}
+              min={DEFAULT_NUMBER_OF_PLAYERS}
+              max={4}
+              defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
+            />
+          </StyledFormRow>
+          <StyledFormRow>
+            <StyledLabel>Connect:</StyledLabel>
+            <StyledInput
+              type="number"
+              ref={numConnectInput}
+              min={DEFAULT_CONNECTION_LENGTH}
+              max={10}
+              defaultValue={DEFAULT_CONNECTION_LENGTH}
+            />
+          </StyledFormRow>
+          <div>
+            <StyledButton onClick={onStart}>Start</StyledButton>
+          </div>
+        </StyledForm>
+      </StyledNewGameSection>
     </StyledNewGame>
   );
 };
