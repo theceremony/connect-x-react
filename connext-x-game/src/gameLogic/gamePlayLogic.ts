@@ -5,6 +5,7 @@ import {
   createPlayBoardGrid,
   getBoardValByPos,
   addVectorToPos,
+  getVectInverse,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
@@ -28,32 +29,14 @@ export const getLine =
     }
     return line;
   };
-// -----------------------------------------------------------------------------
-
 export const checkForDupes = (p: Position, i: number, arr: Position[]) =>
   arr.indexOf(p) === i;
-// -----------------------------------------------------------------------------
-export const getDiagConn =
-  (way: number) => (playBoard: Board) => (pos: Position) => (value: Slot) =>
+export const getByDirectionalLine =
+  (playBoard: Board) => (pos: Position) => (value: Slot) => (vec: Vector) =>
     [
-      ...getLine(playBoard)([way, 1])(pos)(value),
-      ...getLine(playBoard)([-way, -1])(pos)(value),
+      ...getLine(playBoard)(vec)(pos)(value),
+      ...getLine(playBoard)(getVectInverse(vec))(pos)(value),
     ].filter(checkForDupes);
-// -----------------------------------------------------------------------------
-export const getHorizConn =
-  (playBoard: Board) => (pos: Position) => (value: Slot) =>
-    [
-      ...getLine(playBoard)([1, 0])(pos)(value),
-      ...getLine(playBoard)([-1, 0])(pos)(value),
-    ].filter(checkForDupes);
-// -----------------------------------------------------------------------------
-export const getVertConn =
-  (playBoard: Board) => (pos: Position) => (value: Slot) =>
-    [
-      ...getLine(playBoard)([0, 1])(pos)(value),
-      ...getLine(playBoard)([0, -1])(pos)(value),
-    ].filter(checkForDupes);
-
 // -----------------------------------------------------------------------------
 export const getConn =
   (b: Board) => (p: Position) => (v: Slot) => (fn: GetConnFunc) =>
@@ -63,15 +46,10 @@ export const effectGetLongestConnByPos = ({
   updatedBoard,
   position,
 }: Action) => {
-  const fn = getConn(updatedBoard)(position)(
+  const fn = getByDirectionalLine(updatedBoard)(position)(
     getBoardValByPos(updatedBoard)(position),
   );
-  return [
-    fn(getVertConn),
-    fn(getHorizConn),
-    fn(getDiagConn(1)),
-    fn(getDiagConn(-1)),
-  ].reduce(
+  return [fn([1, 0]), fn([0, 1]), fn([1, 1]), fn([-1, 1])].reduce(
     (acc, connection) => (acc.length > connection.length ? acc : connection),
     [] as Connection,
   );

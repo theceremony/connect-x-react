@@ -1,6 +1,5 @@
 export type Piece = "red" | "blue" | "yellow" | "green";
 export type Slot = "empty" | Piece;
-
 export type Position = [number, number];
 export type Column = Slot[];
 export type Board = Column[];
