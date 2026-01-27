@@ -3,6 +3,7 @@ import {
   DEFAULT_CONNECTION_LENGTH,
   DEFAULT_NUMBER_OF_PLAYERS,
   generateGame,
+  PLAYER_COLORS,
 } from "../../../gameLogic";
 import {
   StyledButton,
@@ -15,7 +16,7 @@ import {
   StyledQRContainer,
 } from "./styled";
 import AppContext from "../../../App.context";
-import type { Game } from "../../../gameLogic/types";
+import type { Game, Piece, Player } from "../../../gameLogic/types";
 import { QRCodeSVG } from "qrcode.react";
 import type { PlayerSocketEvent } from "../../../netCode/types";
 
@@ -37,16 +38,28 @@ const NewGame: FC = () => {
     if (socket) {
       const onPlayerConnect = (val: PlayerSocketEvent) => {
         console.log("player connected", val);
-        if (dispatch) dispatch(["lobby", [...state.lobby, { id: val.id }]]);
+        if (dispatch)
+          dispatch([
+            "lobby",
+            [
+              ...state.lobby,
+              {
+                id: val.id,
+                piece: PLAYER_COLORS[state.lobby.length],
+              } as Player,
+            ],
+          ]);
       };
       const onPlayerDisconnect = (val: PlayerSocketEvent) => {
         console.log("player disconnect", val);
         if (dispatch)
           dispatch([
             "lobby",
-            [...state.lobby].filter((v) => {
-              return val.id !== v.id;
-            }),
+            [...state.lobby]
+              .filter((v) => {
+                return val.id !== v.id;
+              })
+              .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] })),
           ]);
       };
 
@@ -74,7 +87,12 @@ const NewGame: FC = () => {
           <h3>use your phone as a controller</h3>
         </StyledQRContainer>
         <StyledForm>
-          <div>socket players: {state.lobby.length}</div>
+          {state.lobby.map((v, i) => (
+            <div>
+              player {i + 1}: {v.piece}
+            </div>
+          ))}
+
           {/* <StyledFormRow>
             <StyledLabel>Players:</StyledLabel>
             <StyledInput

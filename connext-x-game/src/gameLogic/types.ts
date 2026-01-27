@@ -4,8 +4,8 @@ export type Position = [number, number];
 export type Column = Slot[];
 export type Board = Column[];
 export type Player = {
-  piece: Piece;
   id: string;
+  piece: Piece;
 };
 export type Action = {
   updatedBoard: Board;
