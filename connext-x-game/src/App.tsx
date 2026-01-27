@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   deriveGameBoardByConnectionParam,
   generateGame,
-  setSlotByColumnDrop,
+  getActionByColumnDrop,
   effectGetLongestConnByPos,
 } from "./gameLogic";
 import { type Piece, type Board } from "./gameLogic/types";
@@ -45,7 +45,7 @@ function App() {
   const [winner, setWinner] = useState<undefined | Piece>(undefined);
 
   const onColumnClick = (x: number) => {
-    const action = setSlotByColumnDrop(gameState)(x)(currentPiece);
+    const action = getActionByColumnDrop(gameState)(x)(currentPiece);
     if (currentPiece === "blue") {
       setCurrentPiece("red");
     } else {

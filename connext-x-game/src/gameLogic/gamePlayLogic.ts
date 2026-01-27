@@ -17,6 +17,12 @@ import type {
   Slot,
   Vector,
 } from "./types";
+const CONNECTION_VECTORS: Vector[] = [
+  [1, 0],
+  [0, 1],
+  [1, 1],
+  [-1, 1],
+];
 // -----------------------------------------------------------------------------
 export const getLine =
   (playBoard: Board) => (vec: Vector) => (pos: Position) => (val: Slot) => {
@@ -37,19 +43,16 @@ export const getByDirectionalLine =
     ].filter((p: Position, i: number, arr: Position[]) => arr.indexOf(p) === i);
 // -----------------------------------------------------------------------------
 export const effectGetLongestConnByPos = ({
-  updatedBoard,
+  updatedBoard: playBoard,
   position,
-}: Action) => {
-  const fn = getByDirectionalLine(updatedBoard)(position)(
-    getBoardValByPos(updatedBoard)(position),
-  );
-  return [fn([1, 0]), fn([0, 1]), fn([1, 1]), fn([-1, 1])].reduce(
-    (acc, connection) => (acc.length > connection.length ? acc : connection),
-    [] as Connection,
-  );
-};
+}: Action) =>
+  CONNECTION_VECTORS.map((v) =>
+    getByDirectionalLine(playBoard)(position)(
+      getBoardValByPos(playBoard)(position),
+    )(v),
+  ).reduce((a, c) => (a.length > c.length ? a : c), [] as Connection);
 // -----------------------------------------------------------------------------
-export const setSlotByColumnDrop =
+export const getActionByColumnDrop =
   (playBoard: Board) => (x: number) => (value: Piece) => {
     const position: Position = [x, getHighestEmptySlotInColumn(playBoard[x])];
     if (doesSlotExist(playBoard)(position)) {
@@ -69,5 +72,5 @@ export const getNumberOfEmptySlots = (playBoard: Board) =>
 // -----------------------------------------------------------------------------
 export const checkForWinnerByAction =
   (winningConnectionLength: number) => (action: Action) =>
-    effectGetLongestConnByPos(action).length === winningConnectionLength;
+    effectGetLongestConnByPos(action).length >= winningConnectionLength;
 // -----------------------------------------------------------------------------
