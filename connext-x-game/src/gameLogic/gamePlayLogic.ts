@@ -24,7 +24,7 @@ import type {
 
 // -----------------------------------------------------------------------------
 export const getLine =
-  (playBoard: Board) => (vec: Vector) => (pos: Position) => (val: Slot) => {
+  (playBoard: Board) => (pos: Position) => (val: Slot) => (vec: Vector) => {
     let curPos = pos;
     const line = [];
     while (getBoardValByPos(playBoard)(curPos) === val) {
@@ -37,8 +37,8 @@ export const getLine =
 export const getByDirectionalLine =
   (playBoard: Board) => (pos: Position) => (value: Slot) => (vec: Vector) => [
     ...new Set([
-      ...getLine(playBoard)(vec)(pos)(value),
-      ...getLine(playBoard)(getInvVect(vec))(pos)(value),
+      ...getLine(playBoard)(pos)(value)(vec),
+      ...getLine(playBoard)(pos)(value)(getInvVect(vec)),
     ]),
   ];
 // -----------------------------------------------------------------------------
