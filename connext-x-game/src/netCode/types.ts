@@ -2,31 +2,27 @@ import type { Player } from "../gameLogic/types";
 
 export type PlayerSocketEvent = { id: string };
 
-export interface FromGame {
+export interface ClientEvents {
+  // Game
   ["fg:request-connection"]: (data: { room: string }) => void;
   ["fg:start-game"]: (data: { room: string; players: Player[] }) => void;
+  // Player
+  ["fp:request-connection"]: (data: { room: string }) => void;
 }
 
-export interface ToGame {
-  serverMsg: (data: { msg: string; room: string }) => void;
-}
-
-export interface FromPlayer {
-  serverMsg: (data: { msg: string; room: string }) => void;
-}
-
-export interface ToRequestingPlayer {
-  serverMsg: (data: { msg: string; room: string }) => void;
-}
-
-export interface ToAllPlayers {
-  serverMsg: (data: { msg: string; room: string }) => void;
+export interface ServerEvents {
+  // Game
+  ["tg:approve-connection"]: (data: { room: string }) => void;
+  ["tg:new-player-connected"]: (data: { room: string; player: Player }) => void;
+  // Player
+  ["tp:approve-connection"]: (data: { room: string; player: Player }) => void;
 }
 
 /*
 
 From game
     -> request connection
+        * room id
     -> start game
         * room id
         * players 
@@ -46,6 +42,7 @@ To game
 
 From player 
     -> request connection
+   
 
 To requesting player
     -> approve connection
