@@ -8,7 +8,7 @@ import { StyledPlayer } from "./styled";
 const PlayerRemote: FC = () => {
   const { socket } = useContext(AppContext);
   const [player, setPlayer] = useState<Player | undefined>(undefined);
-  const [inGame, setInGame] = useState(false);
+  const [inGame] = useState(false);
   useEffect(() => {
     if (socket) {
       socket.emit("fp:request-connection", { room: ROOM });
