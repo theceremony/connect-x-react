@@ -1,6 +1,10 @@
 import AppContext from "@/App.context";
-import { DEFAULT_CONNECTION_LENGTH, generateGame } from "@/gameLogic";
-import type { Game } from "@/gameLogic/types";
+import {
+  DEFAULT_CONNECTION_LENGTH,
+  generateGame,
+  PLAYER_COLORS,
+} from "@/gameLogic";
+import type { Game, Player } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { QRCodeSVG } from "qrcode.react";
 import { type FC, useContext, useEffect, useRef } from "react";
@@ -23,10 +27,9 @@ const NewGame: FC = () => {
   const onStart = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
-    const numPlayer = state.lobby.length;
 
     if (dispatch)
-      dispatch(["currentGame", generateGame(conLen)(numPlayer) as Game]);
+      dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
 
   useEffect(() => {
@@ -34,61 +37,43 @@ const NewGame: FC = () => {
       socket.emit("fg:request-connection", { room: ROOM });
 
       socket.on("tg:approve-connection", (data) => {
-        console.log(data);
+        console.log("connection approved", data);
+      });
+
+      socket.on("tg:request-player-connection", ({ playerId }) => {
+        const player = {
+          id: playerId,
+          piece: PLAYER_COLORS[state.lobby.length],
+        } as Player;
+
+        if (dispatch)
+          dispatch([
+            "lobby",
+            [
+              ...state.lobby,
+              {
+                ...player,
+              } as Player,
+            ],
+          ]);
+        console.log("tg:request-player-connection", player);
+        socket.emit("fg:player-connection-approved", { room: ROOM, player });
+      });
+
+      socket.on("tg:disconnect", ({ id }) => {
+        console.log("player disconnect", id);
+        const newLobby = [...state.lobby]
+          .filter((v) => {
+            return id !== v.id;
+          })
+          .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] }));
+        if (dispatch) dispatch(["lobby", newLobby]);
       });
     }
-    // if (socket) {
-    //   const onPlayerConnect = (val: PlayerSocketEvent) => {
-    //     console.log("player connected", val);
-    //     const newPlayer = {
-    //       id: val.id,
-    //       piece: PLAYER_COLORS[state.lobby.length],
-    //     } as Player;
-
-    //     if (dispatch)
-    //       dispatch([
-    //         "lobby",
-    //         [
-    //           ...state.lobby,
-    //           {
-    //             ...newPlayer,
-    //           } as Player,
-    //         ],
-    //       ]);
-    //     console.log({ newPlayer });
-    //     socket.emit("game:player-joined-lobby", newPlayer);
-    //   };
-    //   const onPlayerDisconnect = (val: PlayerSocketEvent) => {
-    //     console.log("player disconnect", val);
-    //     const newLobby = [...state.lobby]
-    //       .filter((v) => {
-    //         return val.id !== v.id;
-    //       })
-    //       .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] }));
-    //     if (dispatch) dispatch(["lobby", newLobby]);
-    //     socket.emit("game:player-left-lobby", newLobby);
-    //   };
-    //   socket.on(
-    //     "game:connected",
-    //     (val: { id: string; clients: { id: string; path: string }[] }) => {
-    //       const newLobby = val.clients
-    //         .filter((v) => v.path === "/player")
-    //         .map((v, i) => ({
-    //           id: v.id,
-    //           piece: PLAYER_COLORS[i],
-    //         })) as Lobby;
-    //       if (dispatch) dispatch(["lobby", newLobby]);
-    //     },
-    //   );
-    //   socket.on("player:connected", onPlayerConnect);
-    //   socket.on("player:disconnect", onPlayerDisconnect);
-
-    //   return () => {
-    //     socket.off("player:connected", onPlayerConnect);
-    //     socket.off("player:disconnect", onPlayerDisconnect);
-    //   };
-    // }
-  }, [socket]);
+    return () => {
+      if (socket) socket.removeAllListeners();
+    };
+  }, [dispatch, socket, state.lobby]);
 
   return (
     <StyledNewGame>

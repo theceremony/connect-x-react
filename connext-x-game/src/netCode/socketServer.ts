@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
     // --> send status back to game
   });
   socket.on("fg:player-connection-approved", ({ room, player }) => {
+    console.log("fg:player-connection-approved");
     socket.join(room);
     io.to(room).emit("tp:approve-connection", {
       player,
@@ -43,11 +44,15 @@ io.on("connection", (socket) => {
   // From Player ---------------------------------------------------------------
   // ---------------------------------------------------------------------------
   socket.on("fp:request-connection", ({ room }) => {
+    console.log("player", socket.id);
     socket.join(room);
     io.to(room).emit("tg:request-player-connection", {
       playerId: socket.id,
       room,
     });
+  });
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("tg:disconnect", { id: socket.id });
   });
   // ---------------------------------------------------------------------------
 });

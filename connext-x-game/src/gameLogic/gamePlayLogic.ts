@@ -1,13 +1,13 @@
 import { CONNECTION_VECTORS } from "./config";
 import {
-  getHighestEmptySlotInColumn,
-  doesSlotExist,
-  setSlot,
-  createPlayBoardGrid,
-  getBoardValByPos,
   addVectorToPos,
-  getInvVect,
+  createPlayBoardGrid,
+  doesSlotExist,
   genNewGameBoard,
+  getBoardValByPos,
+  getHighestEmptySlotInColumn,
+  getInvVect,
+  setSlot,
 } from "./playSpaceControl";
 // -----------------------------------------------------------------------------
 import type {
@@ -16,6 +16,7 @@ import type {
   Connection,
   Game,
   Piece,
+  Player,
   Position,
   Slot,
   Vector,
@@ -64,15 +65,16 @@ export const getActionByColumnDrop =
     return undefined;
   };
 // -----------------------------------------------------------------------------
-export const generateGame =
-  (connectLength: number) => (numberOfPlayers: number) => {
-    const boardSize = genNewGameBoard(connectLength)(numberOfPlayers);
-    return {
-      connectLength,
-      numberOfPlayers,
-      board: createPlayBoardGrid(boardSize[0])(boardSize[1]),
-    } as Game;
-  };
+export const generateGame = (connectLength: number) => (players: Player[]) => {
+  const numberOfPlayers = players.length;
+  const boardSize = genNewGameBoard(connectLength)(numberOfPlayers);
+  return {
+    connectLength,
+    numberOfPlayers,
+    players,
+    board: createPlayBoardGrid(boardSize[0])(boardSize[1]),
+  } as Game;
+};
 
 // -----------------------------------------------------------------------------
 export const getNumberOfEmptySlots = (playBoard: Board) =>

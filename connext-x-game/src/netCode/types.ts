@@ -17,14 +17,14 @@ export interface ClientEvents {
     room: string;
   }) => void;
   ["fg:player-connection-approved"]: (data: {
-    id: string;
     room: string;
     player: Player;
   }) => void;
   //
   // Player
   // ---------------------------------------------------------------------------
-  ["fp:request-connection"]: (data: { id: string; room: string }) => void;
+  ["fp:request-connection"]: (data: { room: string }) => void;
+
   ["fp:player-move"]: (data: {
     id: string;
     room: string;
@@ -43,6 +43,7 @@ export interface ServerEvents {
   // Game
   // ---------------------------------------------------------------------------
   ["tg:approve-connection"]: (data: { id: string; room: string }) => void;
+  ["tg:disconnect"]: (data: { id: string }) => void;
   ["tg:request-player-connection"]: (data: {
     room: string;
     playerId: string;
