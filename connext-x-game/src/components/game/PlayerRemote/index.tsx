@@ -13,20 +13,8 @@ const PlayerRemote: FC = () => {
     if (socket) {
       socket.emit("fp:request-connection", { room: ROOM });
       socket.on("tp:approve-connection", ({ player }) => {
-        console.log("hey", player);
         if (socket.id === player.id) setPlayer(player);
       });
-      // socket.on("game:player-joined-lobby", (val: Player) => {
-      //   if (socket.id == val.id) setPlayer(val);
-      // });
-      // socket.on("game:player-left-lobby", (val: Player[]) => {
-      //   val.forEach((v) => {
-      //     if (v.id === socket.id) setPlayer(v);
-      //   });
-      // });
-      // socket.on("game:gameStart", () => {
-      //   setInGame(true);
-      // });
     }
   }, [socket]);
   return (
