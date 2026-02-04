@@ -6,7 +6,7 @@ export interface ClientEvents {
   //
   // Game
   // ---------------------------------------------------------------------------
-  ["fg:request-connection"]: (data: { id: string; room: string }) => void;
+  ["fg:request-connection"]: (data: { room: string }) => void;
   ["fg:game-status-update"]: (data: {
     id: string;
     room: string;

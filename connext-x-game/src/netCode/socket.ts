@@ -7,6 +7,6 @@ const URL =
     ? undefined
     : `${window.location.hostname}:3000`;
 
-export const socket: Socket<ClientEvents, ServerEvents> = io(URL, {
+export const socket: Socket<ServerEvents, ClientEvents> = io(URL, {
   query: { path: window.location.pathname },
 });
