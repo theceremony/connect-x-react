@@ -1,46 +1,56 @@
 import express from "express";
 import { createServer } from "http";
-import { Server } from "socket.io";
+import { Server, type DefaultEventsMap } from "socket.io";
 import type { ServerEvents, ClientEvents } from "./types";
 
 const app = express();
-const httpServer = createServer(app);
-// Initialize Socket.IO server and pass the HTTP server instance
-const io = new Server<ClientEvents, ServerEvents>(httpServer, {
+const server = createServer(app);
+
+const io = new Server<ClientEvents, ServerEvents, DefaultEventsMap>(server, {
   cors: {
     origin: "*", // Allow all origins for simplicity in a simple example
     methods: ["GET", "POST"],
   },
 });
-async function getSocketIds() {
-  const sockets = await io.fetchSockets();
-  return sockets.map((v) => ({
-    id: v.id,
-    path: v.handshake.query.path,
-  }));
-}
-io.on("connection", async (socket) => {
-  if (socket.handshake.query.path === "/game") {
-    const sockets = await getSocketIds();
-    io.emit("game:connected", { id: socket.id, clients: sockets });
-    socket.on("game:player-joined-lobby", (val) => {
-      io.emit("game:player-joined-lobby", val);
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+io.on("connection", (socket) => {
+  // ---------------------------------------------------------------------------
+  // From Game -----------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  socket.on("fg:request-connection", ({ room }) => {
+    // send game connection approval
+    socket.join(room);
+    io.to(room).emit("tg:approve-connection", {
+      id: socket.id,
+      room,
     });
-    socket.on("game:player-left-lobby", (val) => {
-      io.emit("game:player-left-lobby", val);
+  });
+  socket.on("fg:request-player-status", (data) => {
+    console.log(data);
+    // --> send request for player status to all players
+    // --> get status back from individual players
+    // --> send status back to game
+  });
+  socket.on("fg:player-connection-approved", ({ room, player }) => {
+    socket.join(room);
+    io.to(room).emit("tp:approve-connection", {
+      player,
+      room,
     });
-    socket.on("disconnect", () => {
-      console.log("A game disconnected");
-      io.emit("game:disconnect", { id: socket.id });
+  });
+  // ---------------------------------------------------------------------------
+  // From Player ---------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  socket.on("fp:request-connection", ({ room }) => {
+    socket.join(room);
+    io.to(room).emit("tg:request-player-connection", {
+      playerId: socket.id,
+      room,
     });
-  } else if (socket.handshake.query.path === "/player") {
-    console.log("player connected");
-    io.emit("player:connected", { id: socket.id });
-    socket.on("disconnect", () => {
-      console.log("A player disconnected");
-      io.emit("player:disconnect", { id: socket.id });
-    });
-  }
+  });
+  // ---------------------------------------------------------------------------
 });
-
-httpServer.listen(3000, "0.0.0.0");
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+server.listen(3000, "0.0.0.0");
