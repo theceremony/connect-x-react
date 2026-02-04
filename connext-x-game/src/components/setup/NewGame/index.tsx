@@ -41,32 +41,36 @@ const NewGame: FC = () => {
       });
 
       socket.on("tg:request-player-connection", ({ playerId }) => {
-        const player = {
-          id: playerId,
-          piece: PLAYER_COLORS[state.lobby.length],
-        } as Player;
+        if (state.lobby.length < PLAYER_COLORS.length) {
+          const availableColors = PLAYER_COLORS.filter(
+            (color) => !state.lobby.map(({ piece }) => piece).includes(color),
+          );
+          const player = {
+            id: playerId,
+            piece: availableColors[0],
+          } as Player;
 
-        if (dispatch)
-          dispatch([
-            "lobby",
-            [
-              ...state.lobby,
-              {
-                ...player,
-              } as Player,
-            ],
-          ]);
-        console.log("tg:request-player-connection", player);
-        socket.emit("fg:player-connection-approved", { room: ROOM, player });
+          if (dispatch)
+            dispatch([
+              "lobby",
+              [
+                ...state.lobby,
+                {
+                  ...player,
+                } as Player,
+              ],
+            ]);
+          console.log("tg:request-player-connection", player);
+          socket.emit("fg:player-connection-approved", { room: ROOM, player });
+        }
       });
 
       socket.on("tg:disconnect", ({ id }) => {
         console.log("player disconnect", id);
-        const newLobby = [...state.lobby]
-          .filter((v) => {
-            return id !== v.id;
-          })
-          .map((v, i) => ({ ...v, piece: PLAYER_COLORS[i] }));
+        const newLobby = [...state.lobby].filter((v) => {
+          return id !== v.id;
+        });
+
         if (dispatch) dispatch(["lobby", newLobby]);
       });
     }
@@ -90,7 +94,7 @@ const NewGame: FC = () => {
         </StyledQRContainer>
         <StyledForm>
           {state.lobby.map((v, i) => (
-            <div>
+            <div key={`player:${v.id}`}>
               player {i + 1}: {v.piece}
             </div>
           ))}
