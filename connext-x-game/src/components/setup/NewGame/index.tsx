@@ -1,8 +1,9 @@
+import AppContext from "@/App.context";
+import { DEFAULT_CONNECTION_LENGTH, generateGame } from "@/gameLogic";
+import type { Game } from "@/gameLogic/types";
+import { ROOM } from "@/netCode/config";
 import { QRCodeSVG } from "qrcode.react";
-import { useContext, useEffect, useRef, type FC } from "react";
-import AppContext from "../../../App.context";
-import { DEFAULT_CONNECTION_LENGTH, generateGame } from "../../../gameLogic";
-import type { Game } from "../../../gameLogic/types";
+import { type FC, useContext, useEffect, useRef } from "react";
 import {
   StyledButton,
   StyledForm,
@@ -13,8 +14,6 @@ import {
   StyledNewGameSection,
   StyledQRContainer,
 } from "./styled";
-
-const ROOM = "room1";
 
 const NewGame: FC = () => {
   const { state, dispatch, socket } = useContext(AppContext);
@@ -89,7 +88,7 @@ const NewGame: FC = () => {
     //     socket.off("player:disconnect", onPlayerDisconnect);
     //   };
     // }
-  }, [dispatch, socket, state.lobby]);
+  }, [socket]);
 
   return (
     <StyledNewGame>

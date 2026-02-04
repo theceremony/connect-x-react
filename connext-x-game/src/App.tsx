@@ -1,13 +1,14 @@
 import { useReducer } from "react";
 
-import { StyledApp } from "./App.styled";
+import Message from "@/components/feedback/Message";
+import GameBoard from "@/components/game/GameBoard";
+import GameStateDisplay from "@/components/game/GameStateDisplay";
 import AppContext, { appReducer, initialState } from "./App.context";
-import GameBoard from "./components/game/GameBoard";
-import { socket } from "./netCode/socket";
-import GameStateDisplay from "./components/game/GameStateDisplay";
-import NewGame from "./components/setup/NewGame";
-import Message from "./components/feedback/Message";
-import PlayerRemote from "./components/game/PlayerRemote";
+import { StyledApp } from "./App.styled";
+
+import PlayerRemote from "@/components/game/PlayerRemote";
+import NewGame from "@/components/setup/NewGame";
+import { socket } from "@/netCode/socket";
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
