@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState, type FC } from "react";
-
-import { StyledPlayer } from "./styled";
-import AppContext from "../../../App.context";
-import { type Player } from "../../../gameLogic/types";
-import { StyledSlot } from "../../scaffold";
+import AppContext from "@/App.context";
+import type { StyledSlot } from "@/components/scaffold";
+import type { Player } from "@/gameLogic/types";
+import { type FC, useContext, useEffect, useState } from "react";
+import type { StyledPlayer } from "./styled";
 
 const PlayerRemote: FC = () => {
   const { socket } = useContext(AppContext);

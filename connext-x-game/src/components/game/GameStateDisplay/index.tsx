@@ -1,8 +1,6 @@
-import { useContext, type FC } from "react";
-
-import AppContext from "../../../App.context";
-
-import { StyledSlot } from "../../scaffold";
+import AppContext from "@/App.context";
+import { StyledSlot } from "@/components/scaffold";
+import { type FC, useContext } from "react";
 import { StyledGameInterface } from "./styled";
 
 const GameStateDisplay: FC = () => {

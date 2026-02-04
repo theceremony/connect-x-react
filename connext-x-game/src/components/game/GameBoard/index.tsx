@@ -1,14 +1,13 @@
-import { useContext, type FC } from "react";
-
-import { StyledColumn, StyledGameBoard } from "./styled";
-import AppContext from "../../../App.context";
+import AppContext from "@/App.context";
+import type { StyledSlot } from "@/components/scaffold";
 import {
+  PLAYER_COLORS,
   effectGetLongestConnByPos,
   getActionByColumnDrop,
-} from "../../../gameLogic";
-import { PLAYER_COLORS } from "../../../gameLogic/config";
-import type { Connection, Piece, Position } from "../../../gameLogic/types";
-import { StyledSlot } from "../../scaffold";
+} from "@/gameLogic";
+import type { Connection, Piece, Position } from "@/gameLogic/types";
+import { type FC, useContext } from "react";
+import type { StyledColumn, StyledGameBoard } from "./styled";
 
 const GameBoard: FC = () => {
   const { state, dispatch } = useContext(AppContext);

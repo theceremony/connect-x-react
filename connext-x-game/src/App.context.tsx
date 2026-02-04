@@ -1,8 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
+
+import { PLAYER_COLORS } from "@/gameLogic";
+import type { Game, Lobby, Piece } from "@/gameLogic/types";
+import { socket } from "@/netCode/socket";
 import { createContext } from "react";
-import { PLAYER_COLORS } from "./gameLogic";
-import type { Game, Lobby, Piece } from "./gameLogic/types";
-import { socket } from "./netCode/socket";
 
 // -----------------------------------------------------------------------------
 
