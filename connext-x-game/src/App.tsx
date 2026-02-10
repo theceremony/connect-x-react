@@ -3,12 +3,13 @@ import { useReducer } from "react";
 import Message from "@/components/feedback/Message";
 import GameBoard from "@/components/game/GameBoard";
 import GameStateDisplay from "@/components/game/GameStateDisplay";
-import AppContext, { appReducer, initialState } from "./App.context";
+import AppContext from "./App.context";
 import { StyledApp } from "./App.styled";
 
 import PlayerRemote from "@/components/game/PlayerRemote";
 import NewGame from "@/components/setup/NewGame";
 import { socket } from "@/netCode/socket";
+import { appReducer, initialState } from "./App.reducer";
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);

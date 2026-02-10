@@ -16,7 +16,7 @@ const GameBoard: FC = () => {
       state.currentGame?.players?.map((p) => p.piece) ??
       PLAYER_COLORS.slice(
         0,
-        state.currentGame?.numberOfPlayers ?? PLAYER_COLORS.length,
+        state.currentGame?.players?.length ?? PLAYER_COLORS.length,
       );
 
     const currentIndex = pieces.indexOf(currentPiece);
