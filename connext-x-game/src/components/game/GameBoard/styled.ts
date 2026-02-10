@@ -22,6 +22,7 @@ export const StyledColumn = styled.div`
   /* &:hover {
     background-color: yellowgreen;
   } */
+
   &[data-column-selected="true"] {
     background-color: yellowgreen;
   }

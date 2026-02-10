@@ -1,17 +1,7 @@
 import AppContext from "@/App.context";
 import { StyledSlot } from "@/components/scaffold";
-import {
-  PLAYER_COLORS,
-  effectGetLongestConnByPos,
-  getActionByColumnDrop,
-} from "@/gameLogic";
-import type {
-  Connection,
-  Game,
-  Piece,
-  Player,
-  Position,
-} from "@/gameLogic/types";
+import { effectGetLongestConnByPos, getActionByColumnDrop } from "@/gameLogic";
+import type { Connection, Game, Player, Position } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
 import { clamp } from "@/utils";
@@ -23,23 +13,23 @@ const GameBoard: FC = () => {
     state: { currentGame, currentPiece },
     dispatch,
   } = useContext(AppContext);
-  console.log(currentGame);
-  const getNextPiece = (currentPiece: Piece) => {
-    const pieces =
-      currentGame?.players?.map((p) => p.piece) ??
-      PLAYER_COLORS.slice(
-        0,
-        currentGame?.players?.length ?? PLAYER_COLORS.length,
-      );
+  // console.log(currentGame);
+  // const getNextPiece = (currentPiece: Piece) => {
+  //   const pieces =
+  //     currentGame?.players?.map((p) => p.piece) ??
+  //     PLAYER_COLORS.slice(
+  //       0,
+  //       currentGame?.players?.length ?? PLAYER_COLORS.length,
+  //     );
 
-    const currentIndex = pieces.indexOf(currentPiece);
-    const nextIndex =
-      currentIndex === -1 || currentIndex === pieces.length - 1
-        ? 0
-        : currentIndex + 1;
+  //   const currentIndex = pieces.indexOf(currentPiece);
+  //   const nextIndex =
+  //     currentIndex === -1 || currentIndex === pieces.length - 1
+  //       ? 0
+  //       : currentIndex + 1;
 
-    return pieces[nextIndex] as Piece;
-  };
+  //   return pieces[nextIndex] as Piece;
+  // };
 
   const getNextPlayerIndex = (c: Game) => {
     if (
@@ -99,10 +89,7 @@ const GameBoard: FC = () => {
     }
     return undefined;
   };
-  const getPlayerById = (currentGame: Game) => (id: string) => {
-    if (currentGame.players)
-      return currentGame.players.filter((v) => v.id === id)[0];
-  };
+
   const updatePlayerById =
     (currentGame: Game) => (id: string) => (update: Partial<Player>) => {
       if (currentGame.players) {
@@ -118,19 +105,24 @@ const GameBoard: FC = () => {
         } as Game;
       }
     };
-  const getPlayerCurrentColumnByID = (currentGame: Game) => (id: string) =>
-    getPlayerById(currentGame)(id)?.selectedColumnIndex ??
-    Math.floor(currentGame.board.length / 2);
+
+  const getCurrentPlayerColumn = (currentGame: Game) => {
+    const currentPlayer = getCurrentPlayer();
+    if (currentPlayer && currentPlayer.selectedColumnIndex !== undefined)
+      return currentPlayer.selectedColumnIndex;
+
+    return Math.floor(currentGame.board.length / 2);
+  };
 
   const onPlayerAction = useEffectEvent(
     ({ id, action }: PlayerActionSocketData) => {
       const currentPlayer = getCurrentPlayer();
-      if (action !== "drop") {
-        if (currentPlayer?.id === id && currentGame) {
+      if (currentPlayer?.id === id && currentGame) {
+        if (action !== "drop") {
           const updatedGame = updatePlayerById(currentGame)(id)({
             ...currentPlayer,
             selectedColumnIndex: clamp(
-              getPlayerCurrentColumnByID(currentGame)(id) +
+              getCurrentPlayerColumn(currentGame) +
                 (action === "move-left" ? -1 : 1),
               0,
               currentGame.board.length - 1,
@@ -140,9 +132,9 @@ const GameBoard: FC = () => {
           console.log(action);
           dispatch(["currentGame", updatedGame]);
         }
-      }
-      if (action === "drop" && currentGame) {
-        onColumnDrop(getPlayerCurrentColumnByID(currentGame)(id));
+        if (action === "drop" && currentGame) {
+          onColumnDrop(getCurrentPlayerColumn(currentGame));
+        }
       }
     },
   );
@@ -156,10 +148,7 @@ const GameBoard: FC = () => {
 
   const getCurrentSelectedColumn = () => {
     if (currentGame === undefined) return undefined;
-    return (
-      getCurrentPlayer()?.selectedColumnIndex ||
-      Math.floor(currentGame.board.length / 2)
-    );
+    return getCurrentPlayerColumn(currentGame);
   };
 
   const curCol = getCurrentSelectedColumn();
