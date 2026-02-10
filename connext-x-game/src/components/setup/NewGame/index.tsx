@@ -7,7 +7,14 @@ import {
 import type { Game, Player } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { QRCodeSVG } from "qrcode.react";
-import { Activity, type FC, useContext, useEffect, useRef } from "react";
+import {
+  Activity,
+  type FC,
+  useContext,
+  useEffect,
+  useEffectEvent,
+  useRef,
+} from "react";
 import {
   StyledButton,
   StyledForm,
@@ -31,8 +38,8 @@ const NewGame: FC = () => {
     dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
 
-  useEffect(() => {
-    const onReqConn = ({ playerId }: { room: string; playerId: string }) => {
+  const onReqConn = useEffectEvent(
+    ({ playerId }: { room: string; playerId: string }) => {
       if (state.lobby.length < PLAYER_COLORS.length) {
         const player =
           state.lobby.filter(({ id }) => id === playerId)[0] ||
@@ -42,7 +49,7 @@ const NewGame: FC = () => {
               (color) => !state.lobby.map(({ piece }) => piece).includes(color),
             )[0],
           } as Player);
-
+        console.log("player connect", playerId);
         dispatch([
           "lobby",
           [
@@ -52,20 +59,22 @@ const NewGame: FC = () => {
             } as Player,
           ],
         ]);
-        // console.log("tg:request-player-connection", player);
-        // socket.emit("fg:player-connection-approved", { room: ROOM, player });
       }
-    };
-    const onDisconnect = ({ id }: { id: string }) => {
-      console.log("player disconnect", id);
+    },
+  );
+  const onDisconnect = useEffectEvent(({ id }: { id: string }) => {
+    console.log("player disconnect", id);
 
-      dispatch([
-        "lobby",
-        [...state.lobby].filter((v) => {
-          return id !== v.id;
-        }),
-      ]);
-    };
+    dispatch([
+      "lobby",
+      [...state.lobby].filter((v) => {
+        return id !== v.id;
+      }),
+    ]);
+  });
+
+  //Socket Effect ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  useEffect(() => {
     if (socket) {
       // -----------------------------------------------------------------------
       socket.emit("fg:request-connection", { room: ROOM });
@@ -82,7 +91,7 @@ const NewGame: FC = () => {
         socket.removeAllListeners();
       }
     };
-  }, [dispatch, socket, state.lobby]);
+  }, [socket]);
 
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;

@@ -4,6 +4,7 @@ import { updateCurrentGameHook } from "./updateGame";
 import { updateLobbyHook } from "./updateLobby";
 
 // -----------------------------------------------------------------------------
+export * from "./types";
 export { initialState };
 // -----------------------------------------------------------------------------
 export const appReducer = createAppReducer(initialState)([
