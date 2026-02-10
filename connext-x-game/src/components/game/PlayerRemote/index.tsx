@@ -7,6 +7,7 @@ import {
   StyledButtonContainer,
   StyledDirectionButton,
   StyledPlayer,
+  StyledPlayerName,
   StyledPlayerPiece,
   StyledSlotContainer,
 } from "./styled";
@@ -57,8 +58,10 @@ const PlayerRemote: FC = () => {
     <StyledPlayer>
       {player && (
         <>
-          {/* <StyledPlayerName>{player.piece} PLAYER</StyledPlayerName> */}
-
+          <Activity mode={game ? "hidden" : "visible"}>
+            {" "}
+            <StyledPlayerName>{player.piece} PLAYER</StyledPlayerName>{" "}
+          </Activity>
           <StyledSlotContainer>
             <StyledPlayerPiece
               data-slot-color={player.piece}
