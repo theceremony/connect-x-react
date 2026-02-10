@@ -100,7 +100,7 @@ const NewGame: FC = () => {
             viewBox="0 0 25 25"
             value={`http://${window.location.hostname}:${window.location.port}/player`}
           />
-          <h3>use your phone as a controller</h3>
+          <h2>use your phone as a controller</h2>
         </StyledQRContainer>
 
         <StyledForm>
@@ -116,17 +116,6 @@ const NewGame: FC = () => {
               </>
             ))}
           </StyledFormRow>
-
-          {/* <StyledFormRow>
-            <StyledLabel>Players:</StyledLabel>
-            <StyledInput
-              type="number"
-              ref={numPlayersInput}
-              min={DEFAULT_NUMBER_OF_PLAYERS}
-              max={4}
-              defaultValue={DEFAULT_NUMBER_OF_PLAYERS}
-            />
-          </StyledFormRow> */}
           <StyledFormRow>
             <StyledLabel>Connect:</StyledLabel>
             <StyledInput

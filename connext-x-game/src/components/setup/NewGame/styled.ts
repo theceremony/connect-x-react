@@ -6,16 +6,17 @@ export const StyledNewGame = styled(StyledModal)`
 `;
 export const StyledNewGameSection = styled.div`
   display: flex;
-  gap: 50px;
+  gap: 80px;
   align-items: center;
   justify-content: center;
 `;
 export const StyledQRContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
   align-items: center;
+  text-align: center;
   svg {
     border: 20px solid white;
     border-radius: 10px;
