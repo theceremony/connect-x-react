@@ -7,7 +7,7 @@ import {
 import type { Game, Player } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { QRCodeSVG } from "qrcode.react";
-import { type FC, useContext, useEffect, useRef } from "react";
+import { Activity, type FC, useContext, useEffect, useRef } from "react";
 import {
   StyledButton,
   StyledForm,
@@ -125,9 +125,32 @@ const NewGame: FC = () => {
               defaultValue={DEFAULT_CONNECTION_LENGTH}
             />
           </StyledFormRow>
-          <div>
-            <StyledButton onClick={onStart}>Start</StyledButton>
-          </div>
+          <Activity
+            mode={
+              state.currentGame?.players &&
+              state.currentGame?.players?.length > 1
+                ? "visible"
+                : "hidden"
+            }
+          >
+            <div>
+              <StyledButton onClick={onStart}>Start</StyledButton>
+            </div>
+          </Activity>
+          <Activity
+            mode={
+              state.currentGame?.players &&
+              state.currentGame?.players?.length > 1
+                ? "hidden"
+                : "visible"
+            }
+          >
+            <div>
+              <StyledButton disabled={true}>
+                waiting for players to connect
+              </StyledButton>
+            </div>
+          </Activity>
         </StyledForm>
       </StyledNewGameSection>
     </StyledNewGame>

@@ -20,10 +20,10 @@ export type Lobby = Player[];
 export type Game = {
   board: Board;
   connectLength: number;
-  numberOfPlayers: number;
   players?: Player[];
   winner?: Piece;
   winningConnection?: Connection;
+  currentPlayerIndex?: number;
 };
 
 export type Vector = [number, number];
