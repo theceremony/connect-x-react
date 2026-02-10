@@ -3,15 +3,11 @@ import type { Game, Move, Player } from "../gameLogic/types";
 export type PlayerSocketEvent = { id: string };
 
 export interface ClientEvents {
-  //
+  // ---------------------------------------------------------------------------
   // Game
   // ---------------------------------------------------------------------------
   ["fg:request-connection"]: (data: { room: string }) => void;
-  ["fg:game-status-update"]: (data: {
-    id: string;
-    room: string;
-    gameStatus: Game;
-  }) => void;
+  ["fg:game-status-update"]: (data: { room: string; gameStatus: Game }) => void;
   ["fg:request-player-status"]: (data: {
     playerId: string;
     room: string;
@@ -20,7 +16,7 @@ export interface ClientEvents {
     room: string;
     player: Player;
   }) => void;
-  //
+  // ---------------------------------------------------------------------------
   // Player
   // ---------------------------------------------------------------------------
   ["fp:request-connection"]: (data: { room: string }) => void;
@@ -39,7 +35,7 @@ export interface ClientEvents {
 }
 
 export interface ServerEvents {
-  //
+  // ---------------------------------------------------------------------------
   // Game
   // ---------------------------------------------------------------------------
   ["tg:approve-connection"]: (data: { id: string; room: string }) => void;
@@ -58,11 +54,11 @@ export interface ServerEvents {
     room: string;
     player: Player;
   }) => void;
-  //
+  // ---------------------------------------------------------------------------
   // Player
   // ---------------------------------------------------------------------------
   ["tp:approve-connection"]: (data: { room: string; player: Player }) => void;
-  //
+  // ---------------------------------------------------------------------------
   // All Players
   // ---------------------------------------------------------------------------
   ["tap:players-updated"]: (data: { room: string; newPlayer: Player }) => void;

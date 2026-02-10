@@ -1,19 +1,19 @@
-import express from "express";
-import { createServer } from "http";
+import { Server as Engine } from "@socket.io/bun-engine";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { Server } from "socket.io";
 import type { ClientEvents, ServerEvents } from "./types";
-
-const server = createServer(express());
-
-const io = new Server<ClientEvents, ServerEvents>(server, {
+const engine = new Engine();
+const io = new Server<ClientEvents, ServerEvents>({
   cors: {
-    origin: "*", // Allow all origins for simplicity in a simple example
     methods: ["GET", "POST"],
+    origin: ["*:*"],
   },
 });
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
+
+io.bind(engine);
 io.on("connection", (socket) => {
+  console.log(socket.id);
   // ---------------------------------------------------------------------------
   // From Game -----------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -40,11 +40,6 @@ io.on("connection", (socket) => {
       room,
     });
   });
-  socket.on("fg:game-status-update", ({ room, gameStatus }) => {
-    console.log("fg:game-status-update");
-    socket.join(room);
-    io.to(room).emit("tap:game-status-update", { room, gameStatus });
-  });
   // ---------------------------------------------------------------------------
   // From Player ---------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -61,33 +56,28 @@ io.on("connection", (socket) => {
   });
   // ---------------------------------------------------------------------------
 });
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-server.listen(3000, "0.0.0.0");
-const gracefulShutdown = async () => {
-  console.log("Starting graceful shutdown...");
+const app = new Hono();
+app.use(
+  cors({
+    origin: "*",
+    allowMethods: ["POST", "GET", "OPTIONS"],
+    credentials: false,
+  }),
+);
+const { websocket } = engine.handler();
+export default {
+  port: 3000,
+  idleTimeout: 30, // must be greater than the "pingInterval" option of the engine, which defaults to 25 seconds
+  hostname: "0.0.0.0",
+  fetch(req: Request, server: unknown) {
+    const url = new URL(req.url);
 
-  // 1. Stop the HTTP server from accepting new connections
-  server.close(() => {
-    console.log("HTTP server closed. Exiting process.");
-    process.exit(0); // Exit once all current HTTP connections are done
-  });
+    if (url.pathname === "/socket.io/") {
+      return engine.handleRequest(req, server);
+    } else {
+      return app.fetch(req, server);
+    }
+  },
 
-  // 2. Disconnect all active Socket.IO clients
-  const sockets = await io.fetchSockets();
-  for (const socket of sockets) {
-    // Pass 'true' to disable automatic client reconnection attempts
-    socket.disconnect(true);
-  }
-  console.log("All Socket.IO clients disconnected.");
-
-  // Optional: Add a timeout to force exit if connections hang
-  setTimeout(() => {
-    console.error("Forcing shutdown due to timeout.");
-    process.exit(1);
-  }, 10000); // 10 seconds timeout
+  websocket,
 };
-
-// Listen for termination signals (like Ctrl+C or process manager signals)
-process.on("SIGINT", gracefulShutdown);
-process.on("SIGTERM", gracefulShutdown);

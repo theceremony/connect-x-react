@@ -5,8 +5,6 @@ import type { ClientEvents, ServerEvents } from "./types";
 const URL =
   process.env.NODE_ENV === "production"
     ? undefined
-    : `${window.location.hostname}:3000`;
+    : `http://${window.location.hostname}:3000`;
 
-export const socket: Socket<ServerEvents, ClientEvents> = io(URL, {
-  query: { path: window.location.pathname },
-});
+export const socket: Socket<ServerEvents, ClientEvents> = io(URL);
