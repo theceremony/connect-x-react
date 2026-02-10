@@ -6,6 +6,7 @@ import {
 } from "@/gameLogic";
 import type { Game, Player } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
+import { socket } from "@/netCode/socket";
 import { QRCodeSVG } from "qrcode.react";
 import {
   Activity,
@@ -27,7 +28,7 @@ import {
 } from "./styled";
 
 const NewGame: FC = () => {
-  const { state, dispatch, socket } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const numConnectInput = useRef<HTMLInputElement>(null);
 
@@ -91,7 +92,7 @@ const NewGame: FC = () => {
         socket.removeAllListeners();
       }
     };
-  }, [socket]);
+  }, []);
 
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;

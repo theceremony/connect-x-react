@@ -1,35 +1,31 @@
-import { useReducer } from "react";
+import { lazy, Suspense, useReducer } from "react";
 
-import Message from "@/components/feedback/Message";
-import GameBoard from "@/components/game/GameBoard";
-import GameStateDisplay from "@/components/game/GameStateDisplay";
 import AppContext from "./App.context";
 import { StyledApp } from "./App.styled";
 
-import PlayerRemote from "@/components/game/PlayerRemote";
-import NewGame from "@/components/setup/NewGame";
-import { socket } from "@/netCode/socket";
 import { appReducer, initialState } from "./App.reducer";
+
+const GameController = lazy(() => import("@/components/game/GameController"));
+
+const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const path = window.location.pathname;
   if (path === "/player")
     return (
-      <AppContext.Provider value={{ state, dispatch, socket }}>
-        <PlayerRemote />
+      <AppContext.Provider value={{ state, dispatch }}>
+        <StyledApp>
+          <Suspense>
+            <PlayerRemote />
+          </Suspense>
+        </StyledApp>
       </AppContext.Provider>
     );
   return (
-    <AppContext.Provider value={{ state, dispatch, socket }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <StyledApp>
-        {state.currentGame === undefined && <NewGame />}
-        {state.currentGame?.winner && <Message />}
-
-        {state.currentGame && !state.currentGame?.winner && (
-          <GameStateDisplay />
-        )}
-        {state.currentGame && <GameBoard />}
+        <GameController />
       </StyledApp>
     </AppContext.Provider>
   );

@@ -1,18 +1,11 @@
-import AppContext from "@/App.context";
 import { StyledSlot } from "@/components/scaffold";
 import type { Player } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
-import {
-  type FC,
-  useContext,
-  useEffect,
-  useEffectEvent,
-  useState,
-} from "react";
+import { socket } from "@/netCode/socket";
+import { type FC, useEffect, useEffectEvent, useState } from "react";
 import { StyledPlayer } from "./styled";
 
 const PlayerRemote: FC = () => {
-  const { socket } = useContext(AppContext);
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [inGame] = useState(false);
   const onApproveConnection = useEffectEvent(
@@ -28,7 +21,7 @@ const PlayerRemote: FC = () => {
       socket?.removeListener("tp:approve-connection", onApproveConnection);
       socket?.removeAllListeners();
     };
-  }, [socket]);
+  }, []);
   return (
     <StyledPlayer>
       <h1>PLAYER</h1>

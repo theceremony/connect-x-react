@@ -1,6 +1,6 @@
 import AppContext from "@/App.context";
 import { type FC, useContext } from "react";
-import type { StyledMessage } from "./styled";
+import { StyledMessage } from "./styled";
 
 const Message: FC = () => {
   const { state, dispatch } = useContext(AppContext);

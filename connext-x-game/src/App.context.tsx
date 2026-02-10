@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { socket } from "@/netCode/socket";
 import { createContext } from "react";
 import {
   initialState,
@@ -12,14 +11,12 @@ import {
 export type AppContextType = {
   state: State;
   dispatch: Dispatch;
-  socket?: typeof socket;
 };
 
 // -----------------------------------------------------------------------------
 const AppContext = createContext<AppContextType>({
   state: initialState as State,
   dispatch: (_action: Action) => {},
-  socket: socket,
 });
 // -----------------------------------------------------------------------------
 export default AppContext;

@@ -7,7 +7,7 @@ export const StyledApp = styled.div`
   align-items: center;
   padding: 30px;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   border: 10px solid grey;
   gap: 5px;
   h1,
