@@ -6,4 +6,4 @@ export const initialState = {
   lobby: [] as Lobby,
   currentPiece: PLAYER_COLORS[0] as Piece,
   previousGames: [] as Game[],
-};
+} as const;

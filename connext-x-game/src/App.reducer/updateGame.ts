@@ -1,7 +1,7 @@
 import type { Game } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { socket } from "@/netCode/socket";
-import type { ReducerHooks } from ".";
+import type { ReducerHooks } from "./types";
 
 export const updateCurrentGameHook: ReducerHooks = ([key, value]) => {
   console.log("update current Game");

@@ -11,3 +11,4 @@ export type Dispatch = React.ActionDispatch<[action: Action]>;
 export type ReducerHooks = (action: Action, state: State) => Action;
 export type KeyedReducerHook = [ActionKeys, ReducerHooks];
 export type MappedReducerHooks = KeyedReducerHook[];
+// -----------------------------------------------------------------------------
