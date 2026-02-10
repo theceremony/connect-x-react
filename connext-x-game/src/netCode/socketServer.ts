@@ -56,6 +56,15 @@ io.on("connection", (socket) => {
       room,
     });
   });
+
+  socket.on("fp:player-action", ({ room, ...data }) => {
+    console.log("player", socket.id);
+    socket.join(room);
+    io.to(room).emit("tg:player-action", {
+      room,
+      ...data,
+    });
+  });
   socket.on("disconnect", () => {
     socket.broadcast.emit("tg:disconnect", { id: socket.id });
   });

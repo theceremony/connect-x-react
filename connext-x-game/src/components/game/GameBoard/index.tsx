@@ -6,7 +6,9 @@ import {
   getActionByColumnDrop,
 } from "@/gameLogic";
 import type { Connection, Piece, Position } from "@/gameLogic/types";
-import { type FC, useContext } from "react";
+import { socket } from "@/netCode/socket";
+import type { PlayerActionSocketData } from "@/netCode/types";
+import { type FC, useContext, useEffect, useEffectEvent } from "react";
 import { StyledColumn, StyledGameBoard } from "./styled";
 
 const GameBoard: FC = () => {
@@ -58,6 +60,18 @@ const GameBoard: FC = () => {
       return false;
     }
   };
+
+  const onPlayerAction = useEffectEvent((data: PlayerActionSocketData) => {
+    console.log(data);
+  });
+
+  useEffect(() => {
+    socket.on("tg:player-action", onPlayerAction);
+    return () => {
+      socket.removeListener("tg:player-action", onPlayerAction);
+    };
+  }, []);
+
   return (
     <StyledGameBoard>
       {state.currentGame?.board.map((v, x) => (

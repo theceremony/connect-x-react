@@ -66,11 +66,10 @@ export const getActionByColumnDrop =
   };
 // -----------------------------------------------------------------------------
 export const generateGame = (connectLength: number) => (players: Player[]) => {
-  const numberOfPlayers = players.length;
-  const boardSize = genNewGameBoard(connectLength)(numberOfPlayers);
+  const boardSize = genNewGameBoard(connectLength)(players.length);
   return {
     connectLength,
-    numberOfPlayers,
+    currentPlayerIndex: 0,
     players,
     board: createPlayBoardGrid(boardSize[0])(boardSize[1]),
   } as Game;

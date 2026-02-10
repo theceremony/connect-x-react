@@ -8,7 +8,7 @@ export const StyledPlayer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
 `;
 export const StyledSlotContainer = styled.div`
   display: flex;
@@ -21,8 +21,40 @@ export const StyledSlotContainer = styled.div`
 `;
 export const StyledPlayerPiece = styled(StyledSlot)`
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.6);
 `;
 export const StyledPlayerName = styled.h1`
   text-transform: uppercase;
   text-align: center;
+`;
+export const StyledButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 300px;
+`;
+
+export const StyledDirectionButton = styled.button`
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: azure;
+  width: 100%;
+
+  border-radius: 30px;
+  padding: 30px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #000;
+  border: 10px solid grey;
+  &:hover {
+    background-color: grey;
+    border: 10px solid white;
+  }
 `;

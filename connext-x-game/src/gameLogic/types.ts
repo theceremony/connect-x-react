@@ -6,6 +6,7 @@ export type Board = Column[];
 export type Player = {
   id: string;
   piece: Piece;
+  selectedColumnIndex?: number;
 };
 export type Action = {
   updatedBoard: Board;
@@ -27,3 +28,4 @@ export type Game = {
 };
 
 export type Vector = [number, number];
+export type PlayerAction = "move-left" | "move-right" | "drop";

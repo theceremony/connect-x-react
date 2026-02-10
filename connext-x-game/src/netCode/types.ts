@@ -1,4 +1,30 @@
-import type { Game, Lobby, Move, Player } from "../gameLogic/types";
+import type {
+  Game,
+  Lobby,
+  Move,
+  Player,
+  PlayerAction,
+} from "../gameLogic/types";
+
+export type PlayerActionSocketData = {
+  id: string;
+  room: string;
+  player: Player;
+  action: PlayerAction;
+};
+export type PlayerMoveSocketData = {
+  id: string;
+  room: string;
+  player: Player;
+  move: Move;
+};
+export type GameStatusSocketData = { room: string; gameStatus: Game };
+export type PlayerStatusSocketData = {
+  id: string;
+  room: string;
+  player: Player;
+};
+
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 export interface ClientEvents {
@@ -7,7 +33,7 @@ export interface ClientEvents {
   // ---------------------------------------------------------------------------
   ["fg:request-connection"]: (data: { room: string }) => void;
   // ...........................................................................
-  ["fg:game-status-update"]: (data: { room: string; gameStatus: Game }) => void;
+  ["fg:game-status-update"]: (data: GameStatusSocketData) => void;
   // ...........................................................................
   ["fg:request-player-status"]: (data: {
     playerId: string;
@@ -26,18 +52,11 @@ export interface ClientEvents {
   // ---------------------------------------------------------------------------
   ["fp:request-connection"]: (data: { room: string }) => void;
   // ...........................................................................
-  ["fp:player-move"]: (data: {
-    id: string;
-    room: string;
-    player: Player;
-    move: Move;
-  }) => void;
+  ["fp:player-action"]: (data: PlayerActionSocketData) => void;
   // ...........................................................................
-  ["fp:report-player-status"]: (data: {
-    id: string;
-    room: string;
-    player: Player;
-  }) => void;
+  ["fp:player-move"]: (data: PlayerMoveSocketData) => void;
+  // ...........................................................................
+  ["fp:report-player-status"]: (data: PlayerStatusSocketData) => void;
 }
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
@@ -53,18 +72,11 @@ export interface ServerEvents {
     room: string;
     playerId: string;
   }) => void;
+  ["tg:player-action"]: (data: PlayerActionSocketData) => void;
   // ...........................................................................
-  ["tg:player-move"]: (data: {
-    room: string;
-    player: Player;
-    move: Move;
-  }) => void;
+  ["tg:player-move"]: (data: PlayerMoveSocketData) => void;
   // ...........................................................................
-  ["tg:report-player-status"]: (data: {
-    id: string;
-    room: string;
-    player: Player;
-  }) => void;
+  ["tg:report-player-status"]: (data: PlayerStatusSocketData) => void;
   // ---------------------------------------------------------------------------
   // Player
   // ---------------------------------------------------------------------------
@@ -74,10 +86,7 @@ export interface ServerEvents {
   // ---------------------------------------------------------------------------
   ["tap:players-updated"]: (data: { room: string; newPlayer: Player }) => void;
   // ...........................................................................
-  ["tap:game-status-update"]: (data: {
-    room: string;
-    gameStatus: Game;
-  }) => void;
+  ["tap:game-status-update"]: (data: GameStatusSocketData) => void;
   // ...........................................................................
   ["tap:request-player-status"]: () => void;
 }
