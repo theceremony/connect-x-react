@@ -82,14 +82,14 @@ const GameBoard: FC = () => {
     (currentGame: Game) => (id: string) => (update: Partial<Player>) => {
       if (currentGame.players) {
         const updateIndex = currentGame.players.findIndex((v) => v.id === id);
-        const newPlayers = [...currentGame.players];
-        newPlayers[updateIndex] = {
-          ...newPlayers[updateIndex],
+        const updatedPlayers = [...currentGame.players];
+        updatedPlayers[updateIndex] = {
+          ...updatedPlayers[updateIndex],
           ...update,
         };
         return {
           ...currentGame,
-          players: [...newPlayers],
+          players: [...updatedPlayers],
         } as Game;
       }
     };
