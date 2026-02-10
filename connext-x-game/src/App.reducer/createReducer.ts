@@ -1,11 +1,5 @@
 import { basicReducerHook } from "./basic";
-import type {
-  Action,
-  ActionKeys,
-  MappedReducerHooks,
-  ReducerHooks,
-  State,
-} from "./types";
+import type { Action, ActionKeys, MappedReducerHooks, State } from "./types";
 
 const _KEY_INDEX = 0;
 const _VALUE_INDEX = 1;
@@ -20,12 +14,11 @@ export const getReducerHookByKey =
 export const createAppReducer =
   (ins: State) =>
   (regHooks: MappedReducerHooks) =>
-  (state: State = ins, action: Action) => ({
-    ...state,
-    [action[_KEY_INDEX]]: getReducerHookByKey(regHooks)(
-      action[_KEY_INDEX],
-    ).reduce((acc: Action, v: ReducerHooks) => v(acc, state), action)[
-      _VALUE_INDEX
-    ],
+  (s: State = ins, a: Action) => ({
+    ...s,
+    [a[_KEY_INDEX]]: getReducerHookByKey(regHooks)(a[_KEY_INDEX]).reduce(
+      (acc, v) => v(acc, s),
+      a,
+    )[_VALUE_INDEX],
   });
 // -----------------------------------------------------------------------------
