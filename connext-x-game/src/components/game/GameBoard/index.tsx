@@ -14,17 +14,22 @@ import type {
 } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
+import { clamp } from "@/utils";
 import { type FC, useContext, useEffect, useEffectEvent } from "react";
 import { StyledColumn, StyledGameBoard } from "./styled";
 
 const GameBoard: FC = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const {
+    state: { currentGame, currentPiece },
+    dispatch,
+  } = useContext(AppContext);
+
   const getNextPiece = (currentPiece: Piece) => {
     const pieces =
-      state.currentGame?.players?.map((p) => p.piece) ??
+      currentGame?.players?.map((p) => p.piece) ??
       PLAYER_COLORS.slice(
         0,
-        state.currentGame?.players?.length ?? PLAYER_COLORS.length,
+        currentGame?.players?.length ?? PLAYER_COLORS.length,
       );
 
     const currentIndex = pieces.indexOf(currentPiece);
@@ -36,30 +41,29 @@ const GameBoard: FC = () => {
     return pieces[nextIndex] as Piece;
   };
   const isWinner = (connection: Connection) =>
-    connection.length === state.currentGame?.connectLength;
-  const onColumnClick = (x: number) => {
-    if (dispatch && state.currentGame?.board) {
-      const action = getActionByColumnDrop(state.currentGame?.board)(x)(
-        state.currentPiece,
-      );
-      dispatch(["currentPiece", getNextPiece(state.currentPiece)]);
+    connection.length === currentGame?.connectLength;
+
+  const onColumnDrop = (x: number) => {
+    if (dispatch && currentGame?.board) {
+      const action = getActionByColumnDrop(currentGame?.board)(x)(currentPiece);
+      dispatch(["currentPiece", getNextPiece(currentPiece)]);
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
       if (action?.updatedBoard)
         dispatch([
           "currentGame",
           {
-            ...state.currentGame,
+            ...currentGame,
             board: action?.updatedBoard,
             winningConnection: isWinner(connection) ? connection : undefined,
-            winner: isWinner(connection) ? state.currentPiece : undefined,
+            winner: isWinner(connection) ? currentPiece : undefined,
           },
         ]);
     }
   };
   const isSlotWinner = (pos: Position) => {
-    if (state.currentGame?.winningConnection) {
-      const winCon = state.currentGame?.winningConnection;
+    if (currentGame?.winningConnection) {
+      const winCon = currentGame?.winningConnection;
       for (let i = 0; i < winCon.length; ++i) {
         if (winCon[i][0] === pos[0] && winCon[i][1] === pos[1]) return true;
       }
@@ -67,10 +71,8 @@ const GameBoard: FC = () => {
     }
   };
   const getCurrentPlayer = () => {
-    if (state && state.currentGame && state.currentGame.players) {
-      return state.currentGame.players[
-        state.currentGame?.currentPlayerIndex || 0
-      ];
+    if (currentGame && currentGame.players) {
+      return currentGame.players[currentGame?.currentPlayerIndex || 0];
     }
     return undefined;
   };
@@ -100,32 +102,54 @@ const GameBoard: FC = () => {
   const onPlayerAction = useEffectEvent(
     ({ id, action }: PlayerActionSocketData) => {
       const currentPlayer = getCurrentPlayer();
-      if (currentPlayer?.id === id && state.currentGame) {
-        const updatedGame = updatePlayerById(state.currentGame)(id)({
-          ...currentPlayer,
-          selectedColumnIndex:
-            getPlayerCurrentColumnByID(state.currentGame)(id) + 1,
-        });
-        console.log(updatedGame);
-        console.log(action);
-        dispatch(["currentGame", updatedGame]);
+      if (action !== "drop") {
+        if (currentPlayer?.id === id && currentGame) {
+          const updatedGame = updatePlayerById(currentGame)(id)({
+            ...currentPlayer,
+            selectedColumnIndex: clamp(
+              getPlayerCurrentColumnByID(currentGame)(id) +
+                (action === "move-left" ? -1 : 1),
+              0,
+              currentGame.board.length - 1,
+            ),
+          });
+          console.table(updatedGame?.players);
+          console.log(action);
+          dispatch(["currentGame", updatedGame]);
+        }
+      }
+      if (action === "drop" && currentGame) {
+        onColumnDrop(getPlayerCurrentColumnByID(currentGame)(id));
       }
     },
   );
 
   useEffect(() => {
     socket.on("tg:player-action", onPlayerAction);
-    console.log("effect");
     return () => {
-      console.log("un effect");
       socket.removeListener("tg:player-action", onPlayerAction);
     };
-  }, [state]);
+  }, []);
 
+  const getCurrentSelectedColumn = () => {
+    if (currentGame === undefined) return undefined;
+    return (
+      getCurrentPlayer()?.selectedColumnIndex ||
+      Math.floor(currentGame.board.length / 2)
+    );
+  };
+
+  const curCol = getCurrentSelectedColumn();
+
+  if (!currentGame) return <div>error</div>;
   return (
     <StyledGameBoard>
-      {state.currentGame?.board.map((v, x) => (
-        <StyledColumn key={`column_${x}`} onClick={() => onColumnClick(x)}>
+      {currentGame?.board.map((v, x) => (
+        <StyledColumn
+          key={`column_${x}`}
+          // onClick={() => onColumnDrop(x)}
+          data-column-selected={curCol === x}
+        >
           {v.map((c, y) => (
             <StyledSlot
               key={`slot-${y}`}

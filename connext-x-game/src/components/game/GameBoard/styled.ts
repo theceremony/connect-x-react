@@ -19,7 +19,10 @@ export const StyledColumn = styled.div`
   gap: 5px;
   padding: 5px;
   width: 100%;
-  &:hover {
+  /* &:hover {
+    background-color: yellowgreen;
+  } */
+  &[data-column-selected="true"] {
     background-color: yellowgreen;
   }
 `;
