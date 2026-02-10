@@ -74,21 +74,28 @@ const GameBoard: FC = () => {
     }
     return undefined;
   };
-
+  const getPlayerById = (currentGame: Game) => (id: string) => {
+    if (currentGame.players)
+      return currentGame.players.filter((v) => v.id === id)[0];
+  };
   const updatePlayerById =
     (currentGame: Game) => (id: string) => (update: Partial<Player>) => {
-      if (currentGame.players)
+      if (currentGame.players) {
+        const updateIndex = currentGame.players.findIndex((v) => v.id === id);
+        const newPlayers = [...currentGame.players];
+        newPlayers[updateIndex] = {
+          ...newPlayers[updateIndex],
+          ...update,
+        };
         return {
           ...currentGame,
-          players: [
-            ...currentGame.players.filter((v) => v.id !== id),
-            {
-              ...currentGame.players.filter((v) => v.id === id)[0],
-              ...update,
-            },
-          ],
+          players: [...newPlayers],
         } as Game;
+      }
     };
+  const getPlayerCurrentColumnByID = (currentGame: Game) => (id: string) =>
+    getPlayerById(currentGame)(id)?.selectedColumnIndex ??
+    Math.floor(currentGame.board.length / 2);
 
   const onPlayerAction = useEffectEvent(
     ({ id, action }: PlayerActionSocketData) => {
@@ -96,21 +103,24 @@ const GameBoard: FC = () => {
       if (currentPlayer?.id === id && state.currentGame) {
         const updatedGame = updatePlayerById(state.currentGame)(id)({
           ...currentPlayer,
-          selectedColumnIndex: 2,
+          selectedColumnIndex:
+            getPlayerCurrentColumnByID(state.currentGame)(id) + 1,
         });
-
         console.log(updatedGame);
         console.log(action);
+        dispatch(["currentGame", updatedGame]);
       }
     },
   );
 
   useEffect(() => {
     socket.on("tg:player-action", onPlayerAction);
+    console.log("effect");
     return () => {
+      console.log("un effect");
       socket.removeListener("tg:player-action", onPlayerAction);
     };
-  }, []);
+  }, [state]);
 
   return (
     <StyledGameBoard>

@@ -46,6 +46,7 @@ const PlayerRemote: FC = () => {
   }, [player]);
 
   const onTap = (action: PlayerAction) => {
+    console.log(action);
     if (socket && player)
       socket.emit("fp:player-action", {
         id: socket.id || "",
