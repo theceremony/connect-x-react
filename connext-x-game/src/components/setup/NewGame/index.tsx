@@ -85,9 +85,8 @@ const NewGame: FC = () => {
     };
   }, [dispatch, socket, state.lobby]);
 
-  const getNumberOfPlayersInLobby = () => state.lobby.length || 0;
-
-  const testForPlayerLength = () => getNumberOfPlayersInLobby() > 1;
+  const getNumPlayersLobby = () => state.lobby.length ?? 0;
+  const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
 
   return (
     <StyledNewGame>
@@ -106,16 +105,18 @@ const NewGame: FC = () => {
         <StyledForm>
           <StyledFormRow>
             <h2>Players:</h2>
-            <h1>{getNumberOfPlayersInLobby()}</h1>
+            <h1>{getNumPlayersLobby()}</h1>
           </StyledFormRow>
-          <StyledFormRow>
-            {state.lobby.map((v, i) => (
-              <>
-                <h3 key={`player:${v.id}`}>Player {i + 1}:</h3>
-                <h2>{v.piece}</h2>
-              </>
-            ))}
-          </StyledFormRow>
+          <Activity mode={getNumPlayersLobby() > 0 ? "visible" : "hidden"}>
+            <StyledFormRow>
+              {state.lobby.map((v, i) => (
+                <>
+                  <h3 key={`player:${v.id}`}>Player {i + 1}:</h3>
+                  <h2>{v.piece}</h2>
+                </>
+              ))}
+            </StyledFormRow>
+          </Activity>
           <StyledFormRow>
             <StyledLabel>Connect:</StyledLabel>
             <StyledInput
@@ -127,10 +128,10 @@ const NewGame: FC = () => {
             />
           </StyledFormRow>
           <StyledFormRow data-full-span={true}>
-            <Activity mode={testForPlayerLength() ? "visible" : "hidden"}>
+            <Activity mode={testLobbyLen() ? "visible" : "hidden"}>
               <StyledButton onClick={onStart}>Start</StyledButton>
             </Activity>
-            <Activity mode={testForPlayerLength() ? "hidden" : "visible"}>
+            <Activity mode={testLobbyLen() ? "hidden" : "visible"}>
               <StyledButton disabled={true}>Waiting...</StyledButton>
             </Activity>
           </StyledFormRow>
