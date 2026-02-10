@@ -30,8 +30,6 @@ const NewGame: FC = () => {
 
     if (dispatch)
       dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
-    // ugh.. should the reducer be doing the socket stuff here... probably
-    // huh?... oy vey...
   };
 
   useEffect(() => {
@@ -65,8 +63,8 @@ const NewGame: FC = () => {
                 } as Player,
               ],
             ]);
-          console.log("tg:request-player-connection", player);
-          socket.emit("fg:player-connection-approved", { room: ROOM, player });
+          // console.log("tg:request-player-connection", player);
+          // socket.emit("fg:player-connection-approved", { room: ROOM, player });
         }
       });
       // -----------------------------------------------------------------------

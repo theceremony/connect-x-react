@@ -1,4 +1,4 @@
-import type { Game, Move, Player } from "../gameLogic/types";
+import type { Game, Lobby, Move, Player } from "../gameLogic/types";
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 // (((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 export interface ClientEvents {
@@ -14,10 +14,13 @@ export interface ClientEvents {
     room: string;
   }) => void;
   // ...........................................................................
+  ["fg:lobby-update"]: (data: { room: string; lobby: Lobby }) => void;
+  // ...........................................................................
   ["fg:player-connection-approved"]: (data: {
     room: string;
     player: Player;
   }) => void;
+  ["fg:player-disconnected"]: (data: { room: string; player: Player }) => void;
   // ---------------------------------------------------------------------------
   // Player
   // ---------------------------------------------------------------------------
