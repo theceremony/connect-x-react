@@ -28,58 +28,59 @@ const NewGame: FC = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
 
-    if (dispatch)
-      dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
+    dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
 
   useEffect(() => {
+    const onReqConn = ({ playerId }: { room: string; playerId: string }) => {
+      if (state.lobby.length < PLAYER_COLORS.length) {
+        const player =
+          state.lobby.filter(({ id }) => id === playerId)[0] ||
+          ({
+            id: playerId,
+            piece: PLAYER_COLORS.filter(
+              (color) => !state.lobby.map(({ piece }) => piece).includes(color),
+            )[0],
+          } as Player);
+
+        dispatch([
+          "lobby",
+          [
+            ...state.lobby,
+            {
+              ...player,
+            } as Player,
+          ],
+        ]);
+        // console.log("tg:request-player-connection", player);
+        // socket.emit("fg:player-connection-approved", { room: ROOM, player });
+      }
+    };
+    const onDisconnect = ({ id }: { id: string }) => {
+      console.log("player disconnect", id);
+
+      dispatch([
+        "lobby",
+        [...state.lobby].filter((v) => {
+          return id !== v.id;
+        }),
+      ]);
+    };
     if (socket) {
       // -----------------------------------------------------------------------
       socket.emit("fg:request-connection", { room: ROOM });
       // -----------------------------------------------------------------------
-      socket.on("tg:approve-connection", (data) => {
-        console.log("connection approved", data);
-      });
+      socket.on("tg:request-player-connection", onReqConn);
       // -----------------------------------------------------------------------
-      socket.on("tg:request-player-connection", ({ playerId }) => {
-        if (state.lobby.length < PLAYER_COLORS.length) {
-          const player =
-            state.lobby.filter(({ id }) => id === playerId)[0] ||
-            ({
-              id: playerId,
-              piece: PLAYER_COLORS.filter(
-                (color) =>
-                  !state.lobby.map(({ piece }) => piece).includes(color),
-              )[0],
-            } as Player);
-
-          if (dispatch)
-            dispatch([
-              "lobby",
-              [
-                ...state.lobby,
-                {
-                  ...player,
-                } as Player,
-              ],
-            ]);
-          // console.log("tg:request-player-connection", player);
-          // socket.emit("fg:player-connection-approved", { room: ROOM, player });
-        }
-      });
-      // -----------------------------------------------------------------------
-      socket.on("tg:disconnect", ({ id }) => {
-        console.log("player disconnect", id);
-        const newLobby = [...state.lobby].filter((v) => {
-          return id !== v.id;
-        });
-
-        if (dispatch) dispatch(["lobby", newLobby]);
-      });
+      socket.on("tg:disconnect", onDisconnect);
     }
     // -------------------------------------------------------------------------
     return () => {
-      if (socket) socket.removeAllListeners();
+      if (socket) {
+        socket.removeListener("tg:request-player-connection", onReqConn);
+        socket.removeListener("tg:disconnect", onDisconnect);
+        socket.removeAllListeners();
+      }
     };
   }, [dispatch, socket, state.lobby]);
 

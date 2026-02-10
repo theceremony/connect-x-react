@@ -20,39 +20,38 @@ export type Dispatch = React.ActionDispatch<[action: Action]>;
 export type ReducerMiddleware = (action: Action, state: State) => Action;
 export type RegisteredMiddleWare = [ActionKeys, ReducerMiddleware];
 // -----------------------------------------------------------------------------
-const basicMiddleware: ReducerMiddleware = (a) => a;
+const basicMiddleware: ReducerMiddleware = ([key, val]) => {
+  console.log(`update ${key}`);
+  return [key, val];
+};
 // -----------------------------------------------------------------------------
 
 const updateLobbyHook: ReducerMiddleware = ([key, value], { lobby }) => {
-  console.log("update current lobby");
-  console.log(lobby, value);
-  const newLobby = value as Lobby;
-  const newPlayer = [...newLobby.filter((item) => !lobby.includes(item))][0];
+  const nl = value as Lobby;
 
-  const removedPlayer = [
-    ...lobby.filter((item) => !newLobby.includes(item)),
-  ][0];
+  const np = [...nl.filter((item) => !lobby.includes(item))][0];
+  const dp = [...lobby.filter((item) => !nl.includes(item))][0];
 
-  console.log({ newPlayer });
-  console.log({ removedPlayer });
-
-  if (newPlayer)
+  // New Player ----------------------------------------------------------------
+  if (np)
     socket.emit("fg:player-connection-approved", {
       room: ROOM,
-      player: newPlayer,
+      player: np,
     });
-  if (removedPlayer)
+  // Disconnected Player -------------------------------------------------------
+  if (dp)
     socket.emit("fg:player-disconnected", {
       room: ROOM,
-      player: removedPlayer,
+      player: dp,
     });
   socket.emit("fg:lobby-update", {
     room: ROOM,
-    lobby: newLobby,
+    lobby: nl,
   });
-  return [key, newLobby];
+  // Return Action -------------------------------------------------------------
+  return [key, nl];
 };
-
+// -----------------------------------------------------------------------------
 const updateCurrentGameHook: ReducerMiddleware = ([key, value]) => {
   console.log("update current Game");
   socket.emit("fg:game-status-update", {
@@ -61,39 +60,28 @@ const updateCurrentGameHook: ReducerMiddleware = ([key, value]) => {
   });
   return [key, value];
 };
-
+// -----------------------------------------------------------------------------
 const registeredMiddleware: RegisteredMiddleWare[] = [
   ["lobby", updateLobbyHook],
-  [
-    "lobby",
-    (a) => {
-      console.log("two");
-      return a;
-    },
-  ],
   ["currentGame", updateCurrentGameHook],
 ];
-
-export const getMiddleWaresByKey = (key: ActionKeys) => {
-  const filtered = registeredMiddleware.filter(([mKey]) => key === mKey);
-  return filtered.length > 0 ? filtered.map((v) => v[1]) : [basicMiddleware];
-};
-
-export const registerMiddleware = (m: RegisteredMiddleWare) => {
+// -----------------------------------------------------------------------------
+export const getMiddleWaresByKey = (key: ActionKeys) => [
+  basicMiddleware,
+  ...registeredMiddleware.filter(([mKey]) => key === mKey).map((v) => v[1]),
+];
+// -----------------------------------------------------------------------------
+export const registerMiddleware = (m: RegisteredMiddleWare) =>
   registeredMiddleware.push(m);
-};
-
+// -----------------------------------------------------------------------------
 const createAppReducer =
   (s: State = initialState) =>
-  (state: State = s, action: Action) => {
-    // const transAction = getMiddlewareByKey(action[0])(action);
-    const transAction = getMiddleWaresByKey(action[0]).reduce(
-      (acc: Action, v: ReducerMiddleware) => {
-        return v(acc, state);
-      },
+  (state: State = s, action: Action) => ({
+    ...state,
+    [action[0]]: getMiddleWaresByKey(action[0]).reduce(
+      (acc: Action, v: ReducerMiddleware) => v(acc, state),
       action,
-    );
-    return { ...state, [transAction[0]]: transAction[1] };
-  };
-
+    )[1],
+  });
+// -----------------------------------------------------------------------------
 export const appReducer = createAppReducer();
