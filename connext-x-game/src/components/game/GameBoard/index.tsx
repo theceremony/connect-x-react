@@ -5,7 +5,13 @@ import {
   effectGetLongestConnByPos,
   getActionByColumnDrop,
 } from "@/gameLogic";
-import type { Connection, Piece, Position } from "@/gameLogic/types";
+import type {
+  Connection,
+  Game,
+  Piece,
+  Player,
+  Position,
+} from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
 import { type FC, useContext, useEffect, useEffectEvent } from "react";
@@ -60,10 +66,44 @@ const GameBoard: FC = () => {
       return false;
     }
   };
+  const getCurrentPlayer = () => {
+    if (state && state.currentGame && state.currentGame.players) {
+      return state.currentGame.players[
+        state.currentGame?.currentPlayerIndex || 0
+      ];
+    }
+    return undefined;
+  };
 
-  const onPlayerAction = useEffectEvent((data: PlayerActionSocketData) => {
-    console.log(data);
-  });
+  const updatePlayerById =
+    (currentGame: Game) => (id: string) => (update: Partial<Player>) => {
+      if (currentGame.players)
+        return {
+          ...currentGame,
+          players: [
+            ...currentGame.players.filter((v) => v.id !== id),
+            {
+              ...currentGame.players.filter((v) => v.id === id)[0],
+              ...update,
+            },
+          ],
+        } as Game;
+    };
+
+  const onPlayerAction = useEffectEvent(
+    ({ id, action }: PlayerActionSocketData) => {
+      const currentPlayer = getCurrentPlayer();
+      if (currentPlayer?.id === id && state.currentGame) {
+        const updatedGame = updatePlayerById(state.currentGame)(id)({
+          ...currentPlayer,
+          selectedColumnIndex: 2,
+        });
+
+        console.log(updatedGame);
+        console.log(action);
+      }
+    },
+  );
 
   useEffect(() => {
     socket.on("tg:player-action", onPlayerAction);
