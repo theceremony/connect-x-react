@@ -23,7 +23,7 @@ const GameBoard: FC = () => {
     state: { currentGame, currentPiece },
     dispatch,
   } = useContext(AppContext);
-
+  console.log(currentGame);
   const getNextPiece = (currentPiece: Piece) => {
     const pieces =
       currentGame?.players?.map((p) => p.piece) ??
@@ -40,13 +40,34 @@ const GameBoard: FC = () => {
 
     return pieces[nextIndex] as Piece;
   };
+
+  const getNextPlayerIndex = (c: Game) => {
+    if (
+      c.currentPlayerIndex === undefined ||
+      c.players === undefined ||
+      c.players.length < 2
+    )
+      return 0;
+    const nextIndex = c?.currentPlayerIndex + 1;
+    const returnIndex = nextIndex >= c.players.length ? 0 : nextIndex;
+    console.log({ nextIndex }, { returnIndex });
+    return returnIndex;
+  };
+
   const isWinner = (connection: Connection) =>
     connection.length === currentGame?.connectLength;
 
   const onColumnDrop = (x: number) => {
-    if (dispatch && currentGame?.board) {
-      const action = getActionByColumnDrop(currentGame?.board)(x)(currentPiece);
-      dispatch(["currentPiece", getNextPiece(currentPiece)]);
+    const currentPlayer = getCurrentPlayer();
+    if (dispatch && currentGame?.board && currentPlayer) {
+      const action = getActionByColumnDrop(currentGame?.board)(x)(
+        currentPlayer.piece,
+      );
+      if (currentGame.players)
+        dispatch([
+          "currentPiece",
+          currentGame.players[getNextPlayerIndex(currentGame)].piece,
+        ]);
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
       if (action?.updatedBoard)
@@ -55,6 +76,8 @@ const GameBoard: FC = () => {
           {
             ...currentGame,
             board: action?.updatedBoard,
+
+            currentPlayerIndex: getNextPlayerIndex(currentGame),
             winningConnection: isWinner(connection) ? connection : undefined,
             winner: isWinner(connection) ? currentPiece : undefined,
           },
