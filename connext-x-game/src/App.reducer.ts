@@ -10,17 +10,17 @@ export const initialState = {
 };
 // -----------------------------------------------------------------------------
 export type State = typeof initialState;
+// -----------------------------------------------------------------------------
 export type ActionKeys = keyof State;
 export type ActionValues = State[keyof State];
-// -----------------------------------------------------------------------------
 export type Action = [ActionKeys, ActionValues];
+export type Dispatch = React.ActionDispatch<[action: Action]>;
 // -----------------------------------------------------------------------------
 export type ReducerMiddleware = (action: Action) => Action;
-
 export type RegisteredMiddleWare = [ActionKeys, ReducerMiddleware];
-
+// -----------------------------------------------------------------------------
 const basicMiddleware: ReducerMiddleware = (a) => a;
-
+// -----------------------------------------------------------------------------
 const registeredMiddleware: RegisteredMiddleWare[] = [
   [
     "lobby",
@@ -35,7 +35,10 @@ const getMiddlewareByKey = (key: ActionKeys) =>
   registeredMiddleware.filter(([mKey]) => key === mKey)[0][1] ??
   basicMiddleware;
 
-export type Dispatch = React.ActionDispatch<[action: Action]>;
+// cool idea but the OOO would be a nightmare
+// export const registerMiddleware = (m: RegisteredMiddleWare) => {
+//   registeredMiddleware.push(m);
+// };
 
 const createAppReducer =
   (s: State = initialState) =>
