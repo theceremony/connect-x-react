@@ -8,6 +8,7 @@ export const StyledNewGameSection = styled.div`
   display: flex;
   gap: 50px;
   align-items: center;
+  justify-content: center;
 `;
 export const StyledQRContainer = styled.div`
   display: flex;
@@ -23,16 +24,38 @@ export const StyledQRContainer = styled.div`
 export const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  width: 100%;
+  min-width: 300px;
 `;
 export const StyledFormRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 10px;
   align-items: center;
+  justify-content: center;
   /* border: 1px solid green; */
   width: 100%;
-  max-width: 200px;
+  border-bottom: 1px solid grey;
+  padding-bottom: 20px;
+  div,
+  h1,
+  h2,
+  h3,
+  h4 {
+    display: flex;
+    /* border: 1px solid green; */
+    align-items: center;
+
+    width: max-content;
+  }
+  &[data-full-span] {
+    display: flex;
+  }
+  &:last-child {
+    border: unset;
+    padding-bottom: unset;
+  }
 `;
 export const StyledLabel = styled.label`
   font-size: 20px;

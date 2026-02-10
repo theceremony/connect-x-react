@@ -85,6 +85,10 @@ const NewGame: FC = () => {
     };
   }, [dispatch, socket, state.lobby]);
 
+  const getNumberOfPlayersInLobby = () => state.lobby.length || 0;
+
+  const testForPlayerLength = () => getNumberOfPlayersInLobby() > 1;
+
   return (
     <StyledNewGame>
       <h1 className="large-message-headline">New game</h1>
@@ -98,12 +102,20 @@ const NewGame: FC = () => {
           />
           <h3>use your phone as a controller</h3>
         </StyledQRContainer>
+
         <StyledForm>
-          {state.lobby.map((v, i) => (
-            <div key={`player:${v.id}`}>
-              player {i + 1}: {v.piece}
-            </div>
-          ))}
+          <StyledFormRow>
+            <h2>Players:</h2>
+            <h1>{getNumberOfPlayersInLobby()}</h1>
+          </StyledFormRow>
+          <StyledFormRow>
+            {state.lobby.map((v, i) => (
+              <>
+                <h3 key={`player:${v.id}`}>Player {i + 1}:</h3>
+                <h2>{v.piece}</h2>
+              </>
+            ))}
+          </StyledFormRow>
 
           {/* <StyledFormRow>
             <StyledLabel>Players:</StyledLabel>
@@ -125,32 +137,14 @@ const NewGame: FC = () => {
               defaultValue={DEFAULT_CONNECTION_LENGTH}
             />
           </StyledFormRow>
-          <Activity
-            mode={
-              state.currentGame?.players &&
-              state.currentGame?.players?.length > 1
-                ? "visible"
-                : "hidden"
-            }
-          >
-            <div>
+          <StyledFormRow data-full-span={true}>
+            <Activity mode={testForPlayerLength() ? "visible" : "hidden"}>
               <StyledButton onClick={onStart}>Start</StyledButton>
-            </div>
-          </Activity>
-          <Activity
-            mode={
-              state.currentGame?.players &&
-              state.currentGame?.players?.length > 1
-                ? "hidden"
-                : "visible"
-            }
-          >
-            <div>
-              <StyledButton disabled={true}>
-                waiting for players to connect
-              </StyledButton>
-            </div>
-          </Activity>
+            </Activity>
+            <Activity mode={testForPlayerLength() ? "hidden" : "visible"}>
+              <StyledButton disabled={true}>Waiting...</StyledButton>
+            </Activity>
+          </StyledFormRow>
         </StyledForm>
       </StyledNewGameSection>
     </StyledNewGame>
