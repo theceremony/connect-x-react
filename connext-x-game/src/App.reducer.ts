@@ -17,9 +17,11 @@ export type Action = [ActionKeys, ActionValues];
 // -----------------------------------------------------------------------------
 export type ReducerMiddleware = (action: Action) => Action;
 
+export type RegisteredMiddleWare = [ActionKeys, ReducerMiddleware];
+
 const basicMiddleware: ReducerMiddleware = (a) => a;
 
-const reducerMiddleware: [ActionKeys, ReducerMiddleware][] = [
+const registeredMiddleware: RegisteredMiddleWare[] = [
   [
     "lobby",
     (a) => {
@@ -30,17 +32,16 @@ const reducerMiddleware: [ActionKeys, ReducerMiddleware][] = [
 ];
 
 const getMiddlewareByKey = (key: ActionKeys) =>
-  reducerMiddleware.filter(([mKey]) => key === mKey)[0][1];
+  registeredMiddleware.filter(([mKey]) => key === mKey)[0][1] ??
+  basicMiddleware;
 
 export type Dispatch = React.ActionDispatch<[action: Action]>;
 
 const createAppReducer =
   (s: State = initialState) =>
   (state: State = s, action: Action) => {
-    const middleWare: ReducerMiddleware =
-      getMiddlewareByKey(action[0]) || basicMiddleware;
-    const newAction = middleWare(action);
-    return { ...state, [newAction[0]]: newAction[1] };
+    const transAction = getMiddlewareByKey(action[0])(action);
+    return { ...state, [transAction[0]]: transAction[1] };
   };
 
 export const appReducer = createAppReducer();
