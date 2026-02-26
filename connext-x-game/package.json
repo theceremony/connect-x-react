@@ -15,6 +15,7 @@
     "@types/express": "^5.0.6",
     "babel-plugin-react-compiler": "^1.0.0",
     "express": "^5.2.1",
+    "motion": "^12.34.3",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
     "react-compiler-runtime": "^1.0.0",
