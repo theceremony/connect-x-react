@@ -26,8 +26,8 @@ io.on("connection", (socket) => {
       room,
     });
   });
-  socket.on("fg:request-player-status", (data) => {
-    console.log(data);
+  socket.on("fg:request-player-status", ({ room }) => {
+    io.to(room).emit("tap:request-player-status");
     // --> send request for player status to all players
     // --> get status back from individual players
     // --> send status back to game

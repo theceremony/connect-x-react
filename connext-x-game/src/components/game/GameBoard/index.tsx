@@ -13,24 +13,7 @@ const GameBoard: FC = () => {
     state: { currentGame, currentPiece },
     dispatch,
   } = useContext(AppContext);
-  // console.log(currentGame);
-  // const getNextPiece = (currentPiece: Piece) => {
-  //   const pieces =
-  //     currentGame?.players?.map((p) => p.piece) ??
-  //     PLAYER_COLORS.slice(
-  //       0,
-  //       currentGame?.players?.length ?? PLAYER_COLORS.length,
-  //     );
-
-  //   const currentIndex = pieces.indexOf(currentPiece);
-  //   const nextIndex =
-  //     currentIndex === -1 || currentIndex === pieces.length - 1
-  //       ? 0
-  //       : currentIndex + 1;
-
-  //   return pieces[nextIndex] as Piece;
-  // };
-
+  // ---------------------------------------------------------------------------
   const getNextPlayerIndex = (c: Game) => {
     if (
       c.currentPlayerIndex === undefined ||
@@ -43,10 +26,10 @@ const GameBoard: FC = () => {
     console.log({ nextIndex }, { returnIndex });
     return returnIndex;
   };
-
+  // ---------------------------------------------------------------------------
   const isWinner = (connection: Connection) =>
     connection.length === currentGame?.connectLength;
-
+  // ---------------------------------------------------------------------------
   const onColumnDrop = (x: number) => {
     const currentPlayer = getCurrentPlayer();
     if (dispatch && currentGame?.board && currentPlayer) {
@@ -74,6 +57,7 @@ const GameBoard: FC = () => {
         ]);
     }
   };
+  // ---------------------------------------------------------------------------
   const isSlotWinner = (pos: Position) => {
     if (currentGame?.winningConnection) {
       const winCon = currentGame?.winningConnection;
@@ -83,13 +67,14 @@ const GameBoard: FC = () => {
       return false;
     }
   };
+  // ---------------------------------------------------------------------------
   const getCurrentPlayer = () => {
     if (currentGame && currentGame.players) {
       return currentGame.players[currentGame?.currentPlayerIndex || 0];
     }
     return undefined;
   };
-
+  // ---------------------------------------------------------------------------
   const updatePlayerById =
     (currentGame: Game) => (id: string) => (update: Partial<Player>) => {
       if (currentGame.players) {
@@ -105,7 +90,7 @@ const GameBoard: FC = () => {
         } as Game;
       }
     };
-
+  // -------------------------------------------------------------------------
   const getCurrentPlayerColumn = (currentGame: Game) => {
     const currentPlayer = getCurrentPlayer();
     if (currentPlayer && currentPlayer.selectedColumnIndex !== undefined)
@@ -113,7 +98,7 @@ const GameBoard: FC = () => {
 
     return Math.floor(currentGame.board.length / 2);
   };
-
+  // ---------------------------------------------------------------------------
   const onPlayerAction = useEffectEvent(
     ({ id, action }: PlayerActionSocketData) => {
       const currentPlayer = getCurrentPlayer();

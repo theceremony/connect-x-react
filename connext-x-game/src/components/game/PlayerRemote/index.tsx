@@ -1,7 +1,10 @@
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { socket } from "@/netCode/socket";
-import type { GameStatusSocketData } from "@/netCode/types";
+import type {
+  GameStatusSocketData,
+  PlayerStatusSocketData,
+} from "@/netCode/types";
 import { Activity, type FC, useEffect, useEffectEvent, useState } from "react";
 import {
   StyledButtonContainer,
@@ -33,14 +36,24 @@ const PlayerRemote: FC = () => {
     },
   );
 
+  const onPlayerStatusRequest = () => {
+    socket.emit("fp:report-player-status", {
+      id: socket.id,
+      room: ROOM,
+      player,
+    } as PlayerStatusSocketData);
+  };
+
   useEffect(() => {
     if (!player && socket) socket.emit("fp:request-connection", { room: ROOM });
     socket.on("tp:approve-connection", onApproveConnection);
     socket.on("tap:game-status-update", onGameStatusUpdate);
+    socket.on("tap:request-player-status", onPlayerStatusRequest);
 
     return () => {
       socket.removeListener("tp:approve-connection", onApproveConnection);
       socket.removeListener("tap:game-status-update", onGameStatusUpdate);
+      socket.removeListener("tap:request-player-status", onPlayerStatusRequest);
       socket.removeAllListeners();
     };
   }, [player]);
