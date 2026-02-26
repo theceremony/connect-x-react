@@ -36,13 +36,13 @@ const PlayerRemote: FC = () => {
     },
   );
 
-  const onPlayerStatusRequest = () => {
+  const onPlayerStatusRequest = useEffectEvent(() => {
     socket.emit("fp:report-player-status", {
       id: socket.id,
       room: ROOM,
       player,
     } as PlayerStatusSocketData);
-  };
+  });
 
   useEffect(() => {
     if (!player && socket) socket.emit("fp:request-connection", { room: ROOM });
