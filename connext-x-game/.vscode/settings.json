@@ -1,0 +1,16 @@
+{
+    "cSpell.words": [
+        "Horiz",
+        "horz",
+        "qrcode",
+        "Vect"
+    ],
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports":"explicit"
+    },
+    "eslint.format.enable": true,
+    
+    
+}
