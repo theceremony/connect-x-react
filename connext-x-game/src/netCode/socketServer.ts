@@ -13,8 +13,8 @@ const __dirname = dirname(__filename);
 // Now you can use __dirname as you normally would
 console.log(__dirname);
 const options = {
-  key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+1-key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+1.pem")),
+  key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2-key.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2.pem")),
 };
 
 //------------------------------------------------------------------------------
