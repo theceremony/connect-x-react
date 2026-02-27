@@ -3,7 +3,10 @@ export const clamp = (num: number, min: number, max: number) =>
   Math.min(Math.max(num, min), max);
 
 export const generateRoom = (prefix: string = "") => {
-  return encodeURI(`${prefix}${uuidv4()}`).replaceAll("-", "");
+  const urlRoom = getRoomFromURL();
+  return urlRoom !== "default-room"
+    ? urlRoom
+    : encodeURI(`${prefix}${uuidv4()}`).replaceAll("-", "");
 };
 
 export const getRoomFromURL = () => {
