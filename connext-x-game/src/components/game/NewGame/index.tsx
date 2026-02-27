@@ -5,7 +5,7 @@ import {
   PLAYER_COLORS,
 } from "@/gameLogic";
 import type { Game, Player } from "@/gameLogic/types";
-import { ROOM } from "@/netCode/config";
+
 import { socket } from "@/netCode/socket";
 import { QRCodeSVG } from "qrcode.react";
 import {
@@ -31,7 +31,7 @@ const NewGame: FC = () => {
   const { state, dispatch } = useContext(AppContext);
 
   const numConnectInput = useRef<HTMLInputElement>(null);
-
+  console.log(state);
   const onStart = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
@@ -78,7 +78,7 @@ const NewGame: FC = () => {
   useEffect(() => {
     if (socket) {
       // -----------------------------------------------------------------------
-      socket.emit("fg:request-connection", { room: ROOM });
+      socket.emit("fg:request-connection", { room: state.room });
       // -----------------------------------------------------------------------
       socket.on("tg:request-player-connection", onReqConn);
       // -----------------------------------------------------------------------
@@ -94,8 +94,21 @@ const NewGame: FC = () => {
     };
   }, []);
 
+  const getPlayerURL = () =>
+    `http://${window.location.hostname}:${window.location.port}/player?room=${state.room}`;
+
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
+
+  const url = new URL(getPlayerURL());
+
+  console.log(url.href);
+
+  const newBoardUrl = new URL(
+    `http://${window.location.hostname}:${window.location.port}?room=${state.room}`,
+  );
+
+  window.history.replaceState(null, "", newBoardUrl.toString());
 
   return (
     <StyledNewGame>
@@ -105,8 +118,12 @@ const NewGame: FC = () => {
           <QRCodeSVG
             width={300}
             height={300}
-            viewBox="0 0 25 25"
-            value={`http://${window.location.hostname}:${window.location.port}/player`}
+            level="H"
+            viewBox="0 0 51 51"
+            value={url.href}
+            // size={300}
+            marginSize={1}
+            // includeMargin={true}
           />
           <h2>use your phone as a controller</h2>
         </StyledQRContainer>

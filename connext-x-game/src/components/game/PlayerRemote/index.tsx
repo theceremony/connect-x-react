@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
-import { ROOM } from "@/netCode/config";
 import { socket } from "@/netCode/socket";
 import type {
   GameStatusSocketData,
@@ -16,6 +15,7 @@ import {
   StyledSlotContainer,
   StyledTurnBlocker,
 } from "./styled";
+import { getRoomFromURL } from "@/utils";
 // export const getCenterColumn = (gameBoard: Board) =>
 //   Math.floor(gameBoard.length / 2);
 
@@ -23,6 +23,8 @@ const PlayerRemote: FC = () => {
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [game, setGame] = useState<Game | undefined>();
   const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>();
+
+  const room = getRoomFromURL();
 
   const onApproveConnection = useEffectEvent(
     ({ player }: { room: string; player: Player }): void => {
@@ -42,13 +44,13 @@ const PlayerRemote: FC = () => {
   const onPlayerStatusRequest = useEffectEvent(() => {
     socket.emit("fp:report-player-status", {
       id: socket.id,
-      room: ROOM,
+      room,
       player,
     } as PlayerStatusSocketData);
   });
 
   useEffect(() => {
-    if (!player && socket) socket.emit("fp:request-connection", { room: ROOM });
+    if (!player && socket) socket.emit("fp:request-connection", { room });
     socket.on("tp:approve-connection", onApproveConnection);
     socket.on("tap:game-status-update", onGameStatusUpdate);
     socket.on("tap:request-player-status", onPlayerStatusRequest);
@@ -59,7 +61,7 @@ const PlayerRemote: FC = () => {
       socket.removeListener("tap:request-player-status", onPlayerStatusRequest);
       socket.removeAllListeners();
     };
-  }, [player]);
+  }, [player, room]);
 
   useEffect(() => {
     if (game && game.players && game.currentPlayerIndex)
@@ -74,7 +76,7 @@ const PlayerRemote: FC = () => {
     if (socket && player)
       socket.emit("fp:player-action", {
         id: socket.id || "",
-        room: ROOM,
+        room,
         player,
         action: action,
       });

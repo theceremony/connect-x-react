@@ -1,9 +1,11 @@
 import type { Lobby } from "@/gameLogic/types";
-import { ROOM } from "@/netCode/config";
+
 import { socket } from "@/netCode/socket";
 import type { ReducerHooks } from "./types";
+import { getRoomFromURL } from "@/utils";
 
 export const updateLobbyHook: ReducerHooks = ([key, value], { lobby }) => {
+  const room = getRoomFromURL();
   const nl = value as Lobby;
 
   const np = [...nl.filter((item) => !lobby.includes(item))][0];
@@ -12,18 +14,18 @@ export const updateLobbyHook: ReducerHooks = ([key, value], { lobby }) => {
   // New Player ----------------------------------------------------------------
   if (np)
     socket.emit("fg:player-connection-approved", {
-      room: ROOM,
+      room,
       player: np,
     });
   // Disconnected Player -------------------------------------------------------
   if (dp)
     socket.emit("fg:player-disconnected", {
-      room: ROOM,
+      room,
       player: dp,
     });
   // Lobby Update --------------------------------------------------------------
   socket.emit("fg:lobby-update", {
-    room: ROOM,
+    room,
     lobby: nl,
   });
   // Return Action -------------------------------------------------------------
