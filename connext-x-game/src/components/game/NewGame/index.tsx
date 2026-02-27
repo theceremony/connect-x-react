@@ -116,6 +116,7 @@ const NewGame: FC = () => {
             <h2>Players:</h2>
             <h1>{getNumPlayersLobby()}</h1>
           </StyledFormRow>
+
           <Activity mode={getNumPlayersLobby() > 0 ? "visible" : "hidden"}>
             <StyledFormRow>
               {state.lobby.map((v, i) => (
@@ -144,6 +145,9 @@ const NewGame: FC = () => {
               <StyledButton disabled={true}>Waiting...</StyledButton>
             </Activity>
           </StyledFormRow>
+          <div>
+            <i>At least 2 players required</i>
+          </div>
         </StyledForm>
       </StyledNewGameSection>
     </StyledNewGame>
