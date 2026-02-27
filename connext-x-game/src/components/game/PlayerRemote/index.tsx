@@ -82,13 +82,8 @@ const PlayerRemote: FC = () => {
       });
   };
 
-  const isCurrentPlayer = () => {
-    console.log(currentPlayer?.piece, player?.piece);
-    if (currentPlayer && currentPlayer.piece === player?.piece) return true;
-    return false;
-  };
-
-  console.log(isCurrentPlayer());
+  const isCurrentPlayer = () =>
+    currentPlayer && currentPlayer.piece === player?.piece ? true : false;
 
   return (
     <StyledPlayer>
