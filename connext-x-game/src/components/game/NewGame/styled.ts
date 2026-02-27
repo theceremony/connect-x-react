@@ -47,8 +47,9 @@ export const StyledFormRow = styled.div`
     display: flex;
     /* border: 1px solid green; */
     align-items: center;
-
-    width: max-content;
+    text-align: center;
+    /* border: 1px solid green; */
+    width: 100%;
   }
   &[data-full-span] {
     display: flex;
@@ -57,18 +58,25 @@ export const StyledFormRow = styled.div`
     border: unset;
     padding-bottom: unset;
   }
+  h1 {
+    color: hotpink;
+  }
 `;
 export const StyledLabel = styled.label`
-  font-size: 20px;
+  font-size: 1vw;
 `;
 
 export const StyledInput = styled.input`
-  font-size: 20px;
+  all: unset;
+  font-size: 3vw;
   text-align: center;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   border-radius: 5px;
-  padding: 10px;
   width: 100%;
+  background-color: transparent;
+  font-family: "Bitcount", monospace;
+  font-weight: 300;
+  color: hotpink;
 `;
 export const StyledButton = styled.button`
   width: 100%;

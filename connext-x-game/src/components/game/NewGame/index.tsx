@@ -152,6 +152,7 @@ const NewGame: FC = () => {
               min={DEFAULT_CONNECTION_LENGTH - 1}
               max={10}
               defaultValue={DEFAULT_CONNECTION_LENGTH}
+              className="number"
             />
           </StyledFormRow>
           <StyledFormRow data-full-span={true}>
