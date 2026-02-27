@@ -10,10 +10,13 @@ export const StyledModal = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(20, 20, 20, 0.8);
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   backdrop-filter: blur(3px);
-  gap: 0.1vw;
+  gap: 1vw;
+  padding: 3vw;
+  border: 10px solid white;
+  border-radius: 30px;
 
   .large-message-headline {
     font-size: 12rem;
@@ -106,7 +109,7 @@ export const StyledSlot = styled.div`
   }
 
   &[data-slot-winner="true"] {
-    border: 6px solid black;
-    box-shadow: 0px 0px 20px 5px grey;
+    border: 6px solid white;
+    box-shadow: 0px 0px 20px 5px hotpink;
   }
 `;

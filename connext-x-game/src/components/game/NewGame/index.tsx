@@ -149,7 +149,7 @@ const NewGame: FC = () => {
             <StyledInput
               type="number"
               ref={numConnectInput}
-              min={DEFAULT_CONNECTION_LENGTH}
+              min={DEFAULT_CONNECTION_LENGTH - 1}
               max={10}
               defaultValue={DEFAULT_CONNECTION_LENGTH}
             />
