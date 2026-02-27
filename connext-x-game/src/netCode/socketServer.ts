@@ -1,11 +1,11 @@
 import express from "express";
-import { createServer } from "http";
 // import fs from "node:fs";
 import { Server } from "socket.io";
 
 //------------------------------------------------------------------------------
 // import path, { dirname } from "path";
 // import { fileURLToPath } from "url";
+import http from "http";
 import { SOCKET_PORT } from "./config";
 import type { ClientEvents, ServerEvents } from "./types";
 
@@ -38,7 +38,8 @@ import type { ClientEvents, ServerEvents } from "./types";
 
 //------------------------------------------------------------------------------
 const app = express();
-const server = createServer(app);
+const server = http.createServer(app);
+
 //------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
@@ -46,6 +47,8 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
     methods: ["GET", "POST"],
   },
 });
+
+// await ViteExpress.bind(app, server);
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 io.on("connection", (socket) => {
@@ -107,7 +110,7 @@ io.on("connection", (socket) => {
 });
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-server.listen(SOCKET_PORT, "0.0.0.0");
+// server.listen(SOCKET_PORT, "0.0.0.0");
 const gracefulShutdown = async () => {
   console.log("Starting graceful shutdown...");
 
@@ -135,3 +138,7 @@ const gracefulShutdown = async () => {
 // Listen for termination signals (like Ctrl+C or process manager signals)
 process.on("SIGINT", gracefulShutdown);
 process.on("SIGTERM", gracefulShutdown);
+
+server.listen(SOCKET_PORT, () => {
+  console.log("fart");
+});
