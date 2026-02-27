@@ -20,7 +20,7 @@ export const StyledModal = styled.div`
     text-transform: uppercase;
 
     color: transparent;
-    background: linear-gradient(180deg, pink, hotpink);
+    background: linear-gradient(180deg, white, pink, hotpink);
     background-clip: text;
     text-shadow: 8px 8px 0px rgba(100, 0, 0, 0.2);
   }
