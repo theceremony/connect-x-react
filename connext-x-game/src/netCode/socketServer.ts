@@ -1,45 +1,22 @@
 import express from "express";
 // import fs from "node:fs";
+import ngrok from "@ngrok/ngrok";
 import { Server } from "socket.io";
-
 //------------------------------------------------------------------------------
 // import path, { dirname } from "path";
 // import { fileURLToPath } from "url";
 import http from "http";
-import { SOCKET_PORT } from "./config";
+import path from "path";
+import { NGROK_TOKEN, SOCKET_PORT } from "./config";
 import type { ClientEvents, ServerEvents } from "./types";
-
-// (async function () {
-//   console.log("Initializing Ngrok tunnel...");
-
-//   // Initialize ngrok using auth token and hostname
-//   const url = await ngrok.connect({
-//     proto: "http",
-//     // Your authtoken if you want your hostname to be the same everytime
-//     authtoken: NGROK_TOKEN,
-//     // Your hostname if you want your hostname to be the same everytime
-//     hostname: "",
-//     // Your app port
-//     addr: SOCKET_PORT,
-//   });
-
-//   console.log(`Listening on url ${url.url()}`);
-//   console.log("Ngrok tunnel initialized!");
-// })();
-
-// const __filename = fileURLToPath(import.meta.url);
-// // const __dirname = dirname(__filename);
-// // // Now you can use __dirname as you normally would
-// // console.log(__dirname);
-// // const options = {
-// //   key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2-key.pem")),
-// //   cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2.pem")),
-// // };
 
 //------------------------------------------------------------------------------
 const app = express();
 const server = http.createServer(app);
-
+const distPath = path.join(process.cwd(), "dist");
+console.log(distPath);
+app.use(express.static(distPath));
+app.use("/player", express.static(distPath));
 //------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
@@ -139,6 +116,18 @@ const gracefulShutdown = async () => {
 process.on("SIGINT", gracefulShutdown);
 process.on("SIGTERM", gracefulShutdown);
 
-server.listen(SOCKET_PORT, () => {
-  console.log("fart");
+server.listen(SOCKET_PORT, async () => {
+  console.log(`Express server running on http://localhost:${SOCKET_PORT}`);
+
+  try {
+    // Establish connectivity with ngrok
+    const listener = await ngrok.forward({
+      addr: SOCKET_PORT,
+      authtoken: NGROK_TOKEN, // Use the NGROK_AUTHTOKEN env variable
+    });
+
+    console.log(`Ingress established at: ${listener.url()}`); // The public ngrok URL
+  } catch (error) {
+    console.error("Failed to start ngrok tunnel:", error);
+  }
 });

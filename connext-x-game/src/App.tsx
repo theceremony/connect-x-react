@@ -31,7 +31,8 @@ function App() {
   }, 60000);
 
   const path = window.location.pathname;
-  if (path === "/player")
+  console.log("path", path);
+  if (path.includes("/player"))
     return (
       <AppContext.Provider value={{ state, dispatch }}>
         <StyledApp data-is-player={true}>

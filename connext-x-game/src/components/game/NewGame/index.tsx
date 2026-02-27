@@ -118,10 +118,9 @@ const NewGame: FC = () => {
       <StyledNewGameSection>
         <StyledQRContainer>
           <QRCodeSVG
-            width={300}
-            height={300}
-            level="Q"
-            viewBox="0 0 43 43"
+            // width={300}
+            // height={300}
+            size={256}
             value={url.href}
             marginSize={1}
             // includeMargin={true}
