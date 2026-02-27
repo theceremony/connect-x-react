@@ -5,7 +5,7 @@ export const StyledGameBoardContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 60vw;
-  max-width: 80vh;
+  max-width: 76vh;
   /* padding: 25vw; */
   justify-content: center;
   align-items: center;
@@ -16,19 +16,20 @@ export const StyledGameBoard = styled(motion.div)`
   display: flex;
 
   width: 100%;
-  backdrop-filter: blur(2px);
-  border-radius: 2.5vw;
-  /* padding: 15px; */
-  border: 0.5vw solid rgb(72, 145, 255);
+  backdrop-filter: blur(1px);
+  border-radius: 30px;
+  border: 0.3vw solid rgb(72, 145, 255);
   /* gap:5px; */
-  box-shadow: 8px 10px 0px 10px rgb(1, 37, 92);
+  box-shadow:
+    8px 10px 0px 10px rgb(1, 37, 92),
+    0px 0px 120px 16px rgba(49, 5, 153, 0.9);
   /* opacity: 0.9; */
   overflow: hidden;
 `;
 
 export const StyledSlotContainer = styled.div`
   position: relative;
-  padding: 8%;
+  padding: 0.5vh;
 `;
 
 export const StyledSlotBackground = styled.div`
@@ -47,14 +48,14 @@ export const StyledColumnSelectContainer = styled(motion.div)`
   display: flex;
 
   width: 100%;
-  padding: 15px;
+  padding: 1vh;
   /* border: 10px solid green; */
   padding-top: 0;
   /* margin-top: -15%; */
 `;
 export const StyledColumnSelect = styled(motion.div)`
   display: flex;
-  padding: 5px;
+  padding: 0;
   width: 100%;
 `;
 
@@ -62,7 +63,7 @@ export const StyledColumn = styled(motion.div)`
   display: flex;
   flex-direction: column;
   /* border:2px solid black; */
-  border-radius: 20px;
+
   /* gap: 5px;
   padding: 5px; */
   width: 100%;
