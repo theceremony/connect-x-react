@@ -6,7 +6,7 @@ export const generateRoom = (prefix: string = "") => {
   const urlRoom = getRoomFromURL();
   return urlRoom !== "default-room"
     ? urlRoom
-    : encodeURI(`${prefix}${uuidv4()}`).replaceAll("-", "");
+    : encodeURI(`${prefix}${uuidv4()}`).replaceAll("-", "_");
 };
 
 export const getRoomFromURL = () => {

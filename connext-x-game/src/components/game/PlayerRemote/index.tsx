@@ -97,11 +97,13 @@ const PlayerRemote: FC = () => {
           <Activity mode={game ? "hidden" : "visible"}>
             <StyledPlayerName>{player.piece} PLAYER</StyledPlayerName>{" "}
           </Activity>
-          <Activity mode={isCurrentPlayer() ? "hidden" : "visible"}>
-            <StyledTurnBlocker>
-              <h1>Other Players Turn</h1>
-            </StyledTurnBlocker>
-          </Activity>{" "}
+          <Activity mode={game ? "visible" : "hidden"}>
+            <Activity mode={isCurrentPlayer() ? "hidden" : "visible"}>
+              <StyledTurnBlocker>
+                <h1>Other Players Turn</h1>
+              </StyledTurnBlocker>
+            </Activity>{" "}
+          </Activity>
           <StyledSlotContainer>
             <StyledPlayerPiece
               data-slot-color={player.piece}
