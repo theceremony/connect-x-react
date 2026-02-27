@@ -95,7 +95,7 @@ const PlayerRemote: FC = () => {
           <Activity mode={game ? "visible" : "hidden"}>
             <Activity mode={isCurrentPlayer() ? "hidden" : "visible"}>
               <StyledTurnBlocker>
-                <h1>Other Players Turn</h1>
+                <h1>Wait your turn</h1>
               </StyledTurnBlocker>
             </Activity>{" "}
           </Activity>

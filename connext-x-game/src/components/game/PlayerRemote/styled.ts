@@ -19,6 +19,8 @@ export const StyledTurnBlocker = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.9);
+  padding: 5vw;
+  text-align: center;
 `;
 
 export const StyledSlotContainer = styled.div`
