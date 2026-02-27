@@ -5,9 +5,14 @@ import bkg2 from "./assets/funbkg-scifi-anime-beach.png";
 import bkg3 from "./assets/funbkg-scifi-anime-fantasy.png";
 import bkg4 from "./assets/funbkg-scifi-anime-cozy.png";
 import bkg5 from "./assets/funbkg-scifi-anime-spooky.png";
+import bkg6 from "./assets/funbkg-scifi-anime-monster.png";
+import bkg7 from "./assets/funbkg-scifi-anime-beach2.png";
+import bkg8 from "./assets/funbkg-scifi-anime-scifi2.png";
+import bkg9 from "./assets/bkg-no-theme.png";
+
 const randomValue = (arr: string[]) =>
   arr[Math.floor(Math.random() * arr.length)];
-const backgrounds = [bkg1, bkg2, bkg3, bkg4, bkg5];
+const backgrounds = [bkg1, bkg2, bkg3, bkg4, bkg5, bkg6, bkg7, bkg8, bkg9];
 
 const backdrop = randomValue(backgrounds);
 
