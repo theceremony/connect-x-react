@@ -13,7 +13,7 @@ export const StyledModal = styled.div`
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(3px);
-  gap: 2vw;
+  gap: 0.1vw;
 
   .large-message-headline {
     font-size: 12rem;
@@ -27,17 +27,20 @@ export const StyledModal = styled.div`
 `;
 
 export const StyledSlot = styled.div`
+  position: relative;
   display: flex;
 
   width: 100%;
   height: auto;
   aspect-ratio: 1/1;
   box-shadow:
-    inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
-    inset -15px -5px 0px 0px rgb(150, 200, 200, 0.9);
+    inset 2px 6px 4px 5px rgba(0, 0, 0, 0.5),
+    inset -10px -5px 0px 0px rgba(210, 190, 190, 1);
+
   border-radius: 100%;
+
   /* border: 6px solid black; */
-  background-color: rgba(50, 50, 50, 0);
+  background-color: rgba(50, 50, 50, 0.5);
 
   &[data-slot-color="hidden"] {
     background-color: unset;

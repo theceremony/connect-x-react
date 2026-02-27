@@ -12,6 +12,8 @@ import {
   StyledColumnSelectContainer,
   StyledGameBoard,
   StyledGameBoardContainer,
+  StyledSlotBackground,
+  StyledSlotContainer,
 } from "./styled";
 
 const GameBoard: FC = () => {
@@ -169,13 +171,16 @@ const GameBoard: FC = () => {
             data-column-selected={curCol === x}
           >
             {v.map((c, y) => (
-              <StyledSlot
-                key={`slot-${y}`}
-                data-slot-winner={isSlotWinner([x, y])}
-                data-slot-color={c}
-              >
-                {" "}
-              </StyledSlot>
+              <StyledSlotContainer>
+                <StyledSlotBackground></StyledSlotBackground>
+                <StyledSlot
+                  key={`slot-${y}`}
+                  data-slot-winner={isSlotWinner([x, y])}
+                  data-slot-color={c}
+                >
+                  {" "}
+                </StyledSlot>
+              </StyledSlotContainer>
             ))}
           </StyledColumn>
         ))}

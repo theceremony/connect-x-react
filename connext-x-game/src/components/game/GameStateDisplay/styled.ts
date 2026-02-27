@@ -9,7 +9,7 @@ export const StyledGameInterface = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 350px;
+  /* width: 350px; */
   padding: 30px;
   background-color: rgba(255, 255, 255, 0.5);
   border: 4px solid rgba(0, 100, 100, 1);
@@ -25,5 +25,11 @@ export const StyledGameInterface = styled.div`
   .current-player {
     max-width: 80px;
     max-height: 80px;
+  }
+  h1 {
+    font-size: 2vw;
+  }
+  h2 {
+    font-size: 1vw;
   }
 `;

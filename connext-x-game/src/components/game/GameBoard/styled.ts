@@ -16,14 +16,32 @@ export const StyledGameBoard = styled(motion.div)`
 
   width: 100%;
   /* border: 5px solid grey; */
-  background-color: rgba(180, 100, 100, 0.4);
-  backdrop-filter: blur(5px);
+  /* background-color: rgba(180, 100, 100, 0.4); */
+  backdrop-filter: blur(0px);
   border-radius: 40px;
-  padding: 15px;
-  border: 2px solid white;
+  /* padding: 15px; */
+  border: 10px solid rgba(100, 100, 100, 1);
   /* gap:5px; */
-  box-shadow: -15px -5px 0px 0px rgb(50, 50, 50, 0.8);
+  box-shadow: 8px 10px 0px 10px rgb(50, 50, 50, 1);
   /* opacity: 0.9; */
+  overflow: hidden;
+`;
+
+export const StyledSlotContainer = styled.div`
+  position: relative;
+  padding: 0.5vw;
+`;
+
+export const StyledSlotBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  display: flex;
+  background-color: rgba(190, 180, 180, 1);
+  mask: radial-gradient(circle at center, transparent 1.9vw, black 0.5vw);
 `;
 
 export const StyledColumnSelectContainer = styled(motion.div)`
@@ -43,16 +61,15 @@ export const StyledColumn = styled(motion.div)`
   flex-direction: column;
   /* border:2px solid black; */
   border-radius: 20px;
-  gap: 5px;
-  padding: 5px;
+  /* gap: 5px;
+  padding: 5px; */
   width: 100%;
   /* &:hover {
     background-color: yellowgreen;
   } */
 
   &[data-column-selected="true"] {
-    background-color: rgba(0, 250, 150, 0.4);
+    background-color: rgba(150, 80, 200, 0.8);
     backdrop-filter: blur(50px);
-    border: 3px solid rgba(0, 250, 150, 0.8);
   }
 `;

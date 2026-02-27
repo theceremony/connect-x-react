@@ -131,7 +131,7 @@ const NewGame: FC = () => {
         <StyledForm>
           <StyledFormRow>
             <h2>Players:</h2>
-            <h1>{getNumPlayersLobby()}</h1>
+            <h1 className="number">{getNumPlayersLobby()}</h1>
           </StyledFormRow>
 
           <Activity mode={getNumPlayersLobby() > 0 ? "visible" : "hidden"}>
