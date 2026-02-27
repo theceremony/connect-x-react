@@ -4,19 +4,18 @@ import styled from "styled-components";
 export const StyledGameBoardContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  width: 90vw;
-  max-width: 2350px;
-  padding: 25vw;
+  width: 60vw;
+  max-width: 80vh;
+  /* padding: 25vw; */
   justify-content: center;
   align-items: center;
+  /* border: 10px solid green; */
 `;
 
 export const StyledGameBoard = styled(motion.div)`
   display: flex;
 
   width: 100%;
-  /* border: 5px solid grey; */
-  /* background-color: rgba(180, 100, 100, 0.4); */
   backdrop-filter: blur(2px);
   border-radius: 2.5vw;
   /* padding: 15px; */
@@ -51,7 +50,7 @@ export const StyledColumnSelectContainer = styled(motion.div)`
   padding: 15px;
   /* border: 10px solid green; */
   padding-top: 0;
-  margin-top: -15%;
+  /* margin-top: -15%; */
 `;
 export const StyledColumnSelect = styled(motion.div)`
   display: flex;

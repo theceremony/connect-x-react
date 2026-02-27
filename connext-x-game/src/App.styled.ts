@@ -24,7 +24,7 @@ export const StyledApp = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 1vw;
   width: 100vw;
   height: 100dvh;
