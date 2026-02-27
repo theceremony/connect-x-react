@@ -14,9 +14,15 @@ export const StyledModal = styled.div`
   align-items: center;
   backdrop-filter: blur(3px);
   gap: 2vw;
+
   .large-message-headline {
-    font-size: 10rem;
+    font-size: 12rem;
     text-transform: uppercase;
+
+    color: transparent;
+    background: linear-gradient(180deg, pink, hotpink);
+    background-clip: text;
+    text-shadow: 8px 8px 0px rgba(100, 0, 0, 0.2);
   }
 `;
 
