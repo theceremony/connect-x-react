@@ -18,9 +18,9 @@ export const StyledGameBoard = styled(motion.div)`
   /* border: 5px solid grey; */
   /* background-color: rgba(180, 100, 100, 0.4); */
   backdrop-filter: blur(2px);
-  border-radius: 40px;
+  border-radius: 2.5vw;
   /* padding: 15px; */
-  border: 10px solid rgba(100, 100, 100, 1);
+  border: 0.5vw solid rgba(100, 100, 100, 1);
   /* gap:5px; */
   box-shadow: 8px 10px 0px 10px rgb(50, 50, 50, 1);
   /* opacity: 0.9; */

@@ -14,10 +14,11 @@ export const StyledApp = styled.div`
   background-position: center;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 1vw;
   width: 100vw;
   height: 100dvh;
   border: 10px solid rgba(255, 255, 255, 1);
+  border-radius: 1vw;
   overflow: hidden;
   gap: 5px;
   h1,
@@ -32,4 +33,12 @@ export const StyledApp = styled.div`
   &[data-is-player] {
     background: unset;
   }
+`;
+
+export const StyledLogo = styled.img`
+  position: fixed;
+  z-index: 200;
+  bottom: -40px;
+  width: 100%;
+  max-width: 600px;
 `;
