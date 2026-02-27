@@ -32,6 +32,10 @@ export const StyledSlot = styled.div`
   border-radius: 100%;
   /* border: 6px solid black; */
   background-color: rgb(50, 50, 50);
+  &[data-slot-color="hidden"] {
+    background-color: unset;
+    box-shadow: unset;
+  }
   &[data-slot-color="blue"] {
     background-color: blue;
     box-shadow:

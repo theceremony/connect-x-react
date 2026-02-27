@@ -6,7 +6,13 @@ import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
 import { clamp } from "@/utils";
 import { type FC, useContext, useEffect, useEffectEvent } from "react";
-import { StyledColumn, StyledGameBoard } from "./styled";
+import {
+  StyledColumn,
+  StyledColumnSelect,
+  StyledColumnSelectContainer,
+  StyledGameBoard,
+  StyledGameBoardContainer,
+} from "./styled";
 
 const GameBoard: FC = () => {
   const {
@@ -140,26 +146,40 @@ const GameBoard: FC = () => {
 
   if (!currentGame) return <div>error</div>;
   return (
-    <StyledGameBoard>
-      {currentGame?.board.map((v, x) => (
-        <StyledColumn
-          layout
-          key={`column_${x}`}
-          // onClick={() => onColumnDrop(x)}
-          data-column-selected={curCol === x}
-        >
-          {v.map((c, y) => (
+    <StyledGameBoardContainer>
+      <StyledColumnSelectContainer>
+        {currentGame?.board.map((_, x) => (
+          <StyledColumnSelect>
             <StyledSlot
-              key={`slot-${y}`}
-              data-slot-winner={isSlotWinner([x, y])}
-              data-slot-color={c}
+              key={`slot-`}
+              data-slot-color={curCol === x ? currentPiece : "hidden"}
             >
               {" "}
             </StyledSlot>
-          ))}
-        </StyledColumn>
-      ))}
-    </StyledGameBoard>
+          </StyledColumnSelect>
+        ))}
+      </StyledColumnSelectContainer>
+      <StyledGameBoard>
+        {currentGame?.board.map((v, x) => (
+          <StyledColumn
+            layout
+            key={`column_${x}`}
+            // onClick={() => onColumnDrop(x)}
+            data-column-selected={curCol === x}
+          >
+            {v.map((c, y) => (
+              <StyledSlot
+                key={`slot-${y}`}
+                data-slot-winner={isSlotWinner([x, y])}
+                data-slot-color={c}
+              >
+                {" "}
+              </StyledSlot>
+            ))}
+          </StyledColumn>
+        ))}
+      </StyledGameBoard>
+    </StyledGameBoardContainer>
   );
 };
 
