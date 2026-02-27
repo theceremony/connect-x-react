@@ -1,9 +1,9 @@
 import type { Lobby } from "@/gameLogic/types";
-
 import { socket } from "@/netCode/socket";
-import type { ReducerHooks } from "./types";
 import { getRoomFromURL } from "@/utils";
-
+//------------------------------------------------------------------------------
+import type { ReducerHooks } from "./types";
+//------------------------------------------------------------------------------
 export const updateLobbyHook: ReducerHooks = ([key, value], { lobby }) => {
   const room = getRoomFromURL();
   const nl = value as Lobby;

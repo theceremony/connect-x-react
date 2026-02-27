@@ -1,22 +1,19 @@
 import { lazy, Suspense, useReducer, useState } from "react";
-
 import AppContext from "./App.context";
-import { StyledApp, StyledLogo } from "./App.styled";
-
 import { appReducer, initialState } from "./App.reducer";
+import { StyledApp, StyledLogo } from "./App.styled";
 import logo from "./assets/logo.png";
-
+//------------------------------------------------------------------------------
 const GameController = lazy(() => import("@/components/game/GameController"));
-
 const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
-
+//------------------------------------------------------------------------------
 import { preload } from "react-dom";
 import { useInterval } from "react-use";
 import { BACKGROUNDS } from "./App.config";
-
+//------------------------------------------------------------------------------
 const randomBackground = (arr: typeof BACKGROUNDS) =>
   arr[Math.floor(Math.random() * arr.length)];
-
+//------------------------------------------------------------------------------
 function App() {
   BACKGROUNDS.map((a) => {
     preload(a, { as: "image" });

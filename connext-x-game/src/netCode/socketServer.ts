@@ -1,10 +1,11 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+//------------------------------------------------------------------------------
 import type { ClientEvents, ServerEvents } from "./types";
-
+//------------------------------------------------------------------------------
 const server = createServer(express());
-
+//------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
     origin: "*", // Allow all origins for simplicity in a simple example

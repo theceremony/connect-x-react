@@ -1,6 +1,6 @@
 import { basicReducerHook } from "./basic";
 import type { Action, ActionKeys, MappedReducerHooks, State } from "./types";
-
+//------------------------------------------------------------------------------
 const _KEY_INDEX = 0;
 const _VALUE_INDEX = 1;
 // -----------------------------------------------------------------------------

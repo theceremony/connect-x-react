@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+//------------------------------------------------------------------------------
 export const StyledApp = styled.div<{ $backdrop?: string }>`
   display: flex;
   /* flex-direction: column; */
@@ -31,7 +31,7 @@ export const StyledApp = styled.div<{ $backdrop?: string }>`
     background: unset;
   }
 `;
-
+//------------------------------------------------------------------------------
 export const StyledLogo = styled.img`
   position: fixed;
   z-index: 200;

@@ -1,3 +1,4 @@
+//------------------------------------------------------------------------------
 import type {
   Game,
   Lobby,
@@ -5,13 +6,14 @@ import type {
   Player,
   PlayerAction,
 } from "../gameLogic/types";
-
+//------------------------------------------------------------------------------
 export type PlayerActionSocketData = {
   id: string;
   room: string;
   player: Player;
   action: PlayerAction;
 };
+//------------------------------------------------------------------------------
 export type PlayerMoveSocketData = {
   id: string;
   room: string;
@@ -19,6 +21,7 @@ export type PlayerMoveSocketData = {
   move: Move;
 };
 export type GameStatusSocketData = { room: string; gameStatus: Game };
+//------------------------------------------------------------------------------
 export type PlayerStatusSocketData = {
   id: string;
   room: string;
