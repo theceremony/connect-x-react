@@ -1,7 +1,7 @@
 import { lazy, Suspense, useReducer, useState } from "react";
 import AppContext from "./App.context";
 import { appReducer, initialState } from "./App.reducer";
-import { StyledApp, StyledLogo } from "./App.styled";
+import { StyledApp } from "./App.styled";
 import logo from "./assets/logo.png";
 //------------------------------------------------------------------------------
 const GameController = lazy(() => import("@/components/game/GameController"));
@@ -10,6 +10,7 @@ const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
 import { preload } from "react-dom";
 import { useInterval } from "react-use";
 import { BACKGROUNDS } from "./App.config";
+import SuspenseImage from "./components/scaffold/SuspenseImage";
 //------------------------------------------------------------------------------
 const randomBackground = (arr: typeof BACKGROUNDS) =>
   arr[Math.floor(Math.random() * arr.length)];
@@ -36,7 +37,13 @@ function App() {
     return (
       <AppContext.Provider value={{ state, dispatch }}>
         <StyledApp data-is-player={true}>
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="loader">
+                <h1>loading...</h1>
+              </div>
+            }
+          >
             <PlayerRemote />
           </Suspense>
         </StyledApp>
@@ -44,9 +51,22 @@ function App() {
     );
   return (
     <AppContext.Provider value={{ state, dispatch }}>
-      <StyledApp $backdrop={backdrop}>
+      <StyledApp
+        $backdrop={backdrop}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 3 }}
+        key="app-key"
+      >
         <GameController />
-        <StyledLogo src={logo} />
+        {/* <StyledLogo src={logo} /> */}
+        <SuspenseImage src={backdrop} alt="backdrop" noTag={true} />
+        <SuspenseImage
+          className="logo"
+          src={logo}
+          alt="Connext a game I made to prove a point"
+        />
       </StyledApp>
     </AppContext.Provider>
   );

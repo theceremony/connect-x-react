@@ -1,6 +1,7 @@
+import { motion } from "motion/react";
 import styled from "styled-components";
 //------------------------------------------------------------------------------
-export const StyledApp = styled.div<{ $backdrop?: string }>`
+export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
   display: flex;
   /* flex-direction: column; */
   background: url(${(props) => props.$backdrop});
@@ -29,6 +30,14 @@ export const StyledApp = styled.div<{ $backdrop?: string }>`
   transition-delay: 0.2s;
   &[data-is-player] {
     background: unset;
+  }
+  .logo {
+    position: fixed;
+    z-index: 200;
+    bottom: -6%;
+    width: auto;
+    max-width: 750px;
+    max-height: 30vh;
   }
 `;
 //------------------------------------------------------------------------------
