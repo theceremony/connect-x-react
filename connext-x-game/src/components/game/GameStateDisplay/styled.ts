@@ -11,16 +11,18 @@ export const StyledGameInterface = styled.div`
   gap: 10px;
   /* width: 350px; */
   padding: 30px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 4px solid rgba(0, 100, 100, 1);
+  background-color: rgba(104, 2, 77, 0.88);
   backdrop-filter: blur(5px);
-  box-shadow: inset 0px 0px 30px rgba(0, 100, 100, 1);
-  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.5);
-  color: rebeccapurple;
+  box-shadow:
+    inset -5px 2px 30px rgba(200, 200, 200, 0.8),
+    10px 10px 3px rgba(0, 0, 0, 0.6);
+
+  color: hotpink;
   border-radius: 30px;
   text-align: center;
-  left: 4vw;
-  top: 4vw;
+  right: 4vw;
+  bottom: 4vw;
+  background: linear-gradient(0deg, purple, hotpink);
   text-transform: uppercase;
   .current-player {
     max-width: 80px;
@@ -28,8 +30,16 @@ export const StyledGameInterface = styled.div`
   }
   h1 {
     font-size: 2vw;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+    color: transparent;
+    background: linear-gradient(180deg, pink, white, hotpink);
+    background-clip: text;
   }
   h2 {
     font-size: 1vw;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+    color: transparent;
+    background: linear-gradient(180deg, pink, hotpink);
+    background-clip: text;
   }
 `;

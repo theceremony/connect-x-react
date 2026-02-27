@@ -1,9 +1,15 @@
 import styled from "styled-components";
 
-import bkg from "./assets/funbkg-scifi-anime.png";
-import bkgBeach from "./assets/funbkg-scifi-anime-beach.png";
+import bkg1 from "./assets/funbkg-scifi-anime.png";
+import bkg2 from "./assets/funbkg-scifi-anime-beach.png";
+import bkg3 from "./assets/funbkg-scifi-anime-fantasy.png";
+import bkg4 from "./assets/funbkg-scifi-anime-cozy.png";
+import bkg5 from "./assets/funbkg-scifi-anime-spooky.png";
+const randomValue = (arr: string[]) =>
+  arr[Math.floor(Math.random() * arr.length)];
+const backgrounds = [bkg1, bkg2, bkg3, bkg4, bkg5];
 
-const backdrop = Math.random() > 0.4 ? bkg : bkgBeach;
+const backdrop = randomValue(backgrounds);
 
 export const StyledApp = styled.div`
   display: flex;
