@@ -1,5 +1,5 @@
 import express from "express";
-import { createServer } from "http";
+import { createServer } from "https";
 import { Server } from "socket.io";
 //------------------------------------------------------------------------------
 import type { ClientEvents, ServerEvents } from "./types";
@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
 });
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-server.listen(3000, "0.0.0.0");
+server.listen(443, "0.0.0.0");
 const gracefulShutdown = async () => {
   console.log("Starting graceful shutdown...");
 
