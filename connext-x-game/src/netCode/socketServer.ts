@@ -1,24 +1,25 @@
 import express from "express";
-import { createServer } from "https";
-import fs from "node:fs";
+import { createServer } from "http";
+// import fs from "node:fs";
 import { Server } from "socket.io";
 
 //------------------------------------------------------------------------------
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+// import path, { dirname } from "path";
+// import { fileURLToPath } from "url";
+import { SOCKET_PORT } from "./config";
 import type { ClientEvents, ServerEvents } from "./types";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-// Now you can use __dirname as you normally would
-console.log(__dirname);
-const options = {
-  key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2-key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2.pem")),
-};
+// const __filename = fileURLToPath(import.meta.url);
+// // const __dirname = dirname(__filename);
+// // // Now you can use __dirname as you normally would
+// // console.log(__dirname);
+// // const options = {
+// //   key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2-key.pem")),
+// //   cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+2.pem")),
+// // };
 
 //------------------------------------------------------------------------------
-const server = createServer(options, express());
+const server = createServer(express());
 //------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
@@ -87,7 +88,7 @@ io.on("connection", (socket) => {
 });
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-server.listen(443, "0.0.0.0");
+server.listen(SOCKET_PORT, "0.0.0.0");
 const gracefulShutdown = async () => {
   console.log("Starting graceful shutdown...");
 

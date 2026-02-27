@@ -95,7 +95,7 @@ const NewGame: FC = () => {
   }, []);
 
   const getPlayerURL = () =>
-    `https://${window.location.hostname}:${window.location.port}/player?room=${state.room}`;
+    `http://${window.location.hostname}:${window.location.port}/player?room=${state.room}`;
 
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
@@ -105,7 +105,7 @@ const NewGame: FC = () => {
   console.log(url.href);
 
   const newBoardUrl = new URL(
-    `https://${window.location.hostname}:${window.location.port}?room=${state.room}`,
+    `http://${window.location.hostname}:${window.location.port}?room=${state.room}`,
   );
 
   window.history.replaceState(null, "", newBoardUrl.toString());
