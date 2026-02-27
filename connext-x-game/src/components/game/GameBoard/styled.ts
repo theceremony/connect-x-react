@@ -17,7 +17,7 @@ export const StyledGameBoard = styled(motion.div)`
   width: 100%;
   /* border: 5px solid grey; */
   /* background-color: rgba(180, 100, 100, 0.4); */
-  backdrop-filter: blur(0px);
+  backdrop-filter: blur(2px);
   border-radius: 40px;
   /* padding: 15px; */
   border: 10px solid rgba(100, 100, 100, 1);
@@ -29,7 +29,7 @@ export const StyledGameBoard = styled(motion.div)`
 
 export const StyledSlotContainer = styled.div`
   position: relative;
-  padding: 0.5vw;
+  padding: 8%;
 `;
 
 export const StyledSlotBackground = styled.div`
@@ -41,7 +41,7 @@ export const StyledSlotBackground = styled.div`
   z-index: -1;
   display: flex;
   background-color: rgba(190, 180, 180, 1);
-  mask: radial-gradient(circle at center, transparent 1.9vw, black 0.5vw);
+  mask: radial-gradient(circle at center, transparent 50%, black 10%);
 `;
 
 export const StyledColumnSelectContainer = styled(motion.div)`

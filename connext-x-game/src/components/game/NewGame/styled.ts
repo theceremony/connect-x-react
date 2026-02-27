@@ -31,7 +31,7 @@ export const StyledForm = styled.div`
 `;
 export const StyledFormRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   align-items: center;
   justify-content: center;
