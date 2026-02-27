@@ -5,7 +5,7 @@ export const StyledApp = styled.div`
   /* flex-direction: column; */
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 10px;
   width: 100vw;
   height: 100dvh;
   border: 10px solid grey;
