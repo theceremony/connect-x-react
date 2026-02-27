@@ -5,6 +5,7 @@ import type {
   GameStatusSocketData,
   PlayerStatusSocketData,
 } from "@/netCode/types";
+import { getRoomFromURL } from "@/utils";
 import { Activity, type FC, useEffect, useEffectEvent, useState } from "react";
 import {
   StyledButtonContainer,
@@ -15,7 +16,6 @@ import {
   StyledSlotContainer,
   StyledTurnBlocker,
 } from "./styled";
-import { getRoomFromURL } from "@/utils";
 // export const getCenterColumn = (gameBoard: Board) =>
 //   Math.floor(gameBoard.length / 2);
 

@@ -4,11 +4,12 @@ import AppContext from "./App.context";
 import { StyledApp, StyledLogo } from "./App.styled";
 
 import { appReducer, initialState } from "./App.reducer";
+import logo from "./assets/logo.png";
 
 const GameController = lazy(() => import("@/components/game/GameController"));
 
 const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
-import logo from "./assets/logo.png";
+
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const path = window.location.pathname;
