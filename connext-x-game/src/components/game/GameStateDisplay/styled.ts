@@ -16,11 +16,12 @@ export const StyledGameInterface = styled.div`
   backdrop-filter: blur(5px);
   box-shadow: inset 0px 0px 30px rgba(0, 100, 100, 1);
   box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.5);
-  color: black;
+  color: rebeccapurple;
   border-radius: 30px;
   text-align: center;
-  left: 40px;
-  top: 40px;
+  left: 4vw;
+  top: 4vw;
+  text-transform: uppercase;
   .current-player {
     max-width: 80px;
     max-height: 80px;

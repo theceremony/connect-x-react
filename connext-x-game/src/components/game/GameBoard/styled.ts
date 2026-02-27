@@ -5,7 +5,7 @@ export const StyledGameBoardContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 90vw;
-  max-width: 2000px;
+  max-width: 2200px;
   padding: 25vw;
   justify-content: center;
   align-items: center;
