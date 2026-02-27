@@ -28,10 +28,11 @@ export const StyledSlot = styled.div`
   aspect-ratio: 1/1;
   box-shadow:
     inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
-    inset -15px -5px 0px 0px white;
+    inset -15px -5px 0px 0px rgb(150, 200, 200, 0.9);
   border-radius: 100%;
   /* border: 6px solid black; */
-  background-color: rgb(50, 50, 50);
+  background-color: rgba(50, 50, 50, 0);
+
   &[data-slot-color="hidden"] {
     background-color: unset;
     box-shadow: unset;
@@ -42,6 +43,13 @@ export const StyledSlot = styled.div`
       inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
       inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
       inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    &[data-slot-border] {
+      border-width: 4px;
+      border-style: solid;
+      box-shadow:
+        inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+        inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    }
   }
   &[data-slot-color="red"] {
     background-color: red;
@@ -49,6 +57,14 @@ export const StyledSlot = styled.div`
       inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
       inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
       inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    &[data-slot-border] {
+      border-width: 8px;
+      border-style: solid;
+      border-color: #7e2020;
+      box-shadow:
+        inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+        inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    }
   }
   &[data-slot-color="yellow"] {
     background-color: yellow;
@@ -56,6 +72,14 @@ export const StyledSlot = styled.div`
       inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
       inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
       inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    &[data-slot-border] {
+      border-width: 8px;
+      border-style: solid;
+      border-color: #6e6e3a;
+      box-shadow:
+        inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+        inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    }
   }
   &[data-slot-color="green"] {
     background-color: green;
@@ -63,6 +87,13 @@ export const StyledSlot = styled.div`
       inset 2px 6px 4px 5px rgba(0, 0, 0, 0.3),
       inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
       inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    &[data-slot-border] {
+      border-width: 4px;
+      border-style: solid;
+      box-shadow:
+        inset 15px 15px 2px 0px rgba(255, 255, 255, 0.1),
+        inset -15px -15px 2px 0px rgba(0, 0, 0, 0.2);
+    }
   }
 
   &[data-slot-winner="true"] {

@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
 import bkg from "./assets/funbkg-scifi-anime.png";
+import bkgBeach from "./assets/funbkg-scifi-anime-beach.png";
+
+const backdrop = Math.random() > 0.4 ? bkg : bkgBeach;
 
 export const StyledApp = styled.div`
   display: flex;
   /* flex-direction: column; */
-  background: url(${bkg});
+  background: url(${backdrop});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

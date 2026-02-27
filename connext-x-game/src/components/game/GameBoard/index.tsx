@@ -152,6 +152,7 @@ const GameBoard: FC = () => {
           <StyledColumnSelect>
             <StyledSlot
               key={`slot-`}
+              data-slot-border={true}
               data-slot-color={curCol === x ? currentPiece : "hidden"}
             >
               {" "}
