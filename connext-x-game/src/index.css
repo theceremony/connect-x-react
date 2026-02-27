@@ -91,13 +91,14 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
+  box-shadow: 0px 5px black, 0px -5px black, 5px 0px black, -5px 0px black, 0px 10px #00000038, 5px 5px #00000038, -5px 5px #00000038, inset 0px 5px #ffffff36 ;
   padding: 0.6em 1.2em;
-  font-size: 1.5em;
+  font-size: 1.3vw;
   font-weight: 500;
   font-family: inherit;
-  background-color: grey;
+  background-color: rgb(130, 5, 78);
+  background: linear-gradient(0deg, rgb(130, 5, 78), rgb(137, 4, 154));
   cursor: pointer;
   transition: border-color 0.25s;
 }

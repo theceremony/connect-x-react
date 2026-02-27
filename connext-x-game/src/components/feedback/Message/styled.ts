@@ -9,4 +9,5 @@ export const StyledMessage = styled(StyledModal)`
 export const StyledWinnerSticker = styled.img`
   width: 100%;
   max-width: 32vh;
+  z-index: 100;
 `;
