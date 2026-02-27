@@ -143,6 +143,7 @@ const GameBoard: FC = () => {
     <StyledGameBoard>
       {currentGame?.board.map((v, x) => (
         <StyledColumn
+          layout
           key={`column_${x}`}
           // onClick={() => onColumnDrop(x)}
           data-column-selected={curCol === x}

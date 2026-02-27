@@ -10,6 +10,17 @@ export const StyledPlayer = styled.div`
   justify-content: center;
   gap: 50px;
 `;
+
+export const StyledTurnBlocker = styled.div`
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.9);
+`;
+
 export const StyledSlotContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,6 +30,7 @@ export const StyledSlotContainer = styled.div`
   gap: 10px;
   align-items: center;
 `;
+
 export const StyledPlayerPiece = styled(StyledSlot)`
   width: 100%;
   align-items: center;

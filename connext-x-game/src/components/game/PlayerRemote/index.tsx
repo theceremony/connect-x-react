@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
 import { ROOM } from "@/netCode/config";
 import { socket } from "@/netCode/socket";
@@ -13,6 +14,7 @@ import {
   StyledPlayerName,
   StyledPlayerPiece,
   StyledSlotContainer,
+  StyledTurnBlocker,
 } from "./styled";
 // export const getCenterColumn = (gameBoard: Board) =>
 //   Math.floor(gameBoard.length / 2);
@@ -20,6 +22,7 @@ import {
 const PlayerRemote: FC = () => {
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [game, setGame] = useState<Game | undefined>();
+  const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>();
 
   const onApproveConnection = useEffectEvent(
     ({ player }: { room: string; player: Player }): void => {
@@ -58,6 +61,14 @@ const PlayerRemote: FC = () => {
     };
   }, [player]);
 
+  useEffect(() => {
+    if (game && game.players && game.currentPlayerIndex)
+      setCurrentPlayer(game?.players[game.currentPlayerIndex]);
+
+    if (game && game.players && !game.currentPlayerIndex)
+      setCurrentPlayer(game?.players[0]);
+  }, [game]);
+
   const onTap = (action: PlayerAction) => {
     console.log(action);
     if (socket && player)
@@ -68,14 +79,27 @@ const PlayerRemote: FC = () => {
         action: action,
       });
   };
+
+  const isCurrentPlayer = () => {
+    console.log(currentPlayer?.piece, player?.piece);
+    if (currentPlayer && currentPlayer.piece === player?.piece) return true;
+    return false;
+  };
+
+  console.log(isCurrentPlayer());
+
   return (
     <StyledPlayer>
       {player && (
         <>
           <Activity mode={game ? "hidden" : "visible"}>
-            {" "}
             <StyledPlayerName>{player.piece} PLAYER</StyledPlayerName>{" "}
           </Activity>
+          <Activity mode={isCurrentPlayer() ? "hidden" : "visible"}>
+            <StyledTurnBlocker>
+              <h1>Other Players Turn</h1>
+            </StyledTurnBlocker>
+          </Activity>{" "}
           <StyledSlotContainer>
             <StyledPlayerPiece
               data-slot-color={player.piece}
@@ -84,7 +108,6 @@ const PlayerRemote: FC = () => {
               <Activity mode={game ? "visible" : "hidden"}> DROP</Activity>
             </StyledPlayerPiece>
           </StyledSlotContainer>
-
           <Activity mode={game ? "hidden" : "visible"}>
             <h3>waiting for game to start</h3>
           </Activity>

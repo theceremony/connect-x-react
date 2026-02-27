@@ -1,6 +1,7 @@
+import { motion } from "motion/react";
 import styled from "styled-components";
 
-export const StyledGameBoard = styled.div`
+export const StyledGameBoard = styled(motion.div)`
   display: flex;
   width: 60%;
   /* border: 5px solid grey; */
@@ -11,7 +12,7 @@ export const StyledGameBoard = styled.div`
   box-shadow: -15px -5px 0px 0px white;
 `;
 
-export const StyledColumn = styled.div`
+export const StyledColumn = styled(motion.div)`
   display: flex;
   flex-direction: column;
   /* border:2px solid black; */
