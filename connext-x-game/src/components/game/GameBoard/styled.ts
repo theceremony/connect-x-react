@@ -49,6 +49,9 @@ export const StyledColumnSelectContainer = styled(motion.div)`
 
   width: 100%;
   padding: 15px;
+  /* border: 10px solid green; */
+  padding-top: 0;
+  margin-top: -15%;
 `;
 export const StyledColumnSelect = styled(motion.div)`
   display: flex;
