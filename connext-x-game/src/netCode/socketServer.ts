@@ -1,10 +1,24 @@
 import express from "express";
 import { createServer } from "https";
+import fs from "node:fs";
 import { Server } from "socket.io";
+
 //------------------------------------------------------------------------------
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 import type { ClientEvents, ServerEvents } from "./types";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// Now you can use __dirname as you normally would
+console.log(__dirname);
+const options = {
+  key: fs.readFileSync(path.join(__dirname, "../../certs/localhost+1-key.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "../../certs/localhost+1.pem")),
+};
+
 //------------------------------------------------------------------------------
-const server = createServer(express());
+const server = createServer(options, express());
 //------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
