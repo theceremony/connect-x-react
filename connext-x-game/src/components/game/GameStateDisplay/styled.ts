@@ -11,7 +11,11 @@ export const StyledGameInterface = styled.div`
   gap: 10px;
   width: 350px;
   padding: 30px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 4px solid rgba(0, 100, 100, 1);
+  backdrop-filter: blur(5px);
+  box-shadow: inset 0px 0px 30px rgba(0, 100, 100, 1);
+  box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.5);
   color: black;
   border-radius: 30px;
   text-align: center;
