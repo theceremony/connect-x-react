@@ -6,13 +6,6 @@ import path from "path";
 export default defineConfig({
   server: {
     host: true,
-    // proxy: {
-    //   "/socket.io": {
-    //     target: "//localhost:443/socket.io",
-    //     rewriteWsOrigin: true,
-    //     ws: true,
-    //   },
-    // },
   },
   plugins: [
     react({

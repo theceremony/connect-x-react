@@ -94,19 +94,21 @@ const NewGame: FC = () => {
     };
   }, []);
 
-  const getPlayerURL = () =>
-    `http://${window.location.hostname}:${window.location.port}/player?room=${state.room}`;
+  const getPlayerURL = () => {
+    const newUrl = new URL(`${window.location.href}`);
+    newUrl.pathname = "player";
+    newUrl.searchParams.set("room", state.room);
+    return newUrl.href;
+  };
 
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
 
   const url = new URL(getPlayerURL());
 
-  console.log(url.href);
+  const newBoardUrl = new URL(`${window.location.href}`);
 
-  const newBoardUrl = new URL(
-    `http://${window.location.hostname}:${window.location.port}?room=${state.room}`,
-  );
+  newBoardUrl.searchParams.set("room", state.room);
 
   window.history.replaceState(null, "", newBoardUrl.toString());
 
@@ -118,10 +120,9 @@ const NewGame: FC = () => {
           <QRCodeSVG
             width={300}
             height={300}
-            level="H"
-            viewBox="0 0 51 51"
+            level="Q"
+            viewBox="0 0 43 43"
             value={url.href}
-            // size={300}
             marginSize={1}
             // includeMargin={true}
           />

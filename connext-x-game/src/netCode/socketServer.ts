@@ -9,6 +9,24 @@ import { Server } from "socket.io";
 import { SOCKET_PORT } from "./config";
 import type { ClientEvents, ServerEvents } from "./types";
 
+// (async function () {
+//   console.log("Initializing Ngrok tunnel...");
+
+//   // Initialize ngrok using auth token and hostname
+//   const url = await ngrok.connect({
+//     proto: "http",
+//     // Your authtoken if you want your hostname to be the same everytime
+//     authtoken: NGROK_TOKEN,
+//     // Your hostname if you want your hostname to be the same everytime
+//     hostname: "",
+//     // Your app port
+//     addr: SOCKET_PORT,
+//   });
+
+//   console.log(`Listening on url ${url.url()}`);
+//   console.log("Ngrok tunnel initialized!");
+// })();
+
 // const __filename = fileURLToPath(import.meta.url);
 // // const __dirname = dirname(__filename);
 // // // Now you can use __dirname as you normally would
@@ -19,7 +37,8 @@ import type { ClientEvents, ServerEvents } from "./types";
 // // };
 
 //------------------------------------------------------------------------------
-const server = createServer(express());
+const app = express();
+const server = createServer(app);
 //------------------------------------------------------------------------------
 const io = new Server<ClientEvents, ServerEvents>(server, {
   cors: {
