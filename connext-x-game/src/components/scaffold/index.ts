@@ -13,7 +13,7 @@ export const StyledModal = styled.div`
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(3px);
-  gap: 20px;
+  gap: 2vw;
   .large-message-headline {
     font-size: 10rem;
     text-transform: uppercase;

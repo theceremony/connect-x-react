@@ -15,7 +15,7 @@ function App() {
   if (path === "/player")
     return (
       <AppContext.Provider value={{ state, dispatch }}>
-        <StyledApp>
+        <StyledApp data-is-player={true}>
           <Suspense>
             <PlayerRemote />
           </Suspense>
