@@ -20,9 +20,9 @@ export const StyledGameBoard = styled(motion.div)`
   backdrop-filter: blur(2px);
   border-radius: 2.5vw;
   /* padding: 15px; */
-  border: 0.5vw solid rgba(100, 100, 100, 1);
+  border: 0.5vw solid rgb(72, 145, 255);
   /* gap:5px; */
-  box-shadow: 8px 10px 0px 10px rgb(50, 50, 50, 1);
+  box-shadow: 8px 10px 0px 10px rgb(1, 37, 92);
   /* opacity: 0.9; */
   overflow: hidden;
 `;
@@ -40,7 +40,7 @@ export const StyledSlotBackground = styled.div`
   height: 100%;
   z-index: -1;
   display: flex;
-  background-color: rgba(190, 180, 180, 1);
+  background-color: rgb(0, 104, 222);
   mask: radial-gradient(circle at center, transparent 50%, black 10%);
 `;
 

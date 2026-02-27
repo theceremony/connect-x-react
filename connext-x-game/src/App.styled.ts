@@ -49,7 +49,8 @@ export const StyledApp = styled.div`
 export const StyledLogo = styled.img`
   position: fixed;
   z-index: 200;
-  bottom: -40px;
-  width: 100%;
-  max-width: 600px;
+  bottom: -6%;
+  width: auto;
+  max-width: 750px;
+  max-height: 30vh;
 `;
