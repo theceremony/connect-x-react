@@ -26,7 +26,7 @@ export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
     line-height: 1;
   }
 
-  transition: background 3s;
+  transition: background 0.3s;
   transition-delay: 0.2s;
   &[data-is-player] {
     background: unset;

@@ -1,6 +1,7 @@
+import { motion } from "motion/react";
 import styled from "styled-components";
 
-export const StyledModal = styled.div`
+export const StyledModal = styled(motion.div)`
   position: fixed;
   display: flex;
   flex-direction: column;

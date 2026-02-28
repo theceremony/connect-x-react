@@ -7,6 +7,7 @@ import {
 import type { Game, Player } from "@/gameLogic/types";
 
 import { socket } from "@/netCode/socket";
+import { motion } from "motion/react";
 import { QRCodeSVG } from "qrcode.react";
 import {
   Activity,
@@ -113,8 +114,23 @@ const NewGame: FC = () => {
   window.history.replaceState(null, "", newBoardUrl.toString());
 
   return (
-    <StyledNewGame>
-      <h1 className="large-message-headline">New game</h1>
+    <StyledNewGame
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, y: "100%" }}
+      transition={{ duration: 0.2 }}
+      key="game-board-key"
+    >
+      <motion.h1
+        className="large-message-headline"
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2, ease: "backOut" }}
+        key="game-board-key"
+      >
+        New game
+      </motion.h1>
       <StyledNewGameSection>
         <StyledQRContainer>
           <QRCodeSVG

@@ -148,7 +148,13 @@ const GameBoard: FC = () => {
 
   if (!currentGame) return <div>error</div>;
   return (
-    <StyledGameBoardContainer>
+    <StyledGameBoardContainer
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      key="game-board-key"
+    >
       <StyledColumnSelectContainer>
         {currentGame?.board.map((_, x) => (
           <StyledColumnSelect>

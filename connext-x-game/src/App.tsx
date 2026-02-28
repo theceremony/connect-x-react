@@ -20,19 +20,18 @@ function App() {
     preload(a, { as: "image" });
   });
 
-  const [backdrop, setBackDrop] = useState<string>(
-    randomBackground(BACKGROUNDS),
-  );
+  const initialBackdrop = randomBackground(BACKGROUNDS);
+
+  const [backdrop, setBackDrop] = useState<string>(initialBackdrop);
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useInterval(() => {
     const newBackground = randomBackground(BACKGROUNDS);
     preload(newBackground, { as: "image" });
     setBackDrop(newBackground);
-  }, 60000);
+  }, 10000);
 
   const path = window.location.pathname;
-  console.log("path", path);
   if (path.includes("/player"))
     return (
       <AppContext.Provider value={{ state, dispatch }}>
@@ -51,17 +50,10 @@ function App() {
     );
   return (
     <AppContext.Provider value={{ state, dispatch }}>
-      <StyledApp
-        $backdrop={backdrop}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        key="app-key"
-      >
+      <StyledApp $backdrop={backdrop}>
         <GameController />
         {/* <StyledLogo src={logo} /> */}
-        <SuspenseImage src={backdrop} alt="backdrop" noTag={true} />
+        <SuspenseImage src={initialBackdrop} alt="backdrop" noTag={true} />
         <SuspenseImage
           className="logo"
           src={logo}
