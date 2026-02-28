@@ -1,4 +1,4 @@
-import { lazy, Suspense, useReducer, useState } from "react";
+import { lazy, Suspense, useReducer } from "react";
 import AppContext from "./App.context";
 import { appReducer, initialState } from "./App.reducer";
 import { StyledApp } from "./App.styled";
@@ -9,27 +9,29 @@ const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
 //------------------------------------------------------------------------------
 import { preload } from "react-dom";
 import { useInterval } from "react-use";
-import { BACKGROUNDS } from "./App.config";
+import { BACKGROUNDS, TIMING } from "./App.config";
 import SuspenseImage from "./components/scaffold/SuspenseImage";
+import { getRandomArrayValue } from "./utils";
 //------------------------------------------------------------------------------
-const randomBackground = (arr: typeof BACKGROUNDS) =>
-  arr[Math.floor(Math.random() * arr.length)];
+
 //------------------------------------------------------------------------------
 function App() {
   BACKGROUNDS.map((a) => {
     preload(a, { as: "image" });
   });
 
-  const initialBackdrop = randomBackground(BACKGROUNDS);
-
-  const [backdrop, setBackDrop] = useState<string>(initialBackdrop);
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useInterval(() => {
-    const newBackground = randomBackground(BACKGROUNDS);
+    const newBackground = getRandomArrayValue<string>(BACKGROUNDS);
     preload(newBackground, { as: "image" });
-    setBackDrop(newBackground);
-  }, 10000);
+    dispatch([
+      "theme",
+      {
+        currentBackground: getRandomArrayValue<string>(BACKGROUNDS),
+      },
+    ]);
+  }, TIMING.tenMinutes);
 
   const path = window.location.pathname;
   if (path.includes("/player"))
@@ -50,10 +52,14 @@ function App() {
     );
   return (
     <AppContext.Provider value={{ state, dispatch }}>
-      <StyledApp $backdrop={backdrop}>
+      <StyledApp $backdrop={state.theme.currentBackground}>
         <GameController />
         {/* <StyledLogo src={logo} /> */}
-        <SuspenseImage src={initialBackdrop} alt="backdrop" noTag={true} />
+        <SuspenseImage
+          src={initialState.theme.currentBackground}
+          alt="backdrop"
+          noTag={true}
+        />
         <SuspenseImage
           className="logo"
           src={logo}

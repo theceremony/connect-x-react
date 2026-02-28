@@ -13,3 +13,6 @@ export const getRoomFromURL = () => {
   const url = new URL(window.location.href);
   return url.searchParams.get("room") || "default-room";
 };
+
+export const getRandomArrayValue = <T>(arr: T[]) =>
+  arr[Math.floor(Math.random() * arr.length)];

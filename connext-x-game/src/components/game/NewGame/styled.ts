@@ -1,10 +1,11 @@
+import { motion } from "motion/react";
 import styled from "styled-components";
 import { StyledModal } from "../../scaffold";
 export const StyledNewGame = styled(StyledModal)`
   display: flex;
   gap: 50px;
 `;
-export const StyledNewGameSection = styled.div`
+export const StyledNewGameSection = styled(motion.div)`
   display: flex;
   gap: 80px;
   align-items: center;

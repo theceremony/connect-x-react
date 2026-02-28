@@ -118,20 +118,26 @@ const NewGame: FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: "100%" }}
-      transition={{ duration: 0.2 }}
-      key="game-board-key"
+      transition={{ duration: 0.5 }}
+      key="new-game-key"
     >
       <motion.h1
         className="large-message-headline"
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: -150, scale: 5 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, ease: "backOut" }}
-        key="game-board-key"
+        transition={{ duration: 0.2, ease: "backOut", delay: 0.3 }}
+        key="h1-key"
       >
         New game
       </motion.h1>
-      <StyledNewGameSection>
+      <StyledNewGameSection
+        initial={{ opacity: 0, y: 200, scale: 1 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: "backOut", delay: 0.3 }}
+        key="new-game-key"
+      >
         <StyledQRContainer>
           <QRCodeSVG
             // width={300}
