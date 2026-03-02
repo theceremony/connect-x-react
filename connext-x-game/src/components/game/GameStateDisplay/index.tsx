@@ -1,8 +1,7 @@
 import AppContext from "@/App.context";
-
 import { type FC, useContext } from "react";
 import { StyledGameInterface } from "./styled";
-
+// -----------------------------------------------------------------------------
 const GameStateDisplay: FC = () => {
   const { state } = useContext(AppContext);
   return (
@@ -18,5 +17,5 @@ const GameStateDisplay: FC = () => {
     </StyledGameInterface>
   );
 };
-
+// -----------------------------------------------------------------------------
 export default GameStateDisplay;

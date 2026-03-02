@@ -1,15 +1,19 @@
+//----------------------------------------------------------------------------
 import AppContext from "@/App.context";
-
 import { Activity, type FC, lazy, Suspense, useContext } from "react";
+//----------------------------------------------------------------------------
 const GameBoard = lazy(() => import("@/components/game/GameBoard"));
 const GameStateDisplay = lazy(
   () => import("@/components/game/GameStateDisplay"),
 );
+//----------------------------------------------------------------------------
 const Message = lazy(() => import("@/components/feedback/Message"));
 const NewGame = lazy(() => import("@/components/game/NewGame"));
-
+//------------------------------------------------------------------------------
 const GameController: FC = () => {
+  //----------------------------------------------------------------------------
   const { state } = useContext(AppContext);
+  //----------------------------------------------------------------------------
   return (
     <>
       <Activity mode={state.currentGame === undefined ? "visible" : "hidden"}>
@@ -42,5 +46,5 @@ const GameController: FC = () => {
     </>
   );
 };
-
+//----------------------------------------------------------------------------
 export default GameController;

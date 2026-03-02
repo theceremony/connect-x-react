@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+// -----------------------------------------------------------------------------
 export const StyledGameInterface = styled.div`
   /* border: 1px solid green; */
   position: fixed;
@@ -43,3 +43,4 @@ export const StyledGameInterface = styled.div`
     background-clip: text;
   }
 `;
+// -----------------------------------------------------------------------------

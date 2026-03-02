@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+// -----------------------------------------------------------------------------
 export const StyledPlayer = styled.div`
   display: flex;
   width: 100vw;
@@ -8,3 +8,4 @@ export const StyledPlayer = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+// -----------------------------------------------------------------------------

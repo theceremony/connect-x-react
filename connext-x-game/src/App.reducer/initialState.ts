@@ -16,3 +16,4 @@ export const initialState = {
     currentBackground,
   },
 } as const;
+// -----------------------------------------------------------------------------

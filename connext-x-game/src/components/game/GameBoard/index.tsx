@@ -15,7 +15,7 @@ import {
   StyledSlotBackground,
   StyledSlotContainer,
 } from "./styled";
-
+//------------------------------------------------------------------------------
 const GameBoard: FC = () => {
   const {
     state: { currentGame, currentPiece },
@@ -98,7 +98,7 @@ const GameBoard: FC = () => {
         } as Game;
       }
     };
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   const getCurrentPlayerColumn = (currentGame: Game) => {
     const currentPlayer = getCurrentPlayer();
     if (currentPlayer && currentPlayer.selectedColumnIndex !== undefined)
@@ -131,22 +131,23 @@ const GameBoard: FC = () => {
       }
     },
   );
-
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     socket.on("tg:player-action", onPlayerAction);
     return () => {
       socket.removeListener("tg:player-action", onPlayerAction);
     };
   }, []);
-
+  // ---------------------------------------------------------------------------
   const getCurrentSelectedColumn = () => {
     if (currentGame === undefined) return undefined;
     return getCurrentPlayerColumn(currentGame);
   };
-
+  // ---------------------------------------------------------------------------
   const curCol = getCurrentSelectedColumn();
-
+  // ---------------------------------------------------------------------------
   if (!currentGame) return <div>error</div>;
+  // ---------------------------------------------------------------------------
   return (
     <StyledGameBoardContainer
       initial={{ opacity: 0 }}
@@ -194,5 +195,5 @@ const GameBoard: FC = () => {
     </StyledGameBoardContainer>
   );
 };
-
+//------------------------------------------------------------------------------
 export default GameBoard;
