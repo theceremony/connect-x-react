@@ -27,12 +27,12 @@ export const StyledGameBoard = styled(motion.div)`
   overflow: hidden;
 `;
 
-export const StyledSlotContainer = styled.div`
+export const StyledSlotContainer = styled(motion.div)`
   position: relative;
   padding: 0.5vh;
 `;
 
-export const StyledSlotBackground = styled.div`
+export const StyledSlotBackground = styled(motion.div)`
   position: absolute;
   top: 0;
   left: 0;

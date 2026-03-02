@@ -156,10 +156,11 @@ const GameBoard: FC = () => {
       transition={{ duration: 0.2 }}
       key="game-board-key"
     >
-      <StyledColumnSelectContainer>
+      <StyledColumnSelectContainer layout>
         {currentGame?.board.map((_, x) => (
-          <StyledColumnSelect>
+          <StyledColumnSelect layout>
             <StyledSlot
+              layout
               key={`slot-`}
               data-slot-border={true}
               data-slot-color={curCol === x ? currentPiece : "hidden"}
@@ -169,7 +170,7 @@ const GameBoard: FC = () => {
           </StyledColumnSelect>
         ))}
       </StyledColumnSelectContainer>
-      <StyledGameBoard>
+      <StyledGameBoard layout>
         {currentGame?.board.map((v, x) => (
           <StyledColumn
             layout
@@ -178,9 +179,10 @@ const GameBoard: FC = () => {
             data-column-selected={curCol === x}
           >
             {v.map((c, y) => (
-              <StyledSlotContainer>
-                <StyledSlotBackground></StyledSlotBackground>
+              <StyledSlotContainer layout>
+                <StyledSlotBackground layout></StyledSlotBackground>
                 <StyledSlot
+                  layout
                   key={`slot-${y}`}
                   data-slot-winner={isSlotWinner([x, y])}
                   data-slot-color={c}

@@ -2,18 +2,20 @@ import { BACKGROUNDS } from "@/App.config";
 import { PLAYER_COLORS } from "@/gameLogic";
 import type { Game, Lobby, Piece } from "@/gameLogic/types";
 import { generateRoom, getRandomArrayValue } from "@/utils";
+import type { Theme } from "./types";
 //------------------------------------------------------------------------------
 const room = generateRoom();
 const currentBackground = getRandomArrayValue<string>(BACKGROUNDS);
 //------------------------------------------------------------------------------
-export const initialState = {
+export const INITIAL_STATE = {
   room,
   currentGame: undefined as undefined | Game,
   lobby: [] as Lobby,
   currentPiece: PLAYER_COLORS[0] as Piece,
   previousGames: [] as Game[],
   theme: {
+    style: "Anime",
     currentBackground,
-  },
+  } as Theme,
 } as const;
 // -----------------------------------------------------------------------------

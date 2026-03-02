@@ -11,7 +11,7 @@ export const StyledNewGameSection = styled(motion.div)`
   align-items: center;
   justify-content: center;
 `;
-export const StyledQRContainer = styled.div`
+export const StyledQRContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -23,14 +23,14 @@ export const StyledQRContainer = styled.div`
     border-radius: 10px;
   }
 `;
-export const StyledForm = styled.div`
+export const StyledForm = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   min-width: 300px;
 `;
-export const StyledFormRow = styled.div`
+export const StyledFormRow = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -63,11 +63,11 @@ export const StyledFormRow = styled.div`
     color: hotpink;
   }
 `;
-export const StyledLabel = styled.label`
+export const StyledLabel = styled(motion.label)`
   font-size: 1vw;
 `;
 
-export const StyledInput = styled.input`
+export const StyledInput = styled(motion.input)`
   all: unset;
   font-size: 3vw;
   text-align: center;

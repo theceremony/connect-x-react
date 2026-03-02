@@ -30,7 +30,7 @@ export const StyledModal = styled(motion.div)`
   }
 `;
 
-export const StyledSlot = styled.div`
+export const StyledSlot = styled(motion.div)`
   position: relative;
   display: flex;
 

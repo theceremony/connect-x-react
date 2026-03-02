@@ -30,11 +30,13 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "devDependencies": {
+    "@commitlint/cz-commitlint": "^20.4.1",
     "@eslint/js": "^9.39.3",
     "@types/node": "^24.10.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
+    "commitizen": "^4.3.1",
     "eslint": "^9.39.3",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",

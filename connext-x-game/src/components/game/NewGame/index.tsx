@@ -138,7 +138,7 @@ const NewGame: FC = () => {
         transition={{ duration: 0.3, ease: "backOut", delay: 0.3 }}
         key="new-game-key"
       >
-        <StyledQRContainer>
+        <StyledQRContainer layout>
           <QRCodeSVG
             // width={300}
             // height={300}
@@ -150,14 +150,14 @@ const NewGame: FC = () => {
           <h2>use your phone as a controller</h2>
         </StyledQRContainer>
 
-        <StyledForm>
-          <StyledFormRow>
+        <StyledForm layout>
+          <StyledFormRow layout>
             <h2>Players:</h2>
             <h1 className="number">{getNumPlayersLobby()}</h1>
           </StyledFormRow>
 
           <Activity mode={getNumPlayersLobby() > 0 ? "visible" : "hidden"}>
-            <StyledFormRow>
+            <StyledFormRow layout>
               {state.lobby.map((v, i) => (
                 <>
                   <h3 key={`player:${v.id}`}>Player {i + 1}:</h3>
