@@ -40,7 +40,6 @@ const GameBoard: FC = () => {
       return 0;
     const nextIndex = c?.currentPlayerIndex + 1;
     const returnIndex = nextIndex >= c.players.length ? 0 : nextIndex;
-    console.log({ nextIndex }, { returnIndex });
     return returnIndex;
   };
   // ---------------------------------------------------------------------------
@@ -53,11 +52,6 @@ const GameBoard: FC = () => {
       const action = getActionByColumnDrop(currentGame?.board)(x)(
         currentPlayer.piece,
       );
-      // if (currentGame.players)
-      // dispatch([
-      //   "currentPiece",
-      //   currentGame.players[getNextPlayerIndex(currentGame)].piece,
-      // ]);
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
       if (action?.updatedBoard)
@@ -66,7 +60,6 @@ const GameBoard: FC = () => {
           {
             ...currentGame,
             board: action?.updatedBoard,
-
             currentPlayerIndex: getNextPlayerIndex(currentGame),
             winningConnection: isWinner(connection) ? connection : undefined,
             winner: isWinner(connection) ? currentPiece : undefined,

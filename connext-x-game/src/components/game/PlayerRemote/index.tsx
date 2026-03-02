@@ -16,28 +16,25 @@ import {
   StyledSlotContainer,
   StyledTurnBlocker,
 } from "./styled";
-// export const getCenterColumn = (gameBoard: Board) =>
-//   Math.floor(gameBoard.length / 2);
 
 const PlayerRemote: FC = () => {
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [game, setGame] = useState<Game | undefined>();
   const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>();
-
+  //----------------------------------------------------------------------------
   const room = getRoomFromURL();
-
+  //----------------------------------------------------------------------------
   const onApproveConnection = useEffectEvent(
     ({ player }: { room: string; player: Player }): void => {
       if (socket.id === player.id) setPlayer(player);
     },
   );
-
+  //----------------------------------------------------------------------------
   const getPlayerById = (id: string, players: Player[]) =>
     players.filter((v) => v.id === id)[0];
-
+  //----------------------------------------------------------------------------
   const onGameStatusUpdate = useEffectEvent(
     ({ gameStatus }: GameStatusSocketData) => {
-      // setInGame(!!(gameStatus.players && gameStatus.players.length > 1));
       if (player?.id && gameStatus?.players) {
         const updatedPlayer = getPlayerById(player.id, gameStatus.players);
         setPlayer(updatedPlayer);
@@ -46,7 +43,7 @@ const PlayerRemote: FC = () => {
       setGame(gameStatus);
     },
   );
-
+  //----------------------------------------------------------------------------
   const onPlayerStatusRequest = useEffectEvent(() => {
     socket.emit("fp:report-player-status", {
       id: socket.id,
@@ -54,7 +51,7 @@ const PlayerRemote: FC = () => {
       player,
     } as PlayerStatusSocketData);
   });
-
+  //----------------------------------------------------------------------------
   useEffect(() => {
     if (!player && socket) socket.emit("fp:request-connection", { room });
     socket.on("tp:approve-connection", onApproveConnection);
@@ -68,7 +65,7 @@ const PlayerRemote: FC = () => {
       socket.removeAllListeners();
     };
   }, [player, room]);
-
+  //----------------------------------------------------------------------------
   useEffect(() => {
     if (game && game.players && game.currentPlayerIndex)
       setCurrentPlayer(game?.players[game.currentPlayerIndex]);
@@ -78,7 +75,6 @@ const PlayerRemote: FC = () => {
   }, [game]);
 
   const onTap = (action: PlayerAction) => {
-    console.log(action);
     if (socket && player)
       socket.emit("fp:player-action", {
         id: socket.id || "",
@@ -87,10 +83,10 @@ const PlayerRemote: FC = () => {
         action: action,
       });
   };
-
+  //----------------------------------------------------------------------------
   const isCurrentPlayer = () =>
     currentPlayer && currentPlayer.piece === player?.piece ? true : false;
-
+  //----------------------------------------------------------------------------
   return (
     <StyledPlayer>
       {player && (
