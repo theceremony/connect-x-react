@@ -18,9 +18,18 @@ import {
 //------------------------------------------------------------------------------
 const GameBoard: FC = () => {
   const {
-    state: { currentGame, currentPiece },
+    state: { currentGame },
     dispatch,
   } = useContext(AppContext);
+
+  const getCurrentPlayer = () => {
+    if (currentGame && currentGame.players) {
+      return currentGame.players[currentGame?.currentPlayerIndex || 0];
+    }
+    return undefined;
+  };
+
+  const currentPiece = getCurrentPlayer()?.piece;
   // ---------------------------------------------------------------------------
   const getNextPlayerIndex = (c: Game) => {
     if (
@@ -76,12 +85,7 @@ const GameBoard: FC = () => {
     }
   };
   // ---------------------------------------------------------------------------
-  const getCurrentPlayer = () => {
-    if (currentGame && currentGame.players) {
-      return currentGame.players[currentGame?.currentPlayerIndex || 0];
-    }
-    return undefined;
-  };
+
   // ---------------------------------------------------------------------------
   const updatePlayerById =
     (currentGame: Game) => (id: string) => (update: Partial<Player>) => {

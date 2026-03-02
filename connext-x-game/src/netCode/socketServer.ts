@@ -11,6 +11,8 @@ import { NGROK_TOKEN, SOCKET_PORT } from "./config";
 import type { ClientEvents, ServerEvents } from "./types";
 
 //------------------------------------------------------------------------------
+
+const SERVE_NGROCK = false;
 const app = express();
 const server = http.createServer(app);
 const distPath = path.join(process.cwd(), "dist");
@@ -80,6 +82,13 @@ io.on("connection", (socket) => {
       ...data,
     });
   });
+  socket.on("fp:report-player-status", ({ room, ...data }) => {
+    socket.join(room);
+    io.to(room).emit("tg:report-player-status", {
+      room,
+      ...data,
+    });
+  });
   socket.on("disconnect", () => {
     socket.broadcast.emit("tg:disconnect", { id: socket.id });
   });
@@ -118,12 +127,12 @@ process.on("SIGTERM", gracefulShutdown);
 
 server.listen(SOCKET_PORT, async () => {
   console.log(`Express server running on http://localhost:${SOCKET_PORT}`);
-
+  if (!SERVE_NGROCK) return;
   try {
     // Establish connectivity with ngrok
     const listener = await ngrok.forward({
       addr: SOCKET_PORT,
-      authtoken: NGROK_TOKEN, // Use the NGROK_AUTHTOKEN env variable
+      authtoken: NGROK_TOKEN,
     });
 
     console.log(`Ingress established at: ${listener.url()}`); // The public ngrok URL

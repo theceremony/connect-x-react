@@ -32,10 +32,16 @@ const PlayerRemote: FC = () => {
     },
   );
 
+  const getPlayerById = (id: string, players: Player[]) =>
+    players.filter((v) => v.id === id)[0];
+
   const onGameStatusUpdate = useEffectEvent(
     ({ gameStatus }: GameStatusSocketData) => {
       // setInGame(!!(gameStatus.players && gameStatus.players.length > 1));
-
+      if (player?.id && gameStatus?.players) {
+        const updatedPlayer = getPlayerById(player.id, gameStatus.players);
+        setPlayer(updatedPlayer);
+      }
       console.log(gameStatus);
       setGame(gameStatus);
     },
