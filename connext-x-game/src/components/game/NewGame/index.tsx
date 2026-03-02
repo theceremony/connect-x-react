@@ -5,7 +5,6 @@ import {
   PLAYER_COLORS,
 } from "@/gameLogic";
 import type { Game, Player } from "@/gameLogic/types";
-
 import { socket } from "@/netCode/socket";
 import { motion } from "motion/react";
 import { QRCodeSVG } from "qrcode.react";
@@ -27,19 +26,19 @@ import {
   StyledNewGameSection,
   StyledQRContainer,
 } from "./styled";
-
+// -----------------------------------------------------------------------------
 const NewGame: FC = () => {
+  // ===========================================================================
   const { state, dispatch } = useContext(AppContext);
-
+  // ===========================================================================
   const numConnectInput = useRef<HTMLInputElement>(null);
-  console.log(state);
+  // ===========================================================================
   const onStart = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
-
     dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
-
+  // ===========================================================================
   const onReqConn = useEffectEvent(
     ({ playerId }: { room: string; playerId: string }) => {
       if (state.lobby.length < PLAYER_COLORS.length) {
@@ -64,9 +63,8 @@ const NewGame: FC = () => {
       }
     },
   );
+  // ===========================================================================
   const onDisconnect = useEffectEvent(({ id }: { id: string }) => {
-    console.log("player disconnect", id);
-
     dispatch([
       "lobby",
       [...state.lobby].filter((v) => {
@@ -74,7 +72,7 @@ const NewGame: FC = () => {
       }),
     ]);
   });
-
+  // ===========================================================================
   //Socket Effect ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   useEffect(() => {
     if (socket) {
@@ -94,25 +92,23 @@ const NewGame: FC = () => {
       }
     };
   }, []);
-
+  // ===========================================================================
   const getPlayerURL = () => {
     const newUrl = new URL(`${window.location.href}`);
     newUrl.pathname = "player";
     newUrl.searchParams.set("room", state.room);
     return newUrl.href;
   };
-
+  // ===========================================================================
   const getNumPlayersLobby = () => state.lobby.length ?? 0;
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
-
+  // ===========================================================================
   const url = new URL(getPlayerURL());
-
   const newBoardUrl = new URL(`${window.location.href}`);
-
+  // ===========================================================================
   newBoardUrl.searchParams.set("room", state.room);
-
   window.history.replaceState(null, "", newBoardUrl.toString());
-
+  // ===========================================================================
   return (
     <StyledNewGame
       initial={{ opacity: 0 }}
@@ -185,5 +181,5 @@ const NewGame: FC = () => {
     </StyledNewGame>
   );
 };
-
+// -----------------------------------------------------------------------------
 export default NewGame;

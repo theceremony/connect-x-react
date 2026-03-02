@@ -9,7 +9,6 @@ export const getReducerHookByKey =
     basicReducerHook,
     ...regHooks.filter(([mKey]) => key === mKey).map((v) => v[1]),
   ];
-
 // -----------------------------------------------------------------------------
 export const createAppReducer =
   (ins: State) =>

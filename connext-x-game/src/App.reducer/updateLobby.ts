@@ -5,12 +5,13 @@ import { getRoomFromURL } from "@/utils";
 import type { ReducerHooks } from "./types";
 //------------------------------------------------------------------------------
 export const updateLobbyHook: ReducerHooks = ([key, value], { lobby }) => {
+  // ===========================================================================
   const room = getRoomFromURL();
+  // ===========================================================================
   const nl = value as Lobby;
-
   const np = [...nl.filter((item) => !lobby.includes(item))][0];
   const dp = [...lobby.filter((item) => !nl.includes(item))][0];
-
+  // ===========================================================================
   // New Player ----------------------------------------------------------------
   if (np)
     socket.emit("fg:player-connection-approved", {
