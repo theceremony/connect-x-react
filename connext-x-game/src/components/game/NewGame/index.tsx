@@ -129,7 +129,7 @@ const NewGame: FC = () => {
         transition={{ duration: 0.2, ease: "backOut", delay: 0.3 }}
         key="h1-key"
       >
-        New game
+        New Game
       </motion.h1>
       <StyledNewGameSection
         initial={{ opacity: 0, y: 200, scale: 1 }}
@@ -139,17 +139,9 @@ const NewGame: FC = () => {
         key="new-game-key"
       >
         <StyledQRContainer layout>
-          <QRCodeSVG
-            // width={300}
-            // height={300}
-            size={256}
-            value={url.href}
-            marginSize={1}
-            // includeMargin={true}
-          />
+          <QRCodeSVG size={256} value={url.href} marginSize={1} />
           <h2>use your phone as a controller</h2>
         </StyledQRContainer>
-
         <StyledForm layout>
           <StyledFormRow layout>
             <h2>Players:</h2>
