@@ -53,11 +53,11 @@ const GameBoard: FC = () => {
       const action = getActionByColumnDrop(currentGame?.board)(x)(
         currentPlayer.piece,
       );
-      if (currentGame.players)
-        dispatch([
-          "currentPiece",
-          currentGame.players[getNextPlayerIndex(currentGame)].piece,
-        ]);
+      // if (currentGame.players)
+      // dispatch([
+      //   "currentPiece",
+      //   currentGame.players[getNextPlayerIndex(currentGame)].piece,
+      // ]);
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
       if (action?.updatedBoard)
