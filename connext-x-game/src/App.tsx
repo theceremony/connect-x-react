@@ -1,4 +1,4 @@
-import { lazy, useReducer } from "react";
+import { lazy, Suspense, useReducer } from "react";
 import AppContext from "./App.context";
 import { appReducer, initialState } from "./App.reducer";
 import { StyledApp } from "./App.styled";
@@ -10,6 +10,7 @@ const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
 import { preload } from "react-dom";
 import { useInterval } from "react-use";
 import { BACKGROUNDS, TIMING } from "./App.config";
+import AnimatedLoader from "./components/scaffold/AnimatedLoader";
 import SuspenseImage from "./components/scaffold/SuspenseImage";
 import { getRandomArrayValue } from "./utils";
 //------------------------------------------------------------------------------
@@ -35,35 +36,39 @@ function App() {
   //----------------------------------------------------------------------------
   if (path.includes("/player"))
     return (
-      <AppContext.Provider value={{ state, dispatch }}>
-        <StyledApp data-is-player={true}>
-          <PlayerRemote />
-        </StyledApp>
-      </AppContext.Provider>
+      <Suspense fallback={<AnimatedLoader />}>
+        <AppContext.Provider value={{ state, dispatch }}>
+          <StyledApp data-is-player={true}>
+            <PlayerRemote />
+          </StyledApp>
+        </AppContext.Provider>
+      </Suspense>
     );
   //----------------------------------------------------------------------------
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <StyledApp $backdrop={state.theme.currentBackground}>
-        <GameController />
-        {/* <StyledLogo src={logo} /> */}
-        <SuspenseImage
-          src={initialState.theme.currentBackground}
-          alt="backdrop"
-          noTag={true}
-        />
-        <SuspenseImage
-          className="logo"
-          src={logo}
-          alt="Connext a game I made to prove a point"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          key="logo-key"
-        />
-      </StyledApp>
-    </AppContext.Provider>
+    <Suspense fallback={<AnimatedLoader />}>
+      <AppContext.Provider value={{ state, dispatch }}>
+        <StyledApp $backdrop={state.theme.currentBackground}>
+          <GameController />
+          {/* <StyledLogo src={logo} /> */}
+          <SuspenseImage
+            src={initialState.theme.currentBackground}
+            alt="backdrop"
+            noTag={true}
+          />
+          <SuspenseImage
+            className="logo"
+            src={logo}
+            alt="Connext a game I made to prove a point"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            key="logo-key"
+          />
+        </StyledApp>
+      </AppContext.Provider>
+    </Suspense>
   );
 }
 //------------------------------------------------------------------------------
