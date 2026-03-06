@@ -7,7 +7,8 @@ import { Server } from "socket.io";
 // import { fileURLToPath } from "url";
 import http from "http";
 import path from "path";
-import { NGROK_TOKEN, SOCKET_PORT } from "./config";
+
+import { NGROK_TOKEN, SOCKET_PORT } from "./config.ts";
 import type { ClientEvents, ServerEvents } from "./types";
 
 //------------------------------------------------------------------------------

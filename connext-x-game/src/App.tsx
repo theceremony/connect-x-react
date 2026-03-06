@@ -32,9 +32,7 @@ function App() {
     ]);
   }, TIMING.TEN_MINUTES);
   //----------------------------------------------------------------------------
-  const path = window.location.pathname;
-  //----------------------------------------------------------------------------
-  if (path.includes("/player"))
+  if (state.gameMode === "controller")
     return (
       <Suspense fallback={<AnimatedLoader />}>
         <AppContext.Provider value={{ state, dispatch }}>

@@ -27,5 +27,7 @@ export type Game = {
   currentPlayerIndex?: number;
 };
 
+export type GameMode = "host" | "controller" | "player";
+
 export type Vector = [number, number];
 export type PlayerAction = "move-left" | "move-right" | "drop";
