@@ -1,6 +1,6 @@
 // SuspenseImage.tsx
 
-import loadImage from "@/utils/imageLoader";
+import loadImage from "@/utils/image";
 import { motion, type HTMLMotionProps } from "motion/react";
 import React from "react";
 
