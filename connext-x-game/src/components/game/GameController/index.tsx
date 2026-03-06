@@ -1,6 +1,16 @@
 //----------------------------------------------------------------------------
 import AppContext from "@/App.context";
-import { Activity, type FC, lazy, Suspense, useContext } from "react";
+import { socket } from "@/netCode/socket";
+import type { GameStatusSocketData } from "@/netCode/types";
+import {
+  Activity,
+  type FC,
+  lazy,
+  Suspense,
+  useContext,
+  useEffect,
+  useEffectEvent,
+} from "react";
 //----------------------------------------------------------------------------
 const GameBoard = lazy(() => import("@/components/game/GameBoard"));
 const GameStateDisplay = lazy(
@@ -12,7 +22,29 @@ const NewGame = lazy(() => import("@/components/game/NewGame"));
 //------------------------------------------------------------------------------
 const GameController: FC = () => {
   //----------------------------------------------------------------------------
-  const { state } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
+
+  const onGameStatusUpdate = useEffectEvent(
+    ({ gameStatus }: GameStatusSocketData) => {
+      dispatch(["currentGame", gameStatus]);
+    },
+  );
+
+  useEffect(() => {
+    const isPlayer = () => state.gameMode === "player";
+    if (socket) {
+      if (isPlayer()) {
+        socket.on("tap:game-status-update", onGameStatusUpdate);
+      }
+    }
+    // -------------------------------------------------------------------------
+    return () => {
+      if (socket) {
+        socket.removeListener("tap:game-status-update", onGameStatusUpdate);
+        socket.removeAllListeners();
+      }
+    };
+  }, []);
   //----------------------------------------------------------------------------
   return (
     <>
@@ -22,7 +54,13 @@ const GameController: FC = () => {
         </Suspense>
       </Activity>
 
-      <Activity mode={state.currentGame?.winner ? "visible" : "hidden"}>
+      <Activity
+        mode={
+          state.currentGame !== undefined && state.currentGame?.winner
+            ? "visible"
+            : "hidden"
+        }
+      >
         <Suspense>
           <Message />
         </Suspense>

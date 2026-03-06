@@ -1,16 +1,16 @@
 import AppContext from "@/App.context";
 import { Activity, type FC, useContext } from "react";
-import { StyledMessage, StyledWinnerSticker } from "./styled";
-
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import winnerRed from "../../../assets/winner-red.png";
 import winnerYellow from "../../../assets/winner-yellow.png";
+import { StyledMessage, StyledWinnerSticker } from "./styled";
 
 const Message: FC = () => {
   const { width, height } = useWindowSize();
   const { state, dispatch } = useContext(AppContext);
   const isPlayer = () => state.gameMode === "player";
+
   const onNewGameClick = () => {
     if (state.currentGame && dispatch) {
       dispatch(["previousGames", [...state.previousGames, state.currentGame]]);

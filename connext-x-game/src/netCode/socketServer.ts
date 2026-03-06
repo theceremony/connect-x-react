@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("fg:game-status-update", ({ room, gameStatus }) => {
-    console.log("fg:game-status-update");
+    console.log("fg:game-status-update", gameStatus);
     socket.join(room);
     io.to(room).emit("tap:game-status-update", { room, gameStatus });
   });

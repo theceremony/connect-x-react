@@ -20,7 +20,11 @@ export type PlayerMoveSocketData = {
   player: Player;
   move: Move;
 };
-export type GameStatusSocketData = { room: string; gameStatus: Game };
+//------------------------------------------------------------------------------
+export type GameStatusSocketData = {
+  room: string;
+  gameStatus: Game | undefined;
+};
 //------------------------------------------------------------------------------
 export type PlayerStatusSocketData = {
   id: string;

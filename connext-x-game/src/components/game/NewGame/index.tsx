@@ -64,6 +64,7 @@ const NewGame: FC = () => {
       }
     },
   );
+
   // ===========================================================================
   const onDisconnect = useEffectEvent(({ id }: { id: string }) => {
     dispatch([
@@ -82,11 +83,6 @@ const NewGame: FC = () => {
       // -----------------------------------------------------------------------
       socket.on("tg:request-player-connection", onReqConn);
 
-      if (isPlayer()) {
-        socket.on("tap:game-status-update", ({ gameStatus }) =>
-          dispatch(["currentGame", gameStatus]),
-        );
-      }
       // -----------------------------------------------------------------------
       socket.on("tg:disconnect", onDisconnect);
     }
@@ -95,6 +91,7 @@ const NewGame: FC = () => {
       if (socket) {
         socket.removeListener("tg:request-player-connection", onReqConn);
         socket.removeListener("tg:disconnect", onDisconnect);
+
         socket.removeAllListeners();
       }
     };
@@ -132,7 +129,7 @@ const NewGame: FC = () => {
         transition={{ duration: 0.2, ease: "backOut", delay: 0.3 }}
         key="h1-key"
       >
-        New Game
+        {isPlayer() ? "Join Game" : "New Game"}
       </motion.h1>
       <StyledNewGameSection
         initial={{ opacity: 0, y: 200, scale: 1 }}
@@ -166,17 +163,19 @@ const NewGame: FC = () => {
               ))}
             </StyledFormRow>
           </Activity>
-          <StyledFormRow>
-            <StyledLabel>Connect:</StyledLabel>
-            <StyledInput
-              type="number"
-              ref={numConnectInput}
-              min={DEFAULT_CONNECTION_LENGTH - 1}
-              max={10}
-              defaultValue={DEFAULT_CONNECTION_LENGTH}
-              className="number"
-            />
-          </StyledFormRow>
+          <Activity mode={isPlayer() ? "hidden" : "visible"}>
+            <StyledFormRow>
+              <StyledLabel>Connect:</StyledLabel>
+              <StyledInput
+                type="number"
+                ref={numConnectInput}
+                min={DEFAULT_CONNECTION_LENGTH - 1}
+                max={10}
+                defaultValue={DEFAULT_CONNECTION_LENGTH}
+                className="number"
+              />
+            </StyledFormRow>
+          </Activity>
           <Activity mode={isPlayer() ? "hidden" : "visible"}>
             <StyledFormRow data-full-span={true}>
               <Activity mode={testLobbyLen() ? "visible" : "hidden"}>
