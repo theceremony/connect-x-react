@@ -7,4 +7,8 @@ const socketURL = new URL(window.location.href);
 socketURL.port = SOCKET_PORT.toString();
 socketURL.pathname = "";
 
-export const socket: Socket<ServerEvents, ClientEvents> = io(socketURL.href);
+const isNGrock = () => socketURL.href.includes("ngrok");
+
+export const socket: Socket<ServerEvents, ClientEvents> = io(
+  isNGrock() ? "" : socketURL.href,
+);

@@ -13,7 +13,7 @@ import type { ClientEvents, ServerEvents } from "./types";
 
 //------------------------------------------------------------------------------
 
-const SERVE_NGROCK = false;
+const SERVE_NGROCK = true;
 const app = express();
 const server = http.createServer(app);
 const distPath = path.join(process.cwd(), "dist");

@@ -33,6 +33,7 @@ const NewGame: FC = () => {
   // ===========================================================================
   const numConnectInput = useRef<HTMLInputElement>(null);
   // ===========================================================================
+  const isPlayer = () => state.gameMode === "player";
   const onStart = () => {
     const conLen =
       Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
@@ -80,6 +81,12 @@ const NewGame: FC = () => {
       socket.emit("fg:request-connection", { room: state.room });
       // -----------------------------------------------------------------------
       socket.on("tg:request-player-connection", onReqConn);
+
+      if (isPlayer()) {
+        socket.on("tap:game-status-update", ({ gameStatus }) =>
+          dispatch(["currentGame", gameStatus]),
+        );
+      }
       // -----------------------------------------------------------------------
       socket.on("tg:disconnect", onDisconnect);
     }
@@ -135,7 +142,12 @@ const NewGame: FC = () => {
         key="new-game-key"
       >
         <StyledQRContainer layout>
-          <QRCodeSVG size={256} value={url.href} marginSize={1} />
+          <QRCodeSVG
+            size={256}
+            value={url.href}
+            marginSize={1}
+            onClick={() => window.open(url.href, "_blank")}
+          />
           <h2>use your phone as a controller</h2>
         </StyledQRContainer>
         <StyledForm layout>
@@ -165,14 +177,16 @@ const NewGame: FC = () => {
               className="number"
             />
           </StyledFormRow>
-          <StyledFormRow data-full-span={true}>
-            <Activity mode={testLobbyLen() ? "visible" : "hidden"}>
-              <StyledButton onClick={onStart}>Start</StyledButton>
-            </Activity>
-            <Activity mode={testLobbyLen() ? "hidden" : "visible"}>
-              <StyledButton disabled={true}>Waiting...</StyledButton>
-            </Activity>
-          </StyledFormRow>
+          <Activity mode={isPlayer() ? "hidden" : "visible"}>
+            <StyledFormRow data-full-span={true}>
+              <Activity mode={testLobbyLen() ? "visible" : "hidden"}>
+                <StyledButton onClick={onStart}>Start</StyledButton>
+              </Activity>
+              <Activity mode={testLobbyLen() ? "hidden" : "visible"}>
+                <StyledButton disabled={true}>Waiting...</StyledButton>
+              </Activity>
+            </StyledFormRow>
+          </Activity>
           <div>
             <i>At least 2 players required</i>
           </div>
