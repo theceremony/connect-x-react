@@ -1,15 +1,16 @@
 {
   "name": "connext-x-game",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "socket": "node --watch ./src/netCode/socketServer.ts",
+    "bump": "bun pm version patch --no-git-tag-version",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "commit": "git add -A && cz && git push"
+    "commit": "bun bump && git add -A && cz && git push"
   },
   "dependencies": {
     "@socket.io/bun-engine": "^0.1.0",
