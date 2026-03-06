@@ -50,7 +50,6 @@ function App() {
       <AppContext.Provider value={{ state, dispatch }}>
         <StyledApp $backdrop={state.theme.currentBackground}>
           <GameController />
-          {/* <StyledLogo src={logo} /> */}
           <SuspenseImage
             src={initialState.theme.currentBackground}
             alt="backdrop"
