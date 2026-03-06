@@ -3,22 +3,22 @@
 import loadImage from "@/utils/image";
 import { motion, type HTMLMotionProps } from "motion/react";
 import React from "react";
-
-interface SuspenseImageProps extends HTMLMotionProps<"img"> {
-  src: string;
-  alt: string;
+// -----------------------------------------------------------------------------
+export interface SuspenseImageProps extends HTMLMotionProps<"img"> {
   noTag?: boolean;
 }
-
+// -----------------------------------------------------------------------------
 const SuspenseImage: React.FC<SuspenseImageProps> = ({
   src,
-  alt,
   noTag,
   ...rest
 }) => {
-  loadImage(src); // This will throw a promise and suspend the component until the image is loaded
-
-  return noTag === true ? null : <motion.img src={src} alt={alt} {...rest} />;
+  // ---------------------------------------------------------------------------
+  if (!src) return;
+  // ---------------------------------------------------------------------------
+  loadImage(src); // throws
+  // ---------------------------------------------------------------------------
+  return noTag === true ? null : <motion.img src={src} {...rest} />;
 };
-
+// -----------------------------------------------------------------------------
 export default SuspenseImage;
