@@ -12,6 +12,8 @@ export const BACKGROUNDS = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
 export const TIMING = {
   TEN_MINUTES: 600000,
   THREE_MINUTES: 180000,
+  THIRTY_SECONDS: 30000,
+  ONE_MINUTE: 60000,
 } as const;
 
 export const URL_PARAMS = {

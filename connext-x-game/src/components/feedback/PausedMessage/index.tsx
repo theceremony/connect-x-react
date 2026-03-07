@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/purity */
+import { TIMING } from "@/App.config";
 import AppContext from "@/App.context";
 import { Activity, useContext, type FC } from "react";
 import Countdown from "react-countdown";
@@ -41,7 +43,7 @@ const PausedMessage: FC = () => {
       <h1 className="large-message-headline">Paused</h1>
       <h2>Player Disconnected: Waiting...</h2>
       <Countdown
-        date={Date.now() + 10000}
+        date={Date.now() + TIMING.ONE_MINUTE}
         intervalDelay={0}
         precision={3}
         renderer={renderer}
