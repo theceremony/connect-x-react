@@ -25,6 +25,14 @@ export const StyledGameBoard = styled(motion.div)`
     0px 0px 120px 16px rgba(49, 5, 153, 0.9);
   /* opacity: 0.9; */
   overflow: hidden;
+  &[data-simple="true"] {
+    box-shadow: unset;
+    border: solid 10px;
+    border-radius: 5px;
+    backdrop-filter: unset;
+    background-color: rgb(43, 7, 202);
+    border-color: rgb(30, 4, 147);
+  }
 `;
 
 export const StyledSlotContainer = styled(motion.div)`
@@ -70,9 +78,9 @@ export const StyledColumn = styled(motion.div)`
   /* &:hover {
     background-color: yellowgreen;
   } */
-
+  transition: background-color 300ms ease-in-out;
   &[data-column-selected="true"] {
     background-color: rgba(150, 80, 200, 0.8);
-    backdrop-filter: blur(50px);
+    transition: background-color 50ms ease-in-out;
   }
 `;

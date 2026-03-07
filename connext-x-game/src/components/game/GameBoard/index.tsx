@@ -1,11 +1,18 @@
+import { COMPLEXITY_LEVEL } from "@/App.config";
 import AppContext from "@/App.context";
-import { StyledSlot } from "@/components/scaffold";
+import { SimpleSlot, StyledSlot } from "@/components/scaffold";
 import { effectGetLongestConnByPos, getActionByColumnDrop } from "@/gameLogic";
 import type { Connection, Game, Player, Position } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
 import { clamp } from "@/utils";
-import { type FC, useContext, useEffect, useEffectEvent } from "react";
+import {
+  Activity,
+  type FC,
+  useContext,
+  useEffect,
+  useEffectEvent,
+} from "react";
 import {
   StyledColumn,
   StyledColumnSelect,
@@ -150,6 +157,7 @@ const GameBoard: FC = () => {
   // ---------------------------------------------------------------------------
   if (!currentGame) return <div>error</div>;
   // ---------------------------------------------------------------------------
+
   return (
     <StyledGameBoardContainer
       initial={{ opacity: 0 }}
@@ -159,20 +167,39 @@ const GameBoard: FC = () => {
       key="game-board-key"
     >
       <StyledColumnSelectContainer layout>
-        {currentGame?.board.map((_, x) => (
+        {currentGame?.board.map((v, x) => (
           <StyledColumnSelect layout>
-            <StyledSlot
-              layout
-              key={`slot-`}
-              data-slot-border={true}
-              data-slot-color={curCol === x ? currentPiece : "hidden"}
+            <Activity mode={v.length > COMPLEXITY_LEVEL ? "visible" : "hidden"}>
+              <SimpleSlot
+                key={`slot-${x}`}
+                data-slot-border={true}
+                data-slot-color={curCol === x ? currentPiece : "hidden"}
+              ></SimpleSlot>
+            </Activity>
+            <Activity
+              mode={v.length <= COMPLEXITY_LEVEL ? "visible" : "hidden"}
             >
-              {" "}
-            </StyledSlot>
+              <Activity mode={curCol === x ? "visible" : "hidden"}>
+                <StyledSlot
+                  key={`slot-${x}`}
+                  data-slot-border={true}
+                  data-slot-color={curCol === x ? currentPiece : "hidden"}
+                  initial={{ y: -40, scale: 0.9 }}
+                  animate={{ y: 0, scale: 1 }}
+                  exit={{ y: 400, scale: 0.9 }}
+                  transition={{ duration: 0.1, ease: "backOut" }}
+                >
+                  {" "}
+                </StyledSlot>
+              </Activity>
+            </Activity>
           </StyledColumnSelect>
         ))}
       </StyledColumnSelectContainer>
-      <StyledGameBoard layout>
+      <StyledGameBoard
+        layout
+        data-simple={currentGame?.board[0].length > COMPLEXITY_LEVEL}
+      >
         {currentGame?.board.map((v, x) => (
           <StyledColumn
             layout
@@ -181,17 +208,33 @@ const GameBoard: FC = () => {
             data-column-selected={curCol === x}
           >
             {v.map((c, y) => (
-              <StyledSlotContainer layout>
-                <StyledSlotBackground layout></StyledSlotBackground>
-                <StyledSlot
-                  layout
-                  key={`slot-${y}`}
-                  data-slot-winner={isSlotWinner([x, y])}
-                  data-slot-color={c}
+              <>
+                <Activity
+                  mode={v.length > COMPLEXITY_LEVEL ? "visible" : "hidden"}
                 >
-                  {" "}
-                </StyledSlot>
-              </StyledSlotContainer>
+                  <SimpleSlot
+                    data-column-selected={curCol === x}
+                    key={`slot-${y}`}
+                    data-slot-winner={isSlotWinner([x, y])}
+                    data-slot-color={c}
+                  ></SimpleSlot>
+                </Activity>
+                <Activity
+                  mode={v.length <= COMPLEXITY_LEVEL ? "visible" : "hidden"}
+                >
+                  <StyledSlotContainer layout>
+                    <StyledSlotBackground layout></StyledSlotBackground>
+                    <StyledSlot
+                      layout
+                      key={`slot-${y}`}
+                      data-slot-winner={isSlotWinner([x, y])}
+                      data-slot-color={c}
+                    >
+                      {" "}
+                    </StyledSlot>
+                  </StyledSlotContainer>
+                </Activity>
+              </>
             ))}
           </StyledColumn>
         ))}

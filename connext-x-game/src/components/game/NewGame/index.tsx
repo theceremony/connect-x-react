@@ -103,7 +103,7 @@ const NewGame: FC = () => {
                 type="number"
                 ref={numConnectInput}
                 min={DEFAULT_CONNECTION_LENGTH - 1}
-                max={10}
+                max={20}
                 defaultValue={DEFAULT_CONNECTION_LENGTH}
                 value={state.connectAmount}
                 onChange={onConnectFieldUpdate}

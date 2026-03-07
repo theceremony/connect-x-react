@@ -8,7 +8,7 @@ import b8 from "./assets/funbkg-scifi-anime-scifi2.png";
 import b5 from "./assets/funbkg-scifi-anime-spooky.png";
 import b1 from "./assets/funbkg-scifi-anime.png";
 export const BACKGROUNDS = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
-
+export const COMPLEXITY_LEVEL = 16;
 export const TIMING = {
   TEN_MINUTES: 600000,
   THREE_MINUTES: 180000,

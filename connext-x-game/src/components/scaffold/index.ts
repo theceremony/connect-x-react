@@ -30,6 +30,76 @@ export const StyledModal = styled(motion.div)`
   }
 `;
 
+export const SimpleSlot = styled.div`
+  position: relative;
+  display: flex;
+  /* border: 10px solid green; */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/0.8;
+  border: 3px solid rgb(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: aquamarine;
+  border-top-color: rgb(255, 255, 255, 0.7);
+  border-left-color: rgb(255, 255, 255, 0.5);
+
+  /* border-radius: 100%; */
+  /* background-color: rgb(44, 115, 120); */
+  margin: 2px;
+
+  transition: background-color 200ms ease-in-out;
+
+  &[data-slot-border] {
+    margin: unset;
+    aspect-ratio: 1/1;
+    transform: scale(1.2);
+  }
+
+  &[data-column-selected="true"] {
+    background-color: rgb(255, 255, 255, 0.7);
+  }
+  &[data-slot-color="hidden"] {
+    background-color: unset;
+    box-shadow: unset;
+    border: unset;
+  }
+  &[data-slot-color="blue"] {
+    background-color: blue;
+
+    &[data-slot-border] {
+      border-style: solid;
+    }
+  }
+  &[data-slot-color="red"] {
+    background-color: red;
+
+    &[data-slot-border] {
+      border-style: solid;
+      border-color: #7e2020;
+    }
+  }
+  &[data-slot-color="yellow"] {
+    background-color: yellow;
+
+    &[data-slot-border] {
+      border-style: solid;
+      border-color: #6e6e3a;
+    }
+  }
+  &[data-slot-color="green"] {
+    background-color: green;
+
+    &[data-slot-border] {
+      border-style: solid;
+    }
+  }
+
+  &[data-slot-winner="true"] {
+    border: 1px solid white;
+    box-shadow: 0px 0px 20px 5px hotpink;
+  }
+`;
+
 export const StyledSlot = styled(motion.div)`
   position: relative;
   display: flex;
@@ -42,13 +112,17 @@ export const StyledSlot = styled(motion.div)`
     inset -13px -8px 0px 0px rgb(14, 68, 148);
 
   border-radius: 100%;
-
   /* border: 6px solid black; */
   background-color: rgba(50, 50, 50, 0.5);
+  transform: scale(1);
 
   &[data-slot-color="hidden"] {
     background-color: unset;
     box-shadow: unset;
+    transform: scale(2);
+  }
+  &[data-slot-border] {
+    transform: scale(1.2);
   }
   &[data-slot-color="blue"] {
     background-color: blue;
