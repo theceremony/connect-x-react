@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import styled from "styled-components";
 //------------------------------------------------------------------------------
 export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
+  position: relative;
   display: flex;
   /* flex-direction: column; */
   background: url(${(props) => props.$backdrop});
@@ -13,10 +14,10 @@ export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
   padding: 1vw;
   width: 100vw;
   height: 100dvh;
-  border: 10px solid rgba(255, 255, 255, 1);
-  border-radius: 1vw;
+  /* border: 10px solid rgba(255, 255, 255, 1); */
+  /* border-radius: 1vw; */
   overflow: hidden;
-  gap: 5px;
+  gap: 5vw;
   h1,
   h2,
   h3,
@@ -34,10 +35,10 @@ export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
   .logo {
     position: fixed;
     z-index: 200;
-    bottom: -6%;
+    bottom: 0.3vh;
     width: auto;
     max-width: 750px;
-    max-height: 30vh;
+    max-height: 20vh;
   }
   perspective: 800px;
 `;

@@ -12,13 +12,13 @@ export const StyledGameInterface = styled.div`
   /* width: 350px; */
   padding: 30px;
   background-color: rgba(104, 2, 77, 0.88);
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
   box-shadow:
     inset -5px 2px 30px rgba(200, 200, 200, 0.8),
     10px 10px 3px rgba(0, 0, 0, 0.6);
 
   color: hotpink;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   text-align: center;
   right: 4vw;
   bottom: 4vw;

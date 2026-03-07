@@ -16,8 +16,8 @@ export const StyledGameBoard = styled(motion.div)`
   display: flex;
 
   width: 100%;
-  backdrop-filter: blur(1px);
-  border-radius: 30px;
+  /* backdrop-filter: blur(1px); */
+  /* border-radius: 30px; */
   border: 0.3vw solid rgb(72, 145, 255);
   /* gap:5px; */
   box-shadow:

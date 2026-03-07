@@ -10,14 +10,14 @@ export const StyledModal = styled(motion.div)`
   left: 0;
   width: 100%;
   height: 100dvh;
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: rgba(57, 40, 93, 0.8);
   justify-content: flex-start;
   align-items: center;
-  backdrop-filter: blur(3px);
+  /* backdrop-filter: blur(3px); */
   gap: 1vw;
   padding: 3vw;
-  border: 10px solid white;
-  border-radius: 30px;
+  /* border: 10px solid white; */
+  /* border-radius: 30px; */
 
   .large-message-headline {
     font-size: 12rem;
