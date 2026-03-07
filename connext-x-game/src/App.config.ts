@@ -20,9 +20,9 @@ export const URL_PARAMS = {
 };
 
 export const URL_PARAMS_STATE_ENUM = {
-  r: "room",
-  u: "userId",
-  g: "gameMode",
+  [URL_PARAMS.ROOM]: "room",
+  [URL_PARAMS.USER_ID]: "userId",
+  [URL_PARAMS.GAME_MODE]: "gameMode",
 } as const;
 
 export type UrlParamsEnum = typeof URL_PARAMS_STATE_ENUM;
