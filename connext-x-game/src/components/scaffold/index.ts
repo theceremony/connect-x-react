@@ -124,6 +124,14 @@ export const StyledSlot = styled(motion.div)`
   &[data-slot-border] {
     transform: scale(1.2);
   }
+  &[data-column-selected="true"] {
+    border: 0.2vw solid rgb(255, 255, 255, 0.7);
+    box-shadow:
+      inset 0px 0px 0.3vw 0.3vw rgb(150, 255, 200, 0.5),
+      inset 2px 6px 4px 5px rgba(0, 0, 0, 0.5),
+      inset -13px -8px 0px 0px rgb(14, 68, 148);
+    transition: box-shadow 50ms ease-in-out;
+  }
   &[data-slot-color="blue"] {
     background-color: blue;
     box-shadow:

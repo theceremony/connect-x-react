@@ -254,6 +254,7 @@ const GameBoard: FC = () => {
                       key={`slot-${y}-${c}`}
                       data-slot-winner={isSlotWinner([x, y])}
                       data-slot-color={c}
+                      data-column-selected={curCol === x}
                     >
                       {" "}
                     </StyledSlot>

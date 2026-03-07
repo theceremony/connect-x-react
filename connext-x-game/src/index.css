@@ -126,4 +126,5 @@ button:focus-visible {
 
 * {
   box-sizing: border-box;
+  image-rendering: pixelated;
 }

@@ -78,9 +78,16 @@ export const StyledColumn = styled(motion.div)`
   /* &:hover {
     background-color: yellowgreen;
   } */
-  transition: background-color 300ms ease-in-out;
+  border-radius: 0;
+  transition: all 300ms ease-in-out;
   &[data-column-selected="true"] {
-    background-color: rgba(150, 80, 200, 0.8);
-    transition: background-color 50ms ease-in-out;
+    border-radius: 6vw;
+    box-sizing: border-box;
+    box-shadow:
+      0px 0px 5vw 1vw rgba(239, 68, 255, 0.9),
+      inset 0.51vw 0.1vw 0.5vw 0.1vw rgba(0, 0, 0, 0.1),
+      inset -0.3vw -0.3vw 0.5vw 0.1vw rgba(255, 255, 255, 0.1);
+
+    transition: all 300ms ease-in-out;
   }
 `;

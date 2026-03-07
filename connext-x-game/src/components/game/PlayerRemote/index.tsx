@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { URL_PARAMS } from "@/App.config";
+import rightArrow from "@/assets/icons/right-arrow-32.png";
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type {
@@ -11,13 +12,13 @@ import { Activity, type FC, useEffect, useEffectEvent, useState } from "react";
 import {
   StyledButtonContainer,
   StyledDirectionButton,
+  StyledPixelIcon,
   StyledPlayer,
   StyledPlayerName,
   StyledPlayerPiece,
   StyledSlotContainer,
   StyledTurnBlocker,
 } from "./styled";
-
 const PlayerRemote: FC = () => {
   const [player, setPlayer] = useState<Player | undefined>(undefined);
   const [game, setGame] = useState<Game | undefined>();
@@ -115,10 +116,14 @@ const PlayerRemote: FC = () => {
           <Activity mode={game ? "visible" : "hidden"}>
             <StyledButtonContainer>
               <StyledDirectionButton onClick={() => onTap("move-left")}>
-                left
+                <StyledPixelIcon
+                  src={rightArrow}
+                  alt="left"
+                  className="flipped"
+                />
               </StyledDirectionButton>
               <StyledDirectionButton onClick={() => onTap("move-right")}>
-                right
+                <StyledPixelIcon src={rightArrow} alt="right" />
               </StyledDirectionButton>
             </StyledButtonContainer>
           </Activity>
