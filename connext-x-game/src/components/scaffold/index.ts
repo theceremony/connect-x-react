@@ -9,7 +9,7 @@ export const StyledModal = styled(motion.div)`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background-color: rgba(20, 20, 20, 0.8);
   justify-content: flex-start;
   align-items: center;

@@ -6,7 +6,7 @@ import winnerRed from "../../../assets/winner-red.png";
 import winnerYellow from "../../../assets/winner-yellow.png";
 import { StyledMessage, StyledWinnerSticker } from "./styled";
 
-const Message: FC = () => {
+const WinningMessage: FC = () => {
   const { width, height } = useWindowSize();
   const { state, dispatch } = useContext(AppContext);
   const isPlayer = () => state.gameMode === "player";
@@ -36,4 +36,4 @@ const Message: FC = () => {
   );
 };
 
-export default Message;
+export default WinningMessage;

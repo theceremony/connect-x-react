@@ -1,7 +1,7 @@
 {
   "name": "connext-x-game",
   "private": true,
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "scripts": {
     "socket": "node --watch ./src/netCode/socketServer.ts",
@@ -23,6 +23,7 @@
     "react": "^19.2.4",
     "react-compiler-runtime": "^1.0.0",
     "react-confetti": "^6.4.0",
+    "react-countdown": "^2.3.6",
     "react-dom": "^19.2.4",
     "react-use": "^17.6.0",
     "socket.io": "^4.8.3",

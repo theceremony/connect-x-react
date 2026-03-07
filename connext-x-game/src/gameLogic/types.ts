@@ -25,6 +25,7 @@ export type Game = {
   winner?: Piece;
   winningConnection?: Connection;
   currentPlayerIndex?: number;
+  gameState: "playing" | "paused";
 };
 
 export type GameMode = "host" | "controller" | "player";
