@@ -18,7 +18,7 @@ import {
 //------------------------------------------------------------------------------
 const GameBoard: FC = () => {
   const {
-    state: { currentGame },
+    state: { currentGame, gameMode },
     dispatch,
   } = useContext(AppContext);
 
@@ -130,6 +130,8 @@ const GameBoard: FC = () => {
   );
   // ---------------------------------------------------------------------------
   useEffect(() => {
+    const isPlayer = gameMode === "player";
+    if (isPlayer) return () => {};
     socket.on("tg:player-action", onPlayerAction);
     return () => {
       socket.removeListener("tg:player-action", onPlayerAction);

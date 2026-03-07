@@ -27,7 +27,7 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
     methods: ["GET", "POST"],
   },
 });
-
+let count = 0;
 // await ViteExpress.bind(app, server);
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -59,9 +59,10 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("fg:game-status-update", ({ room, gameStatus }) => {
-    console.log("fg:game-status-update", gameStatus);
+    console.log(`fg:game-status-update: ${count}`, gameStatus);
     socket.join(room);
     io.to(room).emit("tap:game-status-update", { room, gameStatus });
+    count += 1;
   });
   // ---------------------------------------------------------------------------
   // From Player ---------------------------------------------------------------

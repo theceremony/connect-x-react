@@ -62,7 +62,6 @@ const PlayerRemote: FC = () => {
       socket.removeListener("tp:approve-connection", onApproveConnection);
       socket.removeListener("tap:game-status-update", onGameStatusUpdate);
       socket.removeListener("tap:request-player-status", onPlayerStatusRequest);
-      socket.removeAllListeners();
     };
   }, [player, room]);
   //----------------------------------------------------------------------------

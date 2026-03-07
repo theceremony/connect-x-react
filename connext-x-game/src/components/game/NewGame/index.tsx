@@ -91,8 +91,6 @@ const NewGame: FC = () => {
       if (socket) {
         socket.removeListener("tg:request-player-connection", onReqConn);
         socket.removeListener("tg:disconnect", onDisconnect);
-
-        socket.removeAllListeners();
       }
     };
   }, []);

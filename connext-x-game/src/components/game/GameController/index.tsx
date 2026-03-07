@@ -26,25 +26,24 @@ const GameController: FC = () => {
 
   const onGameStatusUpdate = useEffectEvent(
     ({ gameStatus }: GameStatusSocketData) => {
+      console.log("currentGame", gameStatus);
       dispatch(["currentGame", gameStatus]);
     },
   );
 
   useEffect(() => {
-    const isPlayer = () => state.gameMode === "player";
-    if (socket) {
-      if (isPlayer()) {
-        socket.on("tap:game-status-update", onGameStatusUpdate);
-      }
+    const isPlayer = state.gameMode === "player";
+    if (socket && isPlayer) {
+      socket.on("tap:game-status-update", onGameStatusUpdate);
     }
     // -------------------------------------------------------------------------
     return () => {
-      if (socket) {
+      console.log("removed");
+      if (socket && isPlayer) {
         socket.removeListener("tap:game-status-update", onGameStatusUpdate);
-        socket.removeAllListeners();
       }
     };
-  }, []);
+  }, [state.gameMode]);
   //----------------------------------------------------------------------------
   return (
     <>
