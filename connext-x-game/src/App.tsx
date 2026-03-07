@@ -2,7 +2,7 @@ import { lazy, Suspense, useReducer } from "react";
 import AppContext from "./App.context";
 import { appReducer, initialState } from "./App.reducer";
 import { StyledApp } from "./App.styled";
-import logo from "./assets/logo.png";
+import logo from "./assets/gifBkg/logo.gif";
 //------------------------------------------------------------------------------
 const GameController = lazy(() => import("@/components/game/GameController"));
 const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
@@ -35,7 +35,7 @@ function App() {
         currentBackground: getRandomArrayValue<string>(BACKGROUNDS),
       },
     ]);
-  }, TIMING.TEN_MINUTES);
+  }, TIMING.THREE_MINUTES);
   //----------------------------------------------------------------------------
   if (state.gameMode === "controller")
     return (

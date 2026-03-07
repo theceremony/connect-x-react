@@ -1,12 +1,13 @@
-import b9 from "./assets/bkg-no-theme.png";
-import b2 from "./assets/funbkg-scifi-anime-beach.png";
-import b7 from "./assets/funbkg-scifi-anime-beach2.png";
-import b4 from "./assets/funbkg-scifi-anime-cozy.png";
-import b3 from "./assets/funbkg-scifi-anime-fantasy.png";
-import b6 from "./assets/funbkg-scifi-anime-monster.png";
-import b8 from "./assets/funbkg-scifi-anime-scifi2.png";
-import b5 from "./assets/funbkg-scifi-anime-spooky.png";
-import b1 from "./assets/funbkg-scifi-anime.png";
+import b2 from "./assets/anime-beach.gif";
+
+import b9 from "./assets/gifBkg/bkg-no-theme.gif";
+import b7 from "./assets/gifBkg/funbkg-scifi-anime-beach2.gif";
+import b4 from "./assets/gifBkg/funbkg-scifi-anime-cozy.gif";
+import b3 from "./assets/gifBkg/funbkg-scifi-anime-fantasy.gif";
+import b6 from "./assets/gifBkg/funbkg-scifi-anime-monster.gif";
+import b8 from "./assets/gifBkg/funbkg-scifi-anime-scifi2.gif";
+import b5 from "./assets/gifBkg/funbkg-scifi-anime-spooky.gif";
+import b1 from "./assets/gifBkg/funbkg-scifi-anime.gif";
 export const BACKGROUNDS = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
 export const COMPLEXITY_LEVEL = 16;
 export const TIMING = {
