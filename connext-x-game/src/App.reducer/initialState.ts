@@ -1,6 +1,6 @@
 import { BACKGROUNDS } from "@/App.config";
 import type { Game, GameMode, Lobby } from "@/gameLogic/types";
-import { generateRoom, generatemasterId, getRandomArrayValue } from "@/utils";
+import { generateMasterId, generateRoom, getRandomArrayValue } from "@/utils";
 import { getCurrentParamsAsPartial } from "@/utils/params";
 import type { Theme } from "./types";
 //------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ console.log(params);
 
 export const INITIAL_STATE = {
   room,
-  masterId: generatemasterId(),
+  masterId: generateMasterId(),
   currentGame: undefined as undefined | Game,
   lobby: [] as Lobby,
   previousGames: [] as Game[],

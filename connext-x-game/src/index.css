@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&family=Pixelify+Sans:wght@400..700&family=VT323&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&family=Pixelify+Sans:wght@400..700&family=VT323&display=swap");
 
 :root {
   font-family: "Pixelify Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -14,10 +13,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
-.loader{
+.loader {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -37,10 +35,9 @@
   transition: all 1s;
 }
 
-.number{
+.number {
   font-family: "Bitcount", monospace;
   font-weight: 300;
-  
 }
 
 @view-transition {
@@ -50,7 +47,7 @@
 ::view-transition-old(root) {
   animation: 0.4s ease-in both move-out;
 }
-  
+
 ::view-transition-new(root) {
   animation: 0.4s ease-in both move-in;
 }
@@ -76,7 +73,6 @@
   }
 }
 
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -101,7 +97,15 @@ h1 {
 
 button {
   border: 1px solid transparent;
-  box-shadow: 0px 5px black, 0px -5px black, 5px 0px black, -5px 0px black, 0px 10px #00000038, 5px 5px #00000038, -5px 5px #00000038, inset 0px 5px #ffffff36 ;
+  box-shadow:
+    0px 5px black,
+    0px -5px black,
+    5px 0px black,
+    -5px 0px black,
+    0px 10px #00000038,
+    5px 5px #00000038,
+    -5px 5px #00000038,
+    inset 0px 5px #ffffff36;
   padding: 0.6em 1.2em;
   font-size: 1.3vw;
   font-weight: 500;
@@ -131,7 +135,6 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-*{
+* {
   box-sizing: border-box;
 }
-

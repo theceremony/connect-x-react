@@ -1,7 +1,8 @@
 import { StyledSlot } from "@/components/scaffold";
+import { motion } from "motion/react";
 import styled from "styled-components";
 
-export const StyledPlayer = styled.div`
+export const StyledPlayer = styled(motion.div)`
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -9,9 +10,10 @@ export const StyledPlayer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 50px;
+  user-select: none;
 `;
 
-export const StyledTurnBlocker = styled.div`
+export const StyledTurnBlocker = styled(motion.div)`
   display: flex;
   position: fixed;
   top: 0;
@@ -25,7 +27,7 @@ export const StyledTurnBlocker = styled.div`
   text-align: center;
 `;
 
-export const StyledSlotContainer = styled.div`
+export const StyledSlotContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -47,14 +49,14 @@ export const StyledPlayerName = styled.h1`
   text-transform: uppercase;
   text-align: center;
 `;
-export const StyledButtonContainer = styled.div`
+export const StyledButtonContainer = styled(motion.div)`
   display: flex;
   gap: 20px;
   width: 100%;
   max-width: 300px;
 `;
 
-export const StyledDirectionButton = styled.button`
+export const StyledDirectionButton = styled(motion.button)`
   all: unset;
   display: flex;
   align-items: center;
