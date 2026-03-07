@@ -41,8 +41,10 @@ const WinningMessage: FC = () => {
         <button onClick={onNewGameClick}>New Game</button>
       </Activity>
       <Confetti
-        width={width}
-        height={height}
+        numberOfPieces={100}
+        className="confetti"
+        width={width * 0.3}
+        height={height * 0.3}
         colors={confettiColors[state.currentGame?.winner || "red"]}
       />
     </StyledMessage>

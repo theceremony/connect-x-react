@@ -44,10 +44,16 @@ export const StyledPlayerPiece = styled(StyledSlot)`
   width: 100%;
   align-items: center;
   justify-content: center;
-
+  border: 1vw solid rgba(255, 255, 255, 0.7);
   font-weight: 900;
   text-shadow: 1vw 1vw 0px rgba(0, 0, 0, 0.6);
   font-size: 15vw;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0) 00%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
 `;
 export const StyledPlayerName = styled.h1`
   text-transform: uppercase;

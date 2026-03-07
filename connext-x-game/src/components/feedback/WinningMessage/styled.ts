@@ -7,7 +7,8 @@ export const StyledMessage = styled(StyledModal)`
   .confetti {
     width: 100vw;
     height: 100vh;
-    border: 10px solid green;
+    /* scale: 10; */
+    transform: translateY(0%);
   }
 `;
 
