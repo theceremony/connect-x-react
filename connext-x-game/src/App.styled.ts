@@ -39,6 +39,7 @@ export const StyledApp = styled(motion.div)<{ $backdrop?: string }>`
     max-width: 750px;
     max-height: 30vh;
   }
+  perspective: 800px;
 `;
 //------------------------------------------------------------------------------
 export const StyledLogo = styled.img`

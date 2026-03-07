@@ -6,12 +6,14 @@ import type { Connection, Game, Player, Position } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { PlayerActionSocketData } from "@/netCode/types";
 import { clamp } from "@/utils";
+import { AnimatePresence, type Variants } from "motion/react";
 import {
   Activity,
   type FC,
   useContext,
   useEffect,
   useEffectEvent,
+  useState,
 } from "react";
 import {
   StyledColumn,
@@ -35,7 +37,7 @@ const GameBoard: FC = () => {
     }
     return undefined;
   };
-
+  const [didDrop, setDidDrop] = useState<boolean>(false);
   const currentPiece = getCurrentPlayer()?.piece;
   // ---------------------------------------------------------------------------
   const getNextPlayerIndex = (c: Game) => {
@@ -130,9 +132,11 @@ const GameBoard: FC = () => {
           });
           console.table(updatedGame?.players);
           console.log(action);
+          setDidDrop(false);
           dispatch(["currentGame", updatedGame]);
         }
         if (action === "drop" && currentGame) {
+          setDidDrop(true);
           onColumnDrop(getCurrentPlayerColumn(currentGame));
         }
       }
@@ -146,7 +150,7 @@ const GameBoard: FC = () => {
     return () => {
       socket.removeListener("tg:player-action", onPlayerAction);
     };
-  }, []);
+  }, [gameMode]);
   // ---------------------------------------------------------------------------
   const getCurrentSelectedColumn = () => {
     if (currentGame === undefined) return undefined;
@@ -157,6 +161,21 @@ const GameBoard: FC = () => {
   // ---------------------------------------------------------------------------
   if (!currentGame) return <div>error</div>;
   // ---------------------------------------------------------------------------
+
+  const slotVariants: Variants = {
+    // `custom` prop is passed here
+    initial: { y: -300, scale: 2, rotateY: 180 },
+    animate: { y: 0, scale: 1, rotateY: 0 },
+    exit: (custom: boolean) => ({
+      y: custom ? 800 : -300,
+      scale: custom ? 1 : 2,
+      rotateY: custom ? 0 : 180,
+      transition: {
+        duration: custom ? 0.2 : 0.3,
+        ease: custom ? "backIn" : "backIn",
+      },
+    }),
+  };
 
   return (
     <StyledGameBoardContainer
@@ -176,23 +195,26 @@ const GameBoard: FC = () => {
                 data-slot-color={curCol === x ? currentPiece : "hidden"}
               ></SimpleSlot>
             </Activity>
-            <Activity
-              mode={v.length <= COMPLEXITY_LEVEL ? "visible" : "hidden"}
+            <AnimatePresence
+              mode="popLayout"
+              custom={didDrop}
+              onExitComplete={() => {}}
             >
-              <Activity mode={curCol === x ? "visible" : "hidden"}>
+              {curCol === x && v.length <= COMPLEXITY_LEVEL && (
                 <StyledSlot
-                  key={`slot-${x}`}
+                  key={`slot-${x}-${currentPiece}`}
                   data-slot-border={true}
                   data-slot-color={curCol === x ? currentPiece : "hidden"}
-                  initial={{ y: -40, scale: 0.9 }}
-                  animate={{ y: 0, scale: 1 }}
-                  exit={{ y: 400, scale: 0.9 }}
-                  transition={{ duration: 0.1, ease: "backOut" }}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={slotVariants}
+                  transition={{ duration: 0.2, delay: 0.4, ease: "backOut" }}
                 >
                   {" "}
                 </StyledSlot>
-              </Activity>
-            </Activity>
+              )}
+            </AnimatePresence>
           </StyledColumnSelect>
         ))}
       </StyledColumnSelectContainer>
@@ -225,8 +247,11 @@ const GameBoard: FC = () => {
                   <StyledSlotContainer layout>
                     <StyledSlotBackground layout></StyledSlotBackground>
                     <StyledSlot
-                      layout
-                      key={`slot-${y}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2, delay: 0.1 }}
+                      key={`slot-${y}-${c}`}
                       data-slot-winner={isSlotWinner([x, y])}
                       data-slot-color={c}
                     >
