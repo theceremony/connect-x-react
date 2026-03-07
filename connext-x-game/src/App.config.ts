@@ -12,3 +12,19 @@ export const BACKGROUNDS = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
 export const TIMING = {
   TEN_MINUTES: 60000,
 } as const;
+
+export const URL_PARAMS = {
+  ROOM: "r",
+  USER_ID: "u",
+  GAME_MODE: "g",
+};
+
+export const URL_PARAMS_STATE_ENUM = {
+  r: "room",
+  u: "userId",
+  g: "gameMode",
+} as const;
+
+export type UrlParamsEnum = typeof URL_PARAMS_STATE_ENUM;
+
+export type UrlParamEnumKeys = keyof UrlParamsEnum;

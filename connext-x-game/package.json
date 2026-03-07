@@ -1,7 +1,7 @@
 {
   "name": "connext-x-game",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "scripts": {
     "socket": "node --watch ./src/netCode/socketServer.ts",
@@ -27,6 +27,7 @@
     "react-use": "^17.6.0",
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
+    "sqids": "^0.3.0",
     "styled-components": "^6.3.11",
     "uuid": "^13.0.0",
     "vite-plugin-eslint": "^1.8.1"

@@ -1,3 +1,4 @@
+import { URL_PARAMS } from "@/App.config";
 import AppContext from "@/App.context";
 import {
   DEFAULT_CONNECTION_LENGTH,
@@ -97,8 +98,8 @@ const NewGame: FC = () => {
   // ===========================================================================
   const getPlayerURL = () => {
     const newUrl = new URL(`${window.location.href}`);
-    newUrl.searchParams.set("room", state.room);
-    newUrl.searchParams.set("gameMode", "controller");
+    newUrl.searchParams.set(URL_PARAMS.ROOM, state.room);
+    newUrl.searchParams.set(URL_PARAMS.GAME_MODE, "controller");
     return newUrl.href;
   };
   // ===========================================================================
@@ -106,10 +107,7 @@ const NewGame: FC = () => {
   const testLobbyLen = (min = 1) => getNumPlayersLobby() > min;
   // ===========================================================================
   const url = new URL(getPlayerURL());
-  const newBoardUrl = new URL(`${window.location.href}`);
-  // ===========================================================================
-  newBoardUrl.searchParams.set("room", state.room);
-  window.history.replaceState(null, "", newBoardUrl.toString());
+
   // ===========================================================================
   return (
     <StyledNewGame

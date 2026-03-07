@@ -9,7 +9,7 @@ const PlayerRemote = lazy(() => import("@/components/game/PlayerRemote"));
 //------------------------------------------------------------------------------
 import { preload } from "react-dom";
 import { useInterval } from "react-use";
-import { BACKGROUNDS, TIMING } from "./App.config";
+import { BACKGROUNDS, TIMING, URL_PARAMS } from "./App.config";
 import AnimatedLoader from "./components/scaffold/AnimatedLoader";
 import SuspenseImage from "./components/scaffold/SuspenseImage";
 import { getRandomArrayValue } from "./utils";
@@ -21,6 +21,13 @@ function App() {
   //----------------------------------------------------------------------------
   const [state, dispatch] = useReducer(appReducer, initialState);
   //----------------------------------------------------------------------------
+
+  const newBoardUrl = new URL(`${window.location.href}`);
+  // ===========================================================================
+  newBoardUrl.searchParams.set(URL_PARAMS.ROOM, state.room);
+  newBoardUrl.searchParams.set(URL_PARAMS.USER_ID, state.userId);
+  window.history.replaceState(null, "", newBoardUrl.toString());
+
   useInterval(() => {
     const newBackground = getRandomArrayValue<string>(BACKGROUNDS);
     preload(newBackground, { as: "image" });

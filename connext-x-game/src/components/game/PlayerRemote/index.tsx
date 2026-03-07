@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
+import { URL_PARAMS } from "@/App.config";
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type {
   GameStatusSocketData,
   PlayerStatusSocketData,
 } from "@/netCode/types";
-import { getRoomFromURL } from "@/utils";
+import { getParamFromURL } from "@/utils";
 import { Activity, type FC, useEffect, useEffectEvent, useState } from "react";
 import {
   StyledButtonContainer,
@@ -22,7 +23,7 @@ const PlayerRemote: FC = () => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>();
   //----------------------------------------------------------------------------
-  const room = getRoomFromURL();
+  const room = getParamFromURL(URL_PARAMS.ROOM);
   //----------------------------------------------------------------------------
   const onApproveConnection = useEffectEvent(
     ({ player }: { room: string; player: Player }): void => {

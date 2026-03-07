@@ -33,13 +33,14 @@ const GameController: FC = () => {
 
   useEffect(() => {
     const isPlayer = state.gameMode === "player";
-    if (socket && isPlayer) {
+    const isController = state.gameMode === "controller";
+    if (socket && (isPlayer || isController)) {
       socket.on("tap:game-status-update", onGameStatusUpdate);
     }
     // -------------------------------------------------------------------------
     return () => {
       console.log("removed");
-      if (socket && isPlayer) {
+      if (socket && (isPlayer || isController)) {
         socket.removeListener("tap:game-status-update", onGameStatusUpdate);
       }
     };
