@@ -9,6 +9,8 @@ type RenderParams = {
   hours: number;
   minutes: number;
   seconds: number;
+  total: number;
+  milliseconds: number;
   completed: boolean;
 };
 
@@ -17,12 +19,15 @@ const PausedMessage: FC = () => {
   const isPlayer = () => state.gameMode === "player";
 
   const onNewGameClick = () => {
-    if (state.currentGame && dispatch) {
+    if (state.currentGame && dispatch && !isPlayer()) {
       dispatch(["previousGames", [...state.previousGames, state.currentGame]]);
       dispatch(["currentGame", undefined]);
     }
   };
-  const renderer = ({ hours, minutes, seconds, completed }: RenderParams) => {
+  const padNumber = (num: number, amount: number = 2) => {
+    return String(num).padStart(amount, "0");
+  };
+  const renderer = ({ minutes, seconds, completed, total }: RenderParams) => {
     if (completed) {
       // Render a complete state
       return <h1>Player timed out, restarting</h1>;
@@ -31,9 +36,18 @@ const PausedMessage: FC = () => {
       return (
         <>
           <h2>Will auto-restart in: </h2>
-          <h1 className="number">
-            {hours}:{minutes}:{seconds}
+          <h1 className="number large-message-headline">
+            {padNumber(minutes)}:{padNumber(seconds)}
           </h1>
+          <Activity
+            mode={
+              isPlayer() || total > TIMING.FORTY_FIVE_SECONDS
+                ? "hidden"
+                : "visible"
+            }
+          >
+            <button onClick={onNewGameClick}>Start New Game?</button>
+          </Activity>
         </>
       );
     }
@@ -43,6 +57,7 @@ const PausedMessage: FC = () => {
       <h1 className="large-message-headline">Paused</h1>
       <h2>Player Disconnected: Waiting...</h2>
       <Countdown
+        key={String(Date.now())}
         date={Date.now() + TIMING.ONE_MINUTE}
         intervalDelay={0}
         precision={3}
@@ -50,9 +65,9 @@ const PausedMessage: FC = () => {
         onComplete={onNewGameClick}
       />
 
-      <Activity mode={isPlayer() ? "hidden" : "visible"}>
+      {/* <Activity mode={isPlayer() ? "hidden" : "visible"}>
         <button onClick={onNewGameClick}>Start New Game?</button>
-      </Activity>
+      </Activity> */}
     </StyledMessage>
   );
 };

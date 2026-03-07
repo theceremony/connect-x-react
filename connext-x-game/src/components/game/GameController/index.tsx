@@ -106,7 +106,7 @@ const GameController: FC = () => {
   useEffect(() => {
     const isPlayer = state.gameMode === "player";
     const isController = state.gameMode === "controller";
-    if (socket && !(isPlayer || isController)) {
+    if (socket && !isController) {
       socket.emit("fg:request-connection", { room: state.room });
       // -----------------------------------------------------------------------
       socket.on("tg:request-player-connection", onReqConn);

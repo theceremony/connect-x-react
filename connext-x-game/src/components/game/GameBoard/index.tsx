@@ -43,8 +43,10 @@ const GameBoard: FC = () => {
     return returnIndex;
   };
   // ---------------------------------------------------------------------------
-  const isWinner = (connection: Connection) =>
-    connection.length === currentGame?.connectLength;
+  const isWinner = (connection: Connection) => {
+    if (!currentGame || !currentGame.connectLength) return false;
+    return connection.length >= currentGame.connectLength;
+  };
   // ---------------------------------------------------------------------------
   const onColumnDrop = (x: number) => {
     const currentPlayer = getCurrentPlayer();
@@ -54,6 +56,7 @@ const GameBoard: FC = () => {
       );
       const connection =
         action === undefined ? [] : effectGetLongestConnByPos(action);
+
       if (action?.updatedBoard)
         dispatch([
           "currentGame",

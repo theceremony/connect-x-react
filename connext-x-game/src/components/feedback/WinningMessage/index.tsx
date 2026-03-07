@@ -11,6 +11,13 @@ const WinningMessage: FC = () => {
   const { state, dispatch } = useContext(AppContext);
   const isPlayer = () => state.gameMode === "player";
 
+  const confettiColors = {
+    yellow: ["#ffef08", "#9e9402", "#fff896"],
+    red: ["#ff0000", "#920000", "#ff7d7d", "#a43535"],
+    blue: ["#0000ff", "#7a1b9a"],
+    green: ["#00ff00", "#96ff5e", "#318d64"],
+  };
+
   const onNewGameClick = () => {
     if (state.currentGame && dispatch) {
       dispatch(["previousGames", [...state.previousGames, state.currentGame]]);
@@ -30,7 +37,7 @@ const WinningMessage: FC = () => {
       <Confetti
         width={width}
         height={height}
-        colors={["#ff0000", "#ffef08", "#0000ff", "#00ff00"]}
+        colors={confettiColors[state.currentGame?.winner || "red"]}
       />
     </StyledMessage>
   );

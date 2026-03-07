@@ -13,6 +13,7 @@ export const TIMING = {
   TEN_MINUTES: 600000,
   THREE_MINUTES: 180000,
   THIRTY_SECONDS: 30000,
+  FORTY_FIVE_SECONDS: 45000,
   ONE_MINUTE: 60000,
 } as const;
 
@@ -20,7 +21,7 @@ export const URL_PARAMS = {
   ROOM: "r",
   MASTER_ID: "m",
   GAME_MODE: "g",
-};
+} as const;
 
 export const URL_PARAMS_STATE_ENUM = {
   [URL_PARAMS.ROOM]: "room",
