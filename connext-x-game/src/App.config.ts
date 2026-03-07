@@ -15,13 +15,13 @@ export const TIMING = {
 
 export const URL_PARAMS = {
   ROOM: "r",
-  USER_ID: "u",
+  MASTER_ID: "m",
   GAME_MODE: "g",
 };
 
 export const URL_PARAMS_STATE_ENUM = {
   [URL_PARAMS.ROOM]: "room",
-  [URL_PARAMS.USER_ID]: "userId",
+  [URL_PARAMS.MASTER_ID]: "masterId",
   [URL_PARAMS.GAME_MODE]: "gameMode",
 } as const;
 

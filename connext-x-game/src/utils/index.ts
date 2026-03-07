@@ -34,8 +34,8 @@ export const generateRoom = (prefix: string = "") => {
     : encodeURI(`${prefix}${generateRoomId()}`).replaceAll("-", "");
 };
 
-export const generateUserId = (prefix: string = "") => {
-  const id = getParamFromURL(URL_PARAMS.USER_ID);
+export const generatemasterId = (prefix: string = "") => {
+  const id = getParamFromURL(URL_PARAMS.MASTER_ID);
   return id !== "default" ? id : encodeURI(`${prefix}${generatePlayerId()}`);
 };
 

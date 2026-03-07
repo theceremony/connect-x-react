@@ -99,6 +99,7 @@ const NewGame: FC = () => {
   const getPlayerURL = () => {
     const newUrl = new URL(`${window.location.href}`);
     newUrl.searchParams.set(URL_PARAMS.ROOM, state.room);
+    newUrl.searchParams.set(URL_PARAMS.MASTER_ID, state.masterId);
     newUrl.searchParams.set(URL_PARAMS.GAME_MODE, "controller");
     return newUrl.href;
   };
