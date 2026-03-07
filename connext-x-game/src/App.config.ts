@@ -10,7 +10,8 @@ import b1 from "./assets/funbkg-scifi-anime.png";
 export const BACKGROUNDS = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
 
 export const TIMING = {
-  TEN_MINUTES: 60000,
+  TEN_MINUTES: 600000,
+  THREE_MINUTES: 180000,
 } as const;
 
 export const URL_PARAMS = {

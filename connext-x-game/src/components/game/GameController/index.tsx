@@ -1,5 +1,7 @@
 //----------------------------------------------------------------------------
 import AppContext from "@/App.context";
+import { PLAYER_COLORS } from "@/gameLogic";
+import type { Player } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type { GameStatusSocketData } from "@/netCode/types";
 import {
@@ -24,6 +26,59 @@ const GameController: FC = () => {
   //----------------------------------------------------------------------------
   const { state, dispatch } = useContext(AppContext);
 
+  const onReqConn = useEffectEvent(
+    ({ playerId }: { room: string; playerId: string }) => {
+      if (state.lobby.length < PLAYER_COLORS.length) {
+        const player =
+          state.lobby.filter(({ id }) => id === playerId)[0] ||
+          ({
+            id: playerId,
+            piece: PLAYER_COLORS.filter(
+              (color) => !state.lobby.map(({ piece }) => piece).includes(color),
+            )[0],
+          } as Player);
+        console.log("player connect", playerId);
+
+        if (state.currentGame?.players) {
+          const newPlayers = state.currentGame.players.map((v) => {
+            if (v.piece === player.piece) return player;
+            return v;
+          });
+
+          console.log(newPlayers);
+          dispatch([
+            "currentGame",
+            {
+              ...state.currentGame,
+              players: newPlayers,
+            },
+          ]);
+        }
+        dispatch([
+          "lobby",
+          [
+            ...state.lobby,
+            {
+              ...player,
+            } as Player,
+          ],
+        ]);
+      }
+    },
+  );
+
+  // ===========================================================================
+  const onDisconnect = useEffectEvent(({ id }: { id: string }) => {
+    console.log("player disconnected!!!");
+
+    dispatch([
+      "lobby",
+      [...state.lobby].filter((v) => {
+        return id !== v.id;
+      }),
+    ]);
+  });
+
   const onGameStatusUpdate = useEffectEvent(
     ({ gameStatus }: GameStatusSocketData) => {
       console.log("currentGame", gameStatus);
@@ -34,17 +89,29 @@ const GameController: FC = () => {
   useEffect(() => {
     const isPlayer = state.gameMode === "player";
     const isController = state.gameMode === "controller";
+    if (socket && !(isPlayer || isController)) {
+      socket.emit("fg:request-connection", { room: state.room });
+      // -----------------------------------------------------------------------
+      socket.on("tg:request-player-connection", onReqConn);
+      // -----------------------------------------------------------------------
+      socket.on("tg:disconnect", onDisconnect);
+    }
     if (socket && (isPlayer || isController)) {
       socket.on("tap:game-status-update", onGameStatusUpdate);
     }
+
     // -------------------------------------------------------------------------
     return () => {
       console.log("removed");
       if (socket && (isPlayer || isController)) {
         socket.removeListener("tap:game-status-update", onGameStatusUpdate);
       }
+      if (socket && !(isPlayer || isController)) {
+        socket.removeListener("tg:request-player-connection", onReqConn);
+        socket.removeListener("tg:disconnect", onDisconnect);
+      }
     };
-  }, [state.gameMode]);
+  }, [state.gameMode, state.room]);
   //----------------------------------------------------------------------------
   return (
     <>

@@ -1,22 +1,10 @@
 import { URL_PARAMS } from "@/App.config";
 import AppContext from "@/App.context";
-import {
-  DEFAULT_CONNECTION_LENGTH,
-  generateGame,
-  PLAYER_COLORS,
-} from "@/gameLogic";
-import type { Game, Player } from "@/gameLogic/types";
-import { socket } from "@/netCode/socket";
+import { DEFAULT_CONNECTION_LENGTH, generateGame } from "@/gameLogic";
+import type { Game } from "@/gameLogic/types";
 import { motion } from "motion/react";
 import { QRCodeSVG } from "qrcode.react";
-import {
-  Activity,
-  type FC,
-  useContext,
-  useEffect,
-  useEffectEvent,
-  useRef,
-} from "react";
+import { Activity, type FC, useContext, useRef } from "react";
 import {
   StyledButton,
   StyledForm,
@@ -41,60 +29,7 @@ const NewGame: FC = () => {
     dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
   // ===========================================================================
-  const onReqConn = useEffectEvent(
-    ({ playerId }: { room: string; playerId: string }) => {
-      if (state.lobby.length < PLAYER_COLORS.length) {
-        const player =
-          state.lobby.filter(({ id }) => id === playerId)[0] ||
-          ({
-            id: playerId,
-            piece: PLAYER_COLORS.filter(
-              (color) => !state.lobby.map(({ piece }) => piece).includes(color),
-            )[0],
-          } as Player);
-        console.log("player connect", playerId);
-        dispatch([
-          "lobby",
-          [
-            ...state.lobby,
-            {
-              ...player,
-            } as Player,
-          ],
-        ]);
-      }
-    },
-  );
 
-  // ===========================================================================
-  const onDisconnect = useEffectEvent(({ id }: { id: string }) => {
-    dispatch([
-      "lobby",
-      [...state.lobby].filter((v) => {
-        return id !== v.id;
-      }),
-    ]);
-  });
-  // ===========================================================================
-  //Socket Effect ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  useEffect(() => {
-    if (socket) {
-      // -----------------------------------------------------------------------
-      socket.emit("fg:request-connection", { room: state.room });
-      // -----------------------------------------------------------------------
-      socket.on("tg:request-player-connection", onReqConn);
-
-      // -----------------------------------------------------------------------
-      socket.on("tg:disconnect", onDisconnect);
-    }
-    // -------------------------------------------------------------------------
-    return () => {
-      if (socket) {
-        socket.removeListener("tg:request-player-connection", onReqConn);
-        socket.removeListener("tg:disconnect", onDisconnect);
-      }
-    };
-  }, []);
   // ===========================================================================
   const getPlayerURL = () => {
     const newUrl = new URL(`${window.location.href}`);
