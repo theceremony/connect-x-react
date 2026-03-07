@@ -1,4 +1,4 @@
-import { lazy, Suspense, useReducer } from "react";
+import { lazy, Suspense, useLayoutEffect, useReducer } from "react";
 import AppContext from "./App.context";
 import { appReducer, initialState } from "./App.reducer";
 import { StyledApp } from "./App.styled";
@@ -26,6 +26,9 @@ function App() {
   newBoardUrl.searchParams.set(URL_PARAMS.ROOM, state.room);
   window.history.replaceState(null, "", newBoardUrl.toString());
   //----------------------------------------------------------------------------
+  useLayoutEffect(() => {
+    document.getElementById("early-loader")?.remove();
+  }, []);
   useInterval(() => {
     const newBackground = getRandomArrayValue<string>(BACKGROUNDS);
     preload(newBackground, { as: "image" });

@@ -1,6 +1,10 @@
 import { motion } from "motion/react";
+import { useLayoutEffect } from "react";
 
 const AnimatedLoader = () => {
+  useLayoutEffect(() => {
+    document.getElementById("early-loader")?.remove();
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
