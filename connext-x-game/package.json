@@ -1,7 +1,7 @@
 {
   "name": "connext-x-game",
   "private": true,
-  "version": "0.0.21",
+  "version": "0.0.22",
   "type": "module",
   "scripts": {
     "socket": "node --watch ./src/netCode/socketServer.ts",

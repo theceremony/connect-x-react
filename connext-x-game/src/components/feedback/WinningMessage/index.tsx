@@ -25,7 +25,13 @@ const WinningMessage: FC = () => {
     }
   };
   return (
-    <StyledMessage>
+    <StyledMessage
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: 0.8, ease: "backOut" }}
+      key={`win-message-key-${state.currentGame?.winner}`}
+    >
       <h1 className="large-message-headline">Winner!</h1>
       <h1>{state.currentGame?.winner}</h1>
       <StyledWinnerSticker
