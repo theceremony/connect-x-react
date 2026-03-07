@@ -64,6 +64,11 @@ io.on("connection", (socket) => {
     io.to(room).emit("tap:game-status-update", { room, gameStatus });
     count += 1;
   });
+  socket.on("fg:connect-update", ({ room, connectAmount }) => {
+    socket.join(room);
+    io.to(room).emit("tg:connect-update", { room, connectAmount });
+    count += 1;
+  });
   // ---------------------------------------------------------------------------
   // From Player ---------------------------------------------------------------
   // ---------------------------------------------------------------------------

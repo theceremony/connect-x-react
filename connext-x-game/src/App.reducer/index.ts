@@ -1,5 +1,6 @@
 import { createAppReducer } from "./createReducer";
 import { INITIAL_STATE } from "./initialState";
+import { updateConnectCountHook } from "./updateConnectCount";
 import { updateCurrentGameHook } from "./updateGame";
 import { updateLobbyHook } from "./updateLobby";
 // -----------------------------------------------------------------------------
@@ -9,5 +10,6 @@ export { INITIAL_STATE as initialState };
 export const appReducer = createAppReducer(INITIAL_STATE)([
   ["lobby", updateLobbyHook],
   ["currentGame", updateCurrentGameHook],
+  ["connectAmount", updateConnectCountHook],
 ]);
 //------------------------------------------------------------------------------

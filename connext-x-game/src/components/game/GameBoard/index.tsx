@@ -46,7 +46,7 @@ const GameBoard: FC = () => {
   const isWinner = (connection: Connection) => {
     if (!currentGame || !currentGame.connectLength) return false;
     return connection.length >= currentGame.connectLength;
-  };
+  }; // TODO: this logic should probably be moved to game logic...
   // ---------------------------------------------------------------------------
   const onColumnDrop = (x: number) => {
     const currentPlayer = getCurrentPlayer();

@@ -24,12 +24,13 @@ const NewGame: FC = () => {
   // ===========================================================================
   const isPlayer = () => state.gameMode === "player";
   const onStart = () => {
-    const conLen =
-      Number(numConnectInput.current?.value) || DEFAULT_CONNECTION_LENGTH;
+    const conLen = Number(state.connectAmount) || DEFAULT_CONNECTION_LENGTH;
     dispatch(["currentGame", generateGame(conLen)([...state.lobby]) as Game]);
   };
   // ===========================================================================
-
+  const onConnectFieldUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(["connectAmount", event.target.value]);
+  };
   // ===========================================================================
   const getPlayerURL = () => {
     const newUrl = new URL(`${window.location.href}`);
@@ -104,8 +105,16 @@ const NewGame: FC = () => {
                 min={DEFAULT_CONNECTION_LENGTH - 1}
                 max={10}
                 defaultValue={DEFAULT_CONNECTION_LENGTH}
+                value={state.connectAmount}
+                onChange={onConnectFieldUpdate}
                 className="number"
               />
+            </StyledFormRow>
+          </Activity>
+          <Activity mode={!isPlayer() ? "hidden" : "visible"}>
+            <StyledFormRow>
+              <StyledLabel>Connect:</StyledLabel>
+              <h1 className="number">{state.connectAmount}</h1>
             </StyledFormRow>
           </Activity>
           <Activity mode={isPlayer() ? "hidden" : "visible"}>

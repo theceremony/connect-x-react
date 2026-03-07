@@ -40,7 +40,6 @@ const GameController: FC = () => {
               (color) => !state.lobby.map(({ piece }) => piece).includes(color),
             )[0],
           } as Player);
-        console.log("player connect", playerId);
 
         if (state.currentGame?.players) {
           const newPlayers = state.currentGame.players.map((v) => {
@@ -103,6 +102,12 @@ const GameController: FC = () => {
     },
   );
 
+  const onConnectUpdate = useEffectEvent(
+    ({ connectAmount }: { connectAmount: number }) => {
+      dispatch(["connectAmount", connectAmount]);
+    },
+  );
+
   useEffect(() => {
     const isPlayer = state.gameMode === "player";
     const isController = state.gameMode === "controller";
@@ -115,6 +120,7 @@ const GameController: FC = () => {
     }
     if (socket && (isPlayer || isController)) {
       socket.on("tap:game-status-update", onGameStatusUpdate);
+      socket.on("tg:connect-update", onConnectUpdate);
     }
 
     // -------------------------------------------------------------------------

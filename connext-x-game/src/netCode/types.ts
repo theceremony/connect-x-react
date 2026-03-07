@@ -49,6 +49,11 @@ export interface ClientEvents {
   // ...........................................................................
   ["fg:lobby-update"]: (data: { room: string; lobby: Lobby }) => void;
   // ...........................................................................
+  ["fg:connect-update"]: (data: {
+    room: string;
+    connectAmount: number;
+  }) => void;
+  // ...........................................................................
   ["fg:player-connection-approved"]: (data: {
     room: string;
     player: Player;
@@ -84,6 +89,10 @@ export interface ServerEvents {
   ["tg:player-move"]: (data: PlayerMoveSocketData) => void;
   // ...........................................................................
   ["tg:report-player-status"]: (data: PlayerStatusSocketData) => void;
+  ["tg:connect-update"]: (data: {
+    room: string;
+    connectAmount: number;
+  }) => void;
   // ---------------------------------------------------------------------------
   // Player
   // ---------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 import { BACKGROUNDS } from "@/App.config";
+import { DEFAULT_CONNECTION_LENGTH } from "@/gameLogic";
 import type { Game, GameMode, Lobby } from "@/gameLogic/types";
 import { generateMasterId, generateRoom, getRandomArrayValue } from "@/utils";
 import { getCurrentParamsAsPartial } from "@/utils/params";
@@ -18,6 +19,7 @@ export const INITIAL_STATE = {
   currentGame: undefined as undefined | Game,
   lobby: [] as Lobby,
   previousGames: [] as Game[],
+  connectAmount: DEFAULT_CONNECTION_LENGTH as number,
   gameMode: "host" as GameMode,
   theme: {
     style: "Anime",
