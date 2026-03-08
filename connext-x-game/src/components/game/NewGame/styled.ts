@@ -1,3 +1,4 @@
+import { StyledStandardButton } from "@/theme/pixelated/themed.buttons";
 import { motion } from "motion/react";
 import styled from "styled-components";
 import { StyledModal } from "../../scaffold";
@@ -79,6 +80,6 @@ export const StyledInput = styled(motion.input)`
   font-weight: 300;
   color: hotpink;
 `;
-export const StyledButton = styled.button`
+export const StyledButton = styled(StyledStandardButton)`
   width: 100%;
 `;

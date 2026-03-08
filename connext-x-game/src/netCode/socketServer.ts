@@ -13,7 +13,7 @@ import type { ClientEvents, ServerEvents } from "./types";
 
 //------------------------------------------------------------------------------
 
-const SERVE_NGROCK = true;
+const SERVE_NGROCK = false;
 const app = express();
 const server = http.createServer(app);
 const distPath = path.join(process.cwd(), "dist");
@@ -27,7 +27,7 @@ const io = new Server<ClientEvents, ServerEvents>(server, {
     methods: ["GET", "POST"],
   },
 });
-let count = 0;
+
 // await ViteExpress.bind(app, server);
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -59,15 +59,12 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("fg:game-status-update", ({ room, gameStatus }) => {
-    console.log(`fg:game-status-update: ${count}`, gameStatus);
     socket.join(room);
     io.to(room).emit("tap:game-status-update", { room, gameStatus });
-    count += 1;
   });
   socket.on("fg:connect-update", ({ room, connectAmount }) => {
     socket.join(room);
     io.to(room).emit("tg:connect-update", { room, connectAmount });
-    count += 1;
   });
   // ---------------------------------------------------------------------------
   // From Player ---------------------------------------------------------------

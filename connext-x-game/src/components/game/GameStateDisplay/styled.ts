@@ -1,3 +1,4 @@
+import { styledMixins } from "@/theme/pixelated";
 import styled from "styled-components";
 // -----------------------------------------------------------------------------
 export const StyledGameInterface = styled.div`
@@ -24,6 +25,17 @@ export const StyledGameInterface = styled.div`
   bottom: 4vw;
   background: linear-gradient(0deg, purple, hotpink);
   text-transform: uppercase;
+
+  ${styledMixins.pixelatedBorder({
+    borderWidth: 5,
+    borderOuterColor: " rgba(104, 2, 77, 0.88)",
+    borderInnerColor: "#00000055",
+    borderHighlightColor: "#ffffff66",
+    boxShadow: `inset -5px -6px 2px rgba(40, 40, 40,.2),
+    10px 10px 3px rgba(0, 0, 0, 0.6)`,
+  })}
+
+  border:1px solid rgba(104, 2, 77, 0.88);
   .current-player {
     max-width: 80px;
     max-height: 80px;
