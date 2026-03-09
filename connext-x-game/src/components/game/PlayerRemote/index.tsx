@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { URL_PARAMS } from "@/App.config";
-import rightArrow from "@/assets/icons/right-arrow-32.png";
+import rightArrow from "@/assets/icons/button.png";
 import type { Game, Player, PlayerAction } from "@/gameLogic/types";
 import { socket } from "@/netCode/socket";
 import type {

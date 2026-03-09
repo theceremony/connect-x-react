@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export const StyledPlayer = styled(motion.div)`
   display: flex;
-  /* width: 100vw; */
+  width: 100vw;
   height: 100vh;
   flex-direction: column;
   align-items: center;
@@ -14,6 +14,7 @@ export const StyledPlayer = styled(motion.div)`
   padding: 10vw;
   background-color: grey;
   width: 100%;
+  overflow: hidden;
 `;
 
 export const StyledTurnBlocker = styled(motion.div)`
@@ -70,45 +71,18 @@ export const StyledButtonContainer = styled(motion.div)`
 `;
 
 export const StyledDirectionButton = styled(motion.button)`
-  /* all: unset; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: bisque;
+  all: unset;
   width: 100%;
-
-  /* border-radius: 30px; */
-  padding: 2vw;
-
-  font-weight: 900;
-  color: #000;
-  border: 10px solid transparent;
-  background-color: rgb(130, 5, 78);
-  background: linear-gradient(180deg, rgb(247, 250, 255), rgb(126, 147, 154));
-  box-shadow:
-    0px 1vw rgb(15, 35, 63),
-    0px -1vw rgb(15, 35, 63),
-    1vw 0px rgb(15, 35, 63),
-    -1vw 0px rgb(15, 35, 63),
-    0px 10px #00000038,
-    1vw 1vw #00000038,
-    -1vw 1vw #00000038,
-    inset 0px 1vw #ffffff36;
-
-  &:hover {
-    background-color: grey;
-    border: 10px solid white;
-  }
+  border: 10px solid green;
 `;
 
 export const StyledPixelIcon = styled(motion.img)`
-  width: 10vw;
-  aspect-ratio: 1/1;
+  width: 100%;
+  /* aspect-ratio: 1/1; */
   image-rendering: pixelated;
-  opacity: 0.8;
+  opacity: 1;
 
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   &.flipped {
     transform: scaleX(-1);
   }

@@ -1,8 +1,7 @@
-import { motion } from "motion/react";
 import styled from "styled-components";
 import { styledMixins } from ".";
 
-export const StyledStandardButton = styled(motion.button)`
+export const StyledStandardButton = styled.button`
   ${styledMixins.pixelatedBorder({
     borderWidth: 5,
     borderOuterColor: "black",
@@ -16,7 +15,7 @@ export const StyledStandardButton = styled(motion.button)`
   background-color: rgb(130, 5, 78);
   background: linear-gradient(0deg, rgb(130, 5, 78), rgb(137, 4, 154));
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.25s;
 
   &:hover {
     border-color: #646cff;
@@ -27,6 +26,7 @@ export const StyledStandardButton = styled(motion.button)`
       borderHighlightColor: "#646cff",
     })}
     background: linear-gradient(0deg, rgb(167, 64, 236), rgb(64, 90, 243));
+    transition: all 0.25s;
   }
   &:focus,
   &:focus-visible {
